@@ -1,3 +1,5 @@
+import { AxiosResponse, AxiosError } from 'axios';
+
 export interface User {
   id: string;
   email: string;
@@ -9,4 +11,14 @@ export interface User {
 export interface TokenResponse {
   access: string;
   refresh: number;
+}
+
+interface ResponseError extends AxiosResponse {
+  data: {
+    detail: string
+  }
+}
+
+export interface ApiError extends AxiosError {
+  response: ResponseError
 }

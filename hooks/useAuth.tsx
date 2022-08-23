@@ -1,15 +1,15 @@
-
-import React, { useState, useEffect, useContext, createContext } from "react";
-import { fetchNewToken, fetchToken, fetchUser } from "../data/auth";
-import { User } from "../interfaces";
+import React, {
+  useState, useEffect, useContext, createContext, useMemo,
+} from 'react';
 import { useRouter } from 'next/router';
-
+import { fetchNewToken, fetchToken, fetchUser } from '../data/auth';
+import { User } from '../interfaces';
 
 type AuthContextProps = {
   isAuthenticated: boolean;
   loading: boolean;
   user: User | null;
-  login: (username: string, password: string) => void;
+  login: (username: string, password: string) => Promise<void>;
   logout: () => void;
   updateToken: () => void;
 }
@@ -20,68 +20,66 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export function AuthProvider({ children }: AuthProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const [accessToken, setAccessToken] = useState<string>("");
-  const router = useRouter()
+  const [accessToken, setAccessToken] = useState<string>('');
+  const router = useRouter();
 
   const getUser = () => {
-    fetchUser(accessToken).then(res => setUser(res.data))
-  }
+    fetchUser(accessToken).then((res) => setUser(res.data));
+  };
 
-  const getRefreshToken = (): string => {
-    return sessionStorage.getItem('refresh')
-  }
+  const getRefreshToken = (): string => sessionStorage.getItem('refresh');
 
   const setRefreshToken = (value: string): void => {
-    sessionStorage.setItem('refresh', value)
-  }
+    sessionStorage.setItem('refresh', value);
+  };
 
-  const login = (username: string, password: string): Promise<void> => {
-    return fetchToken(username, password).then((res) => {
-      const { data } = res
-      setAccessToken(data.access)
-      setRefreshToken(data.refresh)
+  const login = (username: string, password: string): Promise<void> => (
+    fetchToken(username, password).then((res) => {
+      const { data } = res;
+      setAccessToken(data.access);
+      setRefreshToken(data.refresh);
     })
-  }
+  );
+
+  const logout = (): void => {
+    setAccessToken('');
+    setRefreshToken('');
+    setIsAuthenticated(false);
+    setUser(null);
+    router.push('/login');
+  };
 
   const updateToken = (): void => {
-    fetchNewToken(getRefreshToken()).then(res => {
-      const { data } = res
-      setAccessToken(data.access)
+    fetchNewToken(getRefreshToken()).then((res) => {
+      const { data } = res;
+      setAccessToken(data.access);
     }).catch(() => {
-      logout()
-    })
+      logout();
+    });
   };
 
   useEffect(() => {
-    updateToken()
+    updateToken();
   }, []);
 
   useEffect(() => {
     if (accessToken) {
-      getUser()
+      getUser();
     }
   }, [accessToken]);
 
-  const logout = (): void => {
-    setAccessToken("");
-    setRefreshToken("")
-    setIsAuthenticated(false);
-    setUser(null);
-    router.push('/login')
-  };
-
-  const value = {
+  const value = useMemo(() => ({
     isAuthenticated,
     user,
     login,
     logout,
     updateToken,
-  };
+  }), []);
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-};
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
 
-export const useAuth = (): any => useContext(AuthContext);
+export const useAuth = (): Partial<AuthContextProps> => useContext(AuthContext);
