@@ -22,3 +22,8 @@ interface ResponseError extends AxiosResponse {
 export interface ApiError extends AxiosError {
   response: ResponseError
 }
+
+export interface ICohort {
+  id: string;
+  name: string;
+}

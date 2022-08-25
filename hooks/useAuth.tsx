@@ -62,7 +62,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   useEffect(() => {
-    updateToken();
+    if (!['/login', '/register'].includes(router.pathname)) {
+      updateToken();
+    }
   }, []);
 
   useEffect(() => {
