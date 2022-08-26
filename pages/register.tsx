@@ -3,7 +3,7 @@ import { Select } from '../components/form-elements';
 import { fetchCohorts } from '../data/cohort';
 import { ICohort } from '../interfaces';
 
-import Layout from '../components/layout-low';
+import Layout from '../components/layout';
 
 function Register() {
   const [cohorts, setCohorts] = useState<ICohort[]>([]);

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Layout from '../components/layout-low';
+import Layout from '../components/layout';
 
 function IndexPage() {
   return (

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 import { useRouter } from 'next/router';
-import Layout from '../components/layout-low';
+import Layout from '../components/layout';
 import { useAuth } from '../hooks/useAuth';
 import { ApiError } from '../interfaces';
 
