@@ -26,7 +26,7 @@ function Input({
   return (
     <div className={`field ${addlClass}`}>
       {label && <label className="label" htmlFor={id}>{label}</label>}
-      <div className="control">
+      <div className="control is-expanded">
         <input
           id={id}
           placeholder={placeholder}

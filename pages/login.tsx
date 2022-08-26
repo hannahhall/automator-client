@@ -1,10 +1,11 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 
 import { useRouter } from 'next/router';
 import Layout from '../components/layout';
 import { useAuth } from '../hooks/useAuth';
 import { ApiError } from '../interfaces';
+import AppForm from '../components/form-elements/app-form';
+import { Input } from '../components/form-elements';
 
 function Login(): React.ReactElement {
   const [username, setUsername] = useState<string>('');
@@ -26,42 +27,36 @@ function Login(): React.ReactElement {
     });
   };
 
+  const handleCancel = () => {
+    router.push('/register');
+  };
+
   if (!loading && isAuthenticated) router.push('/');
 
   return (
     <Layout title="Automator | Login">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">
-          Username
-        </label>
-        <input
-          id="username"
-          type="text"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+      <AppForm title="Login" onSubmit={handleSubmit} onCancel={handleCancel}>
+        <>
+          <Input
+            id="username"
+            label="Username"
+            onChangeEvent={(e) => setUsername(e.target.value)}
+          />
 
-        <label htmlFor="password">
-          Password
-        </label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-        />
-        <button type="submit">
-          Login
-        </button>
-        {errorMessage ? (
-          <p className="text-red-400">
-            Error:
-            {errorMessage}
-          </p>
-        ) : null}
-      </form>
+          <Input
+            id="password"
+            type="password"
+            label="Password"
+            onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+          />
+        </>
+      </AppForm>
+      {errorMessage ? (
+        <p className="text-red-400">
+          Error:
+          {errorMessage}
+        </p>
+      ) : null}
     </Layout>
   );
 }

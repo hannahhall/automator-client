@@ -22,10 +22,11 @@ body {
     z-index: 35;
 }
 
-.navbar-item {
+.navbar-item,
+.panel-heading {
     font-family: $family-secondary;
 }
 
 .is-full-height {
-    height: 100vh;
+    height: calc(100vh - 15rem);
 }
