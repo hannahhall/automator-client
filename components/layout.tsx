@@ -9,7 +9,7 @@ type Props = {
 
 function Layout({ children, title }: Props) {
   return (
-    <main className="is-full-height">
+    <main>
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />
@@ -18,7 +18,7 @@ function Layout({ children, title }: Props) {
       <header>
         <Navbar />
       </header>
-      <article className="container">
+      <article className="container is-full-height">
         <section className="section">
           {children}
         </section>

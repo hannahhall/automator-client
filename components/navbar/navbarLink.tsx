@@ -13,7 +13,7 @@ const defaultProps = {
 
 function NavbarLink({
   href, className, children, ...rest
-}: NavbarLinkProps & typeof defaultProps) {
+}: NavbarLinkProps) {
   return (
     <Link href={href} {...rest}>
       <a href={href} className={className}>
