@@ -1,8 +1,9 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { Select } from '../components/form-elements';
-import Layout from '../components/Layout';
 import { fetchCohorts } from '../data/cohort';
 import { ICohort } from '../interfaces';
+
+import Layout from '../components/layout-low';
 
 function Register() {
   const [cohorts, setCohorts] = useState<ICohort[]>([]);
