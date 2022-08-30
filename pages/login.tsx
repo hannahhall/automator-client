@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FormEvent, ReactElement, useState } from 'react';
 
 import { useRouter } from 'next/router';
 import Layout from '../components/layout';
@@ -7,7 +7,7 @@ import { ApiError } from '../interfaces';
 import AppForm from '../components/form-elements/app-form';
 import { Input } from '../components/form-elements';
 
-function Login(): React.ReactElement {
+function Login(): ReactElement {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -15,7 +15,7 @@ function Login(): React.ReactElement {
   const router = useRouter();
 
   const handleSubmit = (
-    event: React.FormEvent<HTMLFormElement>,
+    event: FormEvent<HTMLFormElement>,
   ): void => {
     event.preventDefault();
     setErrorMessage('');
@@ -47,7 +47,7 @@ function Login(): React.ReactElement {
             id="password"
             type="password"
             label="Password"
-            onChangeEvent={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+            onChangeEvent={(e) => setPassword(e.target.value)}
           />
         </>
       </AppForm>

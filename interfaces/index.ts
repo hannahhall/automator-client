@@ -1,7 +1,6 @@
 import { AxiosResponse, AxiosError } from 'axios';
 
 export interface User {
-  id: string;
   email: string;
   first_name: string;
   username: string;
@@ -26,4 +25,22 @@ export interface ApiError extends AxiosError {
 export interface ICohort {
   id: string;
   name: string;
+}
+
+export interface IUserForm {
+  email: string;
+  username: string;
+  password: string;
+  is_staff: boolean;
+  password_match?: string;
+  first_name?: string;
+  last_name?: string;
+  cohort?: number;
+  image?: string;
+  bio?: string;
+  favorite_quote?: string;
+  podcast_link?: string;
+  resume_link?: string;
+  linkedin?: string;
+  github_handle?: string;
 }

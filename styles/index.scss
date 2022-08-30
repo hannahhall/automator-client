@@ -1,3 +1,4 @@
+@import "@fortawesome/fontawesome-free/css/all.min.css";
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono&family=Inter');
 
 $white: #FEFEFF;
@@ -28,5 +29,5 @@ body {
 }
 
 .is-full-height {
-    height: calc(100vh - 15rem);
+    min-height: calc(100vh - 15rem);
 }

@@ -9,6 +9,7 @@ interface InputProps {
   onChangeEvent: (event) => void;
   addlClass?: string | undefined;
   children?: ReactNode | undefined;
+  error?: string | undefined;
 }
 
 const defaultProps = {
@@ -18,10 +19,11 @@ const defaultProps = {
   label: undefined,
   addlClass: undefined,
   children: undefined,
+  error: undefined,
 };
 
 function Input({
-  id, type, placeholder, refEl, label, onChangeEvent, addlClass, children,
+  id, type, placeholder, refEl, label, onChangeEvent, addlClass, children, error,
 }: InputProps & typeof defaultProps) {
   return (
     <div className={`field ${addlClass}`}>
@@ -36,6 +38,13 @@ function Input({
           onChange={onChangeEvent}
         />
       </div>
+      {
+        error ? (
+          <p className="help is-danger">
+            {error}
+          </p>
+        ) : null
+      }
       {children}
     </div>
   );

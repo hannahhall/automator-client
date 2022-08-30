@@ -1,10 +1,10 @@
-import { ReactNode } from 'react';
+import { FormEvent, ReactNode } from 'react';
 
 interface AppFormProps {
   children: ReactNode;
   title: string;
-  onSubmit: (event) => void;
-  onCancel: (event) => void;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  onCancel: () => void;
 }
 
 function AppForm({

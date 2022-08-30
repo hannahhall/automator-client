@@ -2,22 +2,28 @@ interface TextareaProps {
   id: string;
   label: string;
   placeholder: string;
-  refEl?: HTMLTextAreaElement | undefined;
+  onChangeEvent: (event) => void;
+  error?: string | undefined;
 }
 
-const defaultProps = {
-  refEl: undefined,
-};
+const defaultProps = { error: undefined };
 
 function Textarea({
-  id, label, placeholder, refEl,
-}: TextareaProps & typeof defaultProps) {
+  id, label, placeholder, onChangeEvent, error,
+}: TextareaProps) {
   return (
     <div className="field">
       <label className="label" htmlFor={id}>{label}</label>
       <div className="control">
-        <textarea id={id} className="textarea" placeholder={placeholder} ref={refEl} />
+        <textarea id={id} className="textarea" placeholder={placeholder} onChange={onChangeEvent} />
       </div>
+      {
+        error ? (
+          <p className="help is-danger">
+            {error}
+          </p>
+        ) : null
+      }
     </div>
   );
 }
