@@ -1,6 +1,5 @@
 interface SelectProps {
   id: string;
-  refEl?: HTMLSelectElement | undefined;
   options: {
     id: string;
     name: string;
@@ -10,22 +9,22 @@ interface SelectProps {
   addlClass?: string | undefined;
   onChangeEvent: (event) => void;
   error?: string | undefined;
+  isRequired: boolean;
 }
 
 const defaultProps = {
-  refEl: undefined,
   addlClass: undefined,
   error: undefined,
 };
 
 function Select({
-  id, refEl, options, title, label, addlClass, onChangeEvent, error,
+  id, options, title, label, addlClass, onChangeEvent, error, isRequired,
 }: SelectProps & typeof defaultProps) {
   return (
     <div className="field is-expanded">
       <label className="label" htmlFor={id}>{label}</label>
       <div className={`select ${addlClass} is-fullwidth`}>
-        <select id={id} ref={refEl} onChange={onChangeEvent}>
+        <select id={id} onChange={onChangeEvent} required={isRequired}>
           <option value="0">{title}</option>
           {
             options.map((option) => (

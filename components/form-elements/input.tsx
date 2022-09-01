@@ -4,18 +4,17 @@ interface InputProps {
   id: string;
   type?: string;
   placeholder?: string | undefined;
-  refEl?: HTMLInputElement | undefined;
   label?: string | undefined;
   onChangeEvent: (event) => void;
   addlClass?: string | undefined;
   children?: ReactNode | undefined;
   error?: string | undefined;
+  isRequired: boolean;
 }
 
 const defaultProps = {
   type: 'text',
   placeholder: undefined,
-  refEl: undefined,
   label: undefined,
   addlClass: undefined,
   children: undefined,
@@ -23,7 +22,7 @@ const defaultProps = {
 };
 
 function Input({
-  id, type, placeholder, refEl, label, onChangeEvent, addlClass, children, error,
+  id, type, placeholder, label, onChangeEvent, addlClass, children, error, isRequired,
 }: InputProps & typeof defaultProps) {
   return (
     <div className={`field ${addlClass}`}>
@@ -34,8 +33,8 @@ function Input({
           placeholder={placeholder}
           className="input"
           type={type}
-          ref={refEl}
           onChange={onChangeEvent}
+          required={isRequired}
         />
       </div>
       {
