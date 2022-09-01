@@ -2,14 +2,16 @@ import {
   ChangeEvent, FormEvent, useEffect, useState,
 } from 'react';
 import { useRouter } from 'next/router';
-import { Input, Select, Textarea } from '../components/form-elements';
+import {
+  Checkbox, Input, Select, Textarea, FileInput,
+} from '../components/form-elements';
 import { fetchCohorts } from '../data/cohort';
 import { ICohort, IUserForm } from '../interfaces';
 
 import Layout from '../components/layout';
 import AppForm from '../components/form-elements/app-form';
-import FileInput from '../components/form-elements/file-input';
 import { registerUser } from '../data/auth';
+import { useAuth } from '../hooks/useAuth';
 
 function Register() {
   const [cohorts, setCohorts] = useState<ICohort[]>([]);
@@ -22,9 +24,14 @@ function Register() {
   const [errors, setErrors] = useState<IUserForm>(null);
   const router = useRouter();
 
+  const { setAccessToken, setRefreshToken } = useAuth();
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    registerUser(user).then(() => {
+    registerUser(user).then((res) => {
+      const { data } = res;
+      setAccessToken(data.access);
+      setRefreshToken(data.refresh);
       router.push('/');
     }).catch((err) => {
       const { res: data } = err;
@@ -49,8 +56,13 @@ function Register() {
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
-    user[target.id] = target.value;
-    setUser(user);
+    const copy = { ...user };
+    if (target.id === 'is_staff') {
+      copy[target.id] = target.checked;
+    } else {
+      copy[target.id] = target.value;
+    }
+    setUser(copy);
   };
 
   return (
@@ -62,6 +74,7 @@ function Register() {
             label="Username"
             onChangeEvent={handleOnChange}
             error={errors?.username}
+            isRequired
           />
 
           <Input
@@ -70,6 +83,7 @@ function Register() {
             type="email"
             onChangeEvent={handleOnChange}
             error={errors?.email}
+            isRequired
           />
 
           <Input
@@ -77,29 +91,46 @@ function Register() {
             type="password"
             label="Password"
             onChangeEvent={handleOnChange}
+            isRequired
           />
           <Input
             id="passwordMatch"
             type="password"
             label="Password Match"
             onChangeEvent={handleOnChange}
+            isRequired
           />
 
           <Input
             id="first_name"
             label="First Name"
             onChangeEvent={handleOnChange}
+            isRequired
           />
 
           <Input
             id="last_name"
             label="Last Name"
             onChangeEvent={handleOnChange}
+            isRequired
+          />
+          <Checkbox
+            id="is_staff"
+            label="Register as Instructor?"
+            onChangeEvent={handleOnChange}
           />
 
           {
-            !user.is_staff
+            user.is_staff
               ? (
+                <Input
+                  id="instructor_password"
+                  type="password"
+                  label="Add the password to register as an instructor"
+                  onChangeEvent={handleOnChange}
+                  isRequired
+                />
+              ) : (
                 <>
                   <Select
                     id="cohort"
@@ -108,6 +139,7 @@ function Register() {
                     options={cohorts}
                     onChangeEvent={handleOnChange}
                     error={errors?.cohort}
+                    isRequired
                   />
 
                   <Input
@@ -115,6 +147,7 @@ function Register() {
                     label="Github Username"
                     onChangeEvent={handleOnChange}
                     error={errors?.github_handle}
+                    isRequired
                   />
 
                   <Input
@@ -122,6 +155,7 @@ function Register() {
                     label="Linkedin Username"
                     onChangeEvent={handleOnChange}
                     error={errors?.linkedin}
+                    isRequired={false}
                   />
 
                   <Input
@@ -129,6 +163,7 @@ function Register() {
                     label="Resume Link"
                     onChangeEvent={handleOnChange}
                     error={errors?.resume_link}
+                    isRequired={false}
                   />
 
                   <Input
@@ -136,6 +171,7 @@ function Register() {
                     label="Podcast Link"
                     onChangeEvent={handleOnChange}
                     error={errors?.podcast_link}
+                    isRequired={false}
                   />
 
                   <Input
@@ -143,6 +179,7 @@ function Register() {
                     label="Favorite Quote"
                     onChangeEvent={handleOnChange}
                     error={errors?.favorite_quote}
+                    isRequired={false}
                   />
 
                   <Textarea
@@ -151,6 +188,7 @@ function Register() {
                     placeholder="Write a short paragraph about yourself"
                     onChangeEvent={handleOnChange}
                     error={errors?.bio}
+                    isRequired={false}
                   />
 
                   <FileInput
@@ -159,7 +197,7 @@ function Register() {
                     onChangeEvent={handleImage}
                   />
                 </>
-              ) : null
+              )
           }
         </>
       </AppForm>
