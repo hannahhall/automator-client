@@ -1,6 +1,9 @@
-import NavbarLink from './navbarLink';
+import { useAuth } from '../../hooks/useAuth';
+import AuthorizedNav from './authorized-nav';
+import UnauthorizedNav from './unauthorized-nav';
 
 function Navbar() {
+  const { getIsAuthenticated, logout } = useAuth();
   return (
     <nav className="navbar is-black is-fixed-top" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
@@ -14,20 +17,9 @@ function Navbar() {
       </div>
 
       <div id="navbarLinks" className="navbar-menu">
-        <div className="navbar-start">
-          {/* Links Here */}
-        </div>
-
-        <div className="navbar-end">
-          <div className="navbar-item">
-            <div className="buttons">
-              <NavbarLink href="/register" className="button is-primary">
-                Register
-              </NavbarLink>
-              <NavbarLink href="/login" className="button is-light">Log In</NavbarLink>
-            </div>
-          </div>
-        </div>
+        {
+          getIsAuthenticated() ? <AuthorizedNav logout={logout} /> : <UnauthorizedNav />
+        }
       </div>
     </nav>
   );

@@ -6,12 +6,13 @@ import { fetchNewToken, fetchToken, fetchUser } from '../data/auth';
 import { User } from '../interfaces';
 
 type AuthContextProps = {
-  isAuthenticated: boolean;
-  loading: boolean;
+  getIsAuthenticated: () => boolean;
   user: User | null;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
   updateToken: () => void;
+  setRefreshToken: (token: string) => void;
+  setAccessToken: (token: string) => void;
 }
 
 const AuthContext = createContext<Partial<AuthContextProps>>({});
@@ -30,6 +31,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     fetchUser(accessToken).then((res) => setUser(res.data));
   };
 
+  const getIsAuthenticated = (): boolean => isAuthenticated;
+
   const getRefreshToken = (): string => sessionStorage.getItem('refresh');
 
   const setRefreshToken = (value: string): void => {
@@ -39,6 +42,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const login = (username: string, password: string): Promise<void> => (
     fetchToken(username, password).then((res) => {
       const { data } = res;
+      setIsAuthenticated(true);
       setAccessToken(data.access);
       setRefreshToken(data.refresh);
     })
@@ -53,6 +57,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const updateToken = (): void => {
+    setIsAuthenticated(true);
     fetchNewToken(getRefreshToken()).then((res) => {
       const { data } = res;
       setAccessToken(data.access);
@@ -74,12 +79,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [accessToken]);
 
   const value = useMemo(() => ({
-    isAuthenticated,
+    getIsAuthenticated,
     user,
     login,
     logout,
     updateToken,
-  }), []);
+    setRefreshToken,
+    setAccessToken,
+  }), [isAuthenticated]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
