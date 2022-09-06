@@ -24,7 +24,7 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/_app.js"  
-  ],
+, "__tests__/components/navbar/navbar.test.jsx"  ],
   "exclude": [
     "node_modules"
   ]
