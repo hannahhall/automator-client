@@ -7,7 +7,7 @@ function AuthorizedNav({ logout }: AuthorizedNavProps) {
     <div className="navbar-end">
       <div className="navbar-item">
         <div className="buttons">
-          <button type="button" className="button is-primary" onClick={logout}>
+          <button id="logout-button" type="button" className="button is-primary" onClick={logout}>
             Logout
           </button>
         </div>
