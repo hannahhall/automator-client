@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import AuthorizedNav from '../../../components/navbar/authorized-nav';
 
 describe('Authorized Nav Items', () => {
-  it('renders a logout button', async () => {
+  it('renders a logout button', () => {
     render(
       <AuthorizedNav />
     );

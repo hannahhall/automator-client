@@ -12,10 +12,10 @@ const defaultProps = {
 };
 
 function NavbarLink({
-  href, className, children, ...rest
+  href, className, children,
 }: NavbarLinkProps) {
   return (
-    <Link href={href} {...rest}>
+    <Link href={href}>
       <a href={href} className={className}>
         {children}
       </a>
