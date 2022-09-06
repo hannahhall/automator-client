@@ -11,7 +11,7 @@ function Login(): ReactElement {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const { loading, isAuthenticated, login } = useAuth();
+  const { login } = useAuth();
   const router = useRouter();
 
   const handleSubmit = (
@@ -31,8 +31,6 @@ function Login(): ReactElement {
     router.push('/register');
   };
 
-  if (!loading && isAuthenticated) router.push('/');
-
   return (
     <Layout title="Automator | Login">
       <AppForm title="Login" onSubmit={handleSubmit} onCancel={handleCancel}>
@@ -41,6 +39,7 @@ function Login(): ReactElement {
             id="username"
             label="Username"
             onChangeEvent={(e) => setUsername(e.target.value)}
+            isRequired
           />
 
           <Input
@@ -48,6 +47,7 @@ function Login(): ReactElement {
             type="password"
             label="Password"
             onChangeEvent={(e) => setPassword(e.target.value)}
+            isRequired
           />
         </>
       </AppForm>

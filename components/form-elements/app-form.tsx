@@ -12,7 +12,7 @@ function AppForm({
 }: AppFormProps) {
   return (
     <article className="panel is-warning">
-      <p className="panel-heading">
+      <p role="heading" aria-level={2} className="panel-heading">
         {title}
       </p>
       <section className="panel-block p-6">
