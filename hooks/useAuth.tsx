@@ -1,5 +1,5 @@
-import React, {
-  useState, useEffect, useContext, createContext, useMemo,
+import {
+  useState, useEffect, useContext, createContext, useMemo, ReactNode,
 } from 'react';
 import { useRouter } from 'next/router';
 import { fetchNewToken, fetchToken, fetchUser } from '../data/auth';
@@ -15,10 +15,10 @@ type AuthContextProps = {
   setAccessToken: (token: string) => void;
 }
 
-const AuthContext = createContext<Partial<AuthContextProps>>({});
+export const AuthContext = createContext<Partial<AuthContextProps>>({});
 
 interface AuthProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
