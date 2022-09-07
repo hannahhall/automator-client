@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, screen, } from '@testing-library/react';
-import UnauthorizedNav from '../../../components/navbar/Unauthorized-nav';
+import UnauthorizedNav from '../../../components/navbar/unauthorized-nav';
 
 describe('Unauthorized Nav Items', () => {
   it('renders Register and Login buttons', () => {
