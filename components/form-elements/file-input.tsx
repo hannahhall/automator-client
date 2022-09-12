@@ -27,7 +27,7 @@ function FileInput({
     <div className="field">
       <div className="file has-name">
         <label className="file-label" htmlFor={id}>
-          <input className="file-input" type="file" id={id} onChange={createImageString} />
+          <input className="file-input" type="file" id={id} onChange={createImageString} data-testid="file-input" />
           <span className="file-cta">
             <span className="file-icon">
               <i className="fas fa-upload" />
@@ -37,7 +37,7 @@ function FileInput({
             </span>
           </span>
           <span className="file-name">
-            {file ? file.name : 'Please upload a file'}
+            {file ? file.name : 'File should be .jpg or .png'}
           </span>
         </label>
       </div>
