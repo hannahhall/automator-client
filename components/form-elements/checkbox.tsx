@@ -2,12 +2,12 @@ interface CheckboxProps {
   id: string;
   label: string | undefined;
   onChangeEvent: (event) => void;
-  addlClass?: string | undefined;
+  addlClass?: string;
   error?: string | undefined;
 }
 
 const defaultProps = {
-  addlClass: undefined,
+  addlClass: '',
   error: undefined,
 };
 
@@ -23,7 +23,7 @@ function Checkbox({
 
       {
         error ? (
-          <p className="help is-danger">
+          <p className="help is-danger" data-testid="error-message">
             {error}
           </p>
         ) : null
