@@ -1,13 +1,10 @@
-import { ReactNode } from 'react';
-
 interface InputProps {
   id: string;
   type?: string;
   placeholder?: string | undefined;
   label?: string | undefined;
   onChangeEvent: (event) => void;
-  addlClass?: string | undefined;
-  children?: ReactNode | undefined;
+  addlClass?: string;
   error?: string | undefined;
   isRequired: boolean;
 }
@@ -16,13 +13,12 @@ const defaultProps = {
   type: 'text',
   placeholder: undefined,
   label: undefined,
-  addlClass: undefined,
-  children: undefined,
+  addlClass: '',
   error: undefined,
 };
 
 function Input({
-  id, type, placeholder, label, onChangeEvent, addlClass, children, error, isRequired,
+  id, type, placeholder, label, onChangeEvent, addlClass, error, isRequired,
 }: InputProps & typeof defaultProps) {
   return (
     <div className={`field ${addlClass}`}>
@@ -39,12 +35,11 @@ function Input({
       </div>
       {
         error ? (
-          <p className="help is-danger">
+          <p className="help is-danger" data-testid="error-message">
             {error}
           </p>
         ) : null
       }
-      {children}
     </div>
   );
 }
