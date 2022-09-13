@@ -6,14 +6,14 @@ interface SelectProps {
   }[]
   title: string;
   label: string;
-  addlClass?: string | undefined;
+  addlClass?: string;
   onChangeEvent: (event) => void;
   error?: string | undefined;
   isRequired: boolean;
 }
 
 const defaultProps = {
-  addlClass: undefined,
+  addlClass: '',
   error: undefined,
 };
 
