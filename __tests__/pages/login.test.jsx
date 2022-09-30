@@ -61,6 +61,19 @@ describe('Login', () => {
     expect(pushMock).toBeCalledWith('/');
   });
 
+  it('should navigate to the register page on click', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <AuthProvider>
+        <Login />
+      </AuthProvider>
+    );
+
+    await user.click(screen.getByText('Cancel'));
+    expect(pushMock).toBeCalledWith('/register');
+  });
+
   xit('should show errors on a login error', async () => {
     try {
       const spy = jest.spyOn(console, 'error')
