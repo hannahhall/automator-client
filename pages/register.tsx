@@ -67,7 +67,7 @@ function Register() {
 
   return (
     <Layout title="Automator | Register">
-      <AppForm title="Login" onSubmit={handleSubmit} onCancel={handleCancel}>
+      <AppForm title="Register" onSubmit={handleSubmit} onCancel={handleCancel}>
         <>
           <Input
             id="username"

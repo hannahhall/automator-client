@@ -24,7 +24,7 @@ function Select({
     <div className="field is-expanded">
       <label className="label" htmlFor={id}>{label}</label>
       <div className={`select ${addlClass} is-fullwidth`}>
-        <select id={id} onChange={onChangeEvent} required={isRequired}>
+        <select id={id} name={id} onChange={onChangeEvent} required={isRequired}>
           <option value="0">{title}</option>
           {
             options.map((option) => (
