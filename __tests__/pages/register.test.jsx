@@ -1,9 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import Register from '../../pages/register';
 import { AuthProvider } from '../../hooks/useAuth';
-import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import { fetchToken } from '../../data/auth';
 
 
 jest.mock('../../data/auth', () => ({
@@ -14,29 +13,35 @@ jest.mock('../../data/auth', () => ({
 }));
 
 jest.mock('../../data/cohort', () => ({
-  fetchCohorts: jest.fn().mockReturnValue(Promise.resolve({
+  fetchCohorts: jest.fn().mockResolvedValue({
     data: [{
       id: 1,
       name: 'Cohort 13'
     }]
-  })),
+  })
 }));
 const pushMock = jest.fn()
 jest.spyOn(require('next/router'), 'useRouter').mockReturnValue({ push: pushMock, pathname: '/register' });
 
 describe('Register', () => {
-  it('renders a heading', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  })
+  afterEach(cleanup);
+
+  it('renders a heading', async () => {
     render(
       <AuthProvider>
         <Register />
       </AuthProvider>
     );
+    await waitFor(async () => {
+      const heading = await screen.findByRole('heading', {
+        name: "Register",
+      });
 
-    const heading = screen.getByRole('heading', {
-      name: "Register",
+      expect(heading).toBeInTheDocument();
     });
-
-    expect(heading).toBeInTheDocument();
   });
 
   it('should render the expected fields for students', async () => {
@@ -45,21 +50,22 @@ describe('Register', () => {
         <Register />
       </AuthProvider>
     );
-
-    expect(screen.getByRole('form')).toHaveFormValues({
-      username: '',
-      email: '',
-      password: '',
-      first_name: '',
-      last_name: '',
-      is_staff: false,
-      github_handle: '',
-      linkedin: '',
-      resume_link: '',
-      podcast_link: '',
-      favorite_quote: '',
-      bio: '',
-      image: ''
+    await waitFor(async () => {
+      expect(await screen.findByRole('form')).toHaveFormValues({
+        username: '',
+        email: '',
+        password: '',
+        first_name: '',
+        last_name: '',
+        is_staff: false,
+        github_handle: '',
+        linkedin: '',
+        resume_link: '',
+        podcast_link: '',
+        favorite_quote: '',
+        bio: '',
+        image: ''
+      });
     });
   });
 
@@ -72,17 +78,17 @@ describe('Register', () => {
       </AuthProvider>
     );
 
-    await user.click(screen.getByText('Register as Instructor?'));
-
-
-    expect(screen.getByRole('form')).toHaveFormValues({
-      username: '',
-      email: '',
-      password: '',
-      first_name: '',
-      last_name: '',
-      is_staff: true,
-      instructor_password: ''
+    await waitFor(async () => {
+      await user.click(screen.getByText('Register as Instructor?'));
+      expect(screen.getByRole('form')).toHaveFormValues({
+        username: '',
+        email: '',
+        password: '',
+        first_name: '',
+        last_name: '',
+        is_staff: true,
+        instructor_password: ''
+      });
     });
   });
 
@@ -94,12 +100,14 @@ describe('Register', () => {
         <Register />
       </AuthProvider>
     );
-    const username = 'test';
-    const usernameInput = screen.getByLabelText('Username');
-    await user.type(usernameInput, username);
+    await waitFor(async () => {
+      const username = 'test';
+      const usernameInput = screen.getByLabelText('Username');
+      await user.type(usernameInput, username);
 
-    expect(screen.getByRole('form')).toHaveFormValues({
-      username: username,
+      expect(screen.getByRole('form')).toHaveFormValues({
+        username: username,
+      });
     });
   });
 
@@ -111,13 +119,16 @@ describe('Register', () => {
         <Register />
       </AuthProvider>
     );
-    const username = 'test';
-    const usernameInput = screen.getByLabelText('Username');
-    await user.type(usernameInput, username);
 
-    expect(screen.getByRole('form')).toHaveFormValues({
-      username: username,
-    });
+    await waitFor(async () => {
+      const username = 'test';
+      const usernameInput = screen.getByLabelText('Username');
+      await user.type(usernameInput, username);
+
+      expect(screen.getByRole('form')).toHaveFormValues({
+        username: username,
+      });
+    })
   });
 
   it('should navigate to the register page on click', async () => {
@@ -129,7 +140,9 @@ describe('Register', () => {
       </AuthProvider>
     );
 
-    await user.click(screen.getByText('Cancel'));
-    expect(pushMock).toBeCalledWith('/login');
+    await waitFor(async () => {
+      await user.click(screen.getByText('Cancel'));
+      expect(pushMock).toBeCalledWith('/login');
+    });
   });
 });
