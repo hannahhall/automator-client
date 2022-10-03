@@ -16,7 +16,7 @@ function AppForm({
         {title}
       </p>
       <section className="panel-block p-6">
-        <form onSubmit={onSubmit} className="is-flex-grow-1">
+        <form onSubmit={onSubmit} className="is-flex-grow-1" name={title}>
           {children}
 
           <div className="field is-grouped">

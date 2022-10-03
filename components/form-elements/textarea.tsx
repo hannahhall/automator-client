@@ -16,7 +16,7 @@ function Textarea({
     <div className="field">
       <label className="label" htmlFor={id}>{label}</label>
       <div className="control">
-        <textarea id={id} className="textarea" placeholder={placeholder} onChange={onChangeEvent} required={isRequired} />
+        <textarea id={id} name={id} className="textarea" placeholder={placeholder} onChange={onChangeEvent} required={isRequired} />
       </div>
       {
         error ? (

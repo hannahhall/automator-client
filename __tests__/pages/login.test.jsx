@@ -1,18 +1,20 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Login from '../../pages/login';
 import { AuthProvider } from '../../hooks/useAuth';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import mockAxios from 'jest-mock-axios';
+import { fetchToken } from '../../data/auth';
 
-jest.mock('next/router', () => require('next-router-mock'));
+
+jest.mock('../../data/auth', () => ({
+  fetchUser: jest.fn().mockReturnValue(Promise.resolve({})),
+  fetchToken: jest.fn(),
+  login: jest.fn(),
+}));
 const pushMock = jest.fn()
-const router = jest.spyOn(require('next/router'), 'useRouter').mockReturnValue({ push: pushMock });
+jest.spyOn(require('next/router'), 'useRouter').mockReturnValue({ push: pushMock, pathname: '/login' });
 
 describe('Login', () => {
-  afterEach(() => {
-    mockAxios.reset();
-  });
   it('renders a heading', () => {
     render(
       <AuthProvider>
@@ -28,6 +30,15 @@ describe('Login', () => {
   });
 
   it('should reroute on successful login', async () => {
+    fetchToken.mockReturnValue(Promise.resolve(
+      {
+        data: {
+          access: 'access',
+          refresh: 'refresh'
+        }
+      }
+    ));
+
     const user = userEvent.setup();
 
     const username = 'username';
@@ -39,13 +50,6 @@ describe('Login', () => {
       </AuthProvider>
     );
 
-
-    mockAxios.get.mockResolvedValueOnce({
-      data: {
-        access: 'token1',
-        refresh: 'token2'
-      }
-    });
     const usernameInput = screen.getByLabelText('Username');
     await user.type(usernameInput, username);
 
@@ -54,10 +58,62 @@ describe('Login', () => {
 
     await user.click(screen.getByText('Submit'));
 
-    await waitFor(() => {
-      expect(pushMock.mock.calls.length).toBe(1);
-    });
+    expect(pushMock).toBeCalledWith('/');
+    expect(screen.getByText('Logout')).toBeInTheDocument();
+  });
 
+  it('should navigate to the register page on click', async () => {
+    const user = userEvent.setup();
 
+    render(
+      <AuthProvider>
+        <Login />
+      </AuthProvider>
+    );
+
+    await user.click(screen.getByText('Cancel'));
+    expect(pushMock).toBeCalledWith('/register');
+  });
+
+  xit('should show errors on a login error', async () => {
+    try {
+      const spy = jest.spyOn(console, 'error')
+      spy.mockImplementation(() => { })
+      const user = userEvent.setup();
+      const errorResponse = {
+        response: {
+          data: {
+            detail: 'No User Found'
+          }
+        }
+      }
+
+      fetchToken.mockReturnValue(Promise.reject(
+        errorResponse
+      ));
+
+      const username = 'username';
+      const password = 'password';
+
+      render(
+        <AuthProvider>
+          <Login />
+        </AuthProvider>
+      );
+
+      const usernameInput = screen.getByLabelText('Username');
+      await user.type(usernameInput, username);
+
+      const passwordInput = screen.getByLabelText('Password');
+      await user.type(passwordInput, password);
+
+      await user.click(screen.getByText('Submit'))
+      await expect(fetchData('react')).rejects.toThrow(errorMessage);
+
+      expect(screen.getByText(errorResponse.response.data.detail)).toBeInTheDocument()
+      spy.mockRestore()
+    } catch (e) {
+      console.log(e)
+    }
   });
 });

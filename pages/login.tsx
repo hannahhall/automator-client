@@ -22,8 +22,8 @@ function Login(): ReactElement {
     login(username, password).then(() => {
       router.push('/');
     }).catch((error: ApiError) => {
-      const { response: { data } } = error;
-      setErrorMessage(data.detail);
+      const { response } = error;
+      setErrorMessage(response.data.detail);
     });
   };
 

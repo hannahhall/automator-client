@@ -26,6 +26,7 @@ function Input({
       <div className="control is-expanded">
         <input
           id={id}
+          name={id}
           placeholder={placeholder}
           className="input"
           type={type}

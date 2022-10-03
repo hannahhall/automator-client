@@ -18,7 +18,7 @@ function Checkbox({
     <div className={`field ${addlClass}`}>
       <label className="label" htmlFor={id}>
         {label}
-        <input id={id} type="checkbox" onChange={onChangeEvent} />
+        <input id={id} name={id} type="checkbox" onChange={onChangeEvent} />
       </label>
 
       {
