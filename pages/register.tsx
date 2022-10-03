@@ -34,8 +34,8 @@ function Register() {
       setRefreshToken(data.refresh);
       router.push('/');
     }).catch((err) => {
-      const { res: data } = err;
-      setErrors(data);
+      const { response } = err;
+      setErrors(response.data);
     });
   };
 
@@ -91,13 +91,7 @@ function Register() {
             type="password"
             label="Password"
             onChangeEvent={handleOnChange}
-            isRequired
-          />
-          <Input
-            id="passwordMatch"
-            type="password"
-            label="Password Match"
-            onChangeEvent={handleOnChange}
+            error={errors?.password}
             isRequired
           />
 
@@ -105,6 +99,7 @@ function Register() {
             id="first_name"
             label="First Name"
             onChangeEvent={handleOnChange}
+            error={errors?.first_name}
             isRequired
           />
 
@@ -112,6 +107,7 @@ function Register() {
             id="last_name"
             label="Last Name"
             onChangeEvent={handleOnChange}
+            error={errors?.last_name}
             isRequired
           />
           <Checkbox
@@ -128,6 +124,7 @@ function Register() {
                   type="password"
                   label="Add the password to register as an instructor"
                   onChangeEvent={handleOnChange}
+                  error={errors?.instructor_password}
                   isRequired
                 />
               ) : (

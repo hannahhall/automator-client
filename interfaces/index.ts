@@ -32,7 +32,7 @@ export interface IUserForm {
   username: string;
   password: string;
   is_staff: boolean;
-  password_match?: string;
+  instructor_password?: string;
   first_name?: string;
   last_name?: string;
   cohort?: number;
