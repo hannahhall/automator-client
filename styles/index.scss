@@ -1,0 +1,33 @@
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&family=Inter');
+
+$white: #FEFEFF;
+$green: #ACBFA4;
+$black: #000F08;
+$red: #EE3F1D;
+$orange: #F37D1D;
+
+$primary: $green;
+$warning: $orange;
+
+$family-primary: 'Inter', 'sans-serif';
+$family-secondary: 'Space Mono', 'monospace';
+
+@import 'bulma/bulma.sass';
+
+body {
+    padding-top: 4.5rem;
+}
+
+.navbar.is-top {
+    z-index: 35;
+}
+
+.navbar-item,
+.panel-heading {
+    font-family: $family-secondary;
+}
+
+.is-full-height {
+    min-height: calc(100vh - 15rem);
+}

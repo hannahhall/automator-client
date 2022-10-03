@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
 import makeUrl from '.';
+import { IUserForm } from '../interfaces';
 
 export const fetchToken = (username: string, password: string): Promise<AxiosResponse> => {
   const url = makeUrl('/auth/token/');
@@ -19,4 +20,9 @@ export const fetchUser = (token: string): Promise<AxiosResponse> => {
       Authorization: `Bearer ${token}`,
     },
   });
+};
+
+export const registerUser = (user: IUserForm): Promise<AxiosResponse> => {
+  const url = makeUrl('/api/register');
+  return axios.post(url, user);
 };
