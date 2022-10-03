@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import Login from '../../pages/login';
 import { AuthProvider } from '../../hooks/useAuth';
 import '@testing-library/jest-dom';
@@ -75,45 +75,34 @@ describe('Login', () => {
     expect(pushMock).toBeCalledWith('/register');
   });
 
-  xit('should show errors on a login error', async () => {
-    try {
-      const spy = jest.spyOn(console, 'error')
-      spy.mockImplementation(() => { })
-      const user = userEvent.setup();
-      const errorResponse = {
-        response: {
-          data: {
-            detail: 'No User Found'
-          }
+  it('should show errors on a login error', async () => {
+    const user = userEvent.setup();
+    const errorResponse = {
+      response: {
+        data: {
+          detail: 'No User Found'
         }
       }
+    };
 
-      fetchToken.mockReturnValue(Promise.reject(
-        errorResponse
-      ));
+    fetchToken.mockImplementation(() => Promise.reject(errorResponse));
 
-      const username = 'username';
-      const password = 'password';
+    const username = 'username';
+    const password = 'password';
 
-      render(
-        <AuthProvider>
-          <Login />
-        </AuthProvider>
-      );
+    render(
+      <AuthProvider>
+        <Login />
+      </AuthProvider>
+    );
+    const usernameInput = screen.getByLabelText('Username');
+    await user.type(usernameInput, username);
 
-      const usernameInput = screen.getByLabelText('Username');
-      await user.type(usernameInput, username);
+    const passwordInput = screen.getByLabelText('Password');
+    await user.type(passwordInput, password);
 
-      const passwordInput = screen.getByLabelText('Password');
-      await user.type(passwordInput, password);
+    await user.click(screen.getByText('Submit'));
 
-      await user.click(screen.getByText('Submit'))
-      await expect(fetchData('react')).rejects.toThrow(errorMessage);
-
-      expect(screen.getByText(errorResponse.response.data.detail)).toBeInTheDocument()
-      spy.mockRestore()
-    } catch (e) {
-      console.log(e)
-    }
+    expect(await screen.findByText(errorResponse.response.data.detail)).toBeInTheDocument();
   });
 });

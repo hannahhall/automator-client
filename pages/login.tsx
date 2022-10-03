@@ -53,7 +53,6 @@ function Login(): ReactElement {
       </AppForm>
       {errorMessage ? (
         <p className="text-red-400">
-          Error:
           {errorMessage}
         </p>
       ) : null}
