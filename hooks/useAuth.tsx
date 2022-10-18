@@ -7,6 +7,7 @@ import { User } from '../interfaces';
 
 type AuthContextProps = {
   getIsAuthenticated: () => boolean;
+  getAccessToken: () => string;
   user: User | null;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
@@ -32,6 +33,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const getIsAuthenticated = (): boolean => isAuthenticated;
+  const getAccessToken = (): string => accessToken;
 
   const getRefreshToken = (): string => sessionStorage.getItem('refresh');
 
@@ -80,13 +82,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const value = useMemo(() => ({
     getIsAuthenticated,
+    getAccessToken,
     user,
     login,
     logout,
     updateToken,
     setRefreshToken,
     setAccessToken,
-  }), [isAuthenticated]);
+  }), [isAuthenticated, accessToken]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

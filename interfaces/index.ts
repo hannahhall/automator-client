@@ -44,3 +44,10 @@ export interface IUserForm {
   linkedin?: string;
   github_handle?: string;
 }
+
+export interface Tech {
+  id?: number;
+  text: string;
+  icon: string;
+  square_icon?: string;
+}
