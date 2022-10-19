@@ -51,3 +51,9 @@ export interface Tech {
   icon: string;
   square_icon?: string;
 }
+
+export interface Program {
+  id?: number;
+  name: string;
+  techs?: (number | Tech)[];
+}

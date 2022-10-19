@@ -1,3 +1,5 @@
+import NavbarLink from './navbarLink';
+
 interface AuthorizedNavProps {
   logout: () => void;
 }
@@ -5,9 +7,13 @@ interface AuthorizedNavProps {
 function AuthorizedNav({ logout }: AuthorizedNavProps) {
   return (
     <div className="navbar-end">
+      <NavbarLink href="/programs/create" className="navbar-item is-size-5">
+        Create Program
+      </NavbarLink>
+
       <div className="navbar-item">
         <div className="buttons">
-          <button id="logout-button" type="button" className="button is-primary" onClick={logout}>
+          <button id="logout-button" type="button" className="button is-primary is-size-6" onClick={logout}>
             Logout
           </button>
         </div>

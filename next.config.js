@@ -6,6 +6,6 @@ module.exports = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   images: {
-    domains: ['bulma.io'],
+    domains: ['bulma.io', 'res.cloudinary.com'],
   },
 };
