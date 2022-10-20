@@ -48,7 +48,7 @@ function CreateProgram() {
     });
   };
 
-  const handleProgramCancel = (): void => {
+  const handleProgramCancel = () => {
     router.push('/');
   };
 
@@ -95,7 +95,9 @@ function CreateProgram() {
           </div>
         </>
       </AppForm>
-      <CreateTechModal showModal={showModal} closeModal={closeModal} />
+      {
+        showModal ? <CreateTechModal showModal={showModal} closeModal={closeModal} /> : null
+      }
     </Layout>
   );
 }
