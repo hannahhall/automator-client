@@ -19,7 +19,7 @@ function Register() {
     email: '',
     username: '',
     password: '',
-    is_staff: false,
+    is_staff: 0,
   });
   const [errors, setErrors] = useState<IUserForm>(null);
   const router = useRouter();
@@ -43,7 +43,7 @@ function Register() {
     router.push('/login');
   };
 
-  const handleImage = (image: string) => {
+  const handleImage = (image: File) => {
     user.image = image;
     setUser(user);
   };
@@ -58,7 +58,7 @@ function Register() {
     const { target } = e;
     const copy = { ...user };
     if (target.id === 'is_staff') {
-      copy[target.id] = target.checked;
+      copy[target.id] = target.checked ? 1 : 0;
     } else {
       copy[target.id] = target.value;
     }
@@ -192,6 +192,7 @@ function Register() {
                     id="image"
                     label="Upload a profile image"
                     onChangeEvent={handleImage}
+                    error={errors?.image as string}
                   />
                 </>
               )

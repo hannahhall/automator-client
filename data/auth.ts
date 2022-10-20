@@ -24,5 +24,9 @@ export const fetchUser = (token: string): Promise<AxiosResponse> => {
 
 export const registerUser = (user: IUserForm): Promise<AxiosResponse> => {
   const url = makeUrl('/api/register');
-  return axios.post(url, user);
+  return axios.post(url, user, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 };

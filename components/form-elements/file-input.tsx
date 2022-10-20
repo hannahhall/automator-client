@@ -1,26 +1,20 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 interface InputProps {
   id: string;
   label: string | undefined;
-  onChangeEvent: (imageString: string) => void;
+  onChangeEvent: (image: File) => void;
+  error: string | undefined;
 }
 
 function FileInput({
-  id, label, onChangeEvent,
+  id, label, onChangeEvent, error,
 }: InputProps) {
   const [file, setFile] = useState<File>(null);
-  const getBase64 = (blob: Blob, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(blob);
-  };
 
-  const createImageString = (event) => {
+  const createImageString = (event: ChangeEvent<HTMLInputElement>) => {
     setFile(event.target.files[0]);
-    getBase64(event.target.files[0], (base64ImageString: string) => {
-      onChangeEvent(base64ImageString);
-    });
+    onChangeEvent(event.target.files[0]);
   };
 
   return (
@@ -41,6 +35,13 @@ function FileInput({
           </span>
         </label>
       </div>
+      {
+        error ? (
+          <p className="help is-danger" data-testid="error-message">
+            {error}
+          </p>
+        ) : null
+      }
     </div>
   );
 }

@@ -172,7 +172,7 @@ describe('Register', () => {
       email: 't@t.com',
       first_name: 'Test',
       last_name: 'Test',
-      is_staff: false
+      is_staff: 0
     };
     const usernameInput = await screen.findByLabelText('Username');
     await user.type(usernameInput, userValues.username);

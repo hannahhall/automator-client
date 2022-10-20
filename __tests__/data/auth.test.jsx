@@ -44,6 +44,6 @@ describe('Auth Data', () => {
     };
 
     registerUser(user);
-    expect(axios.post).toHaveBeenCalledWith(url, user);
+    expect(axios.post).toHaveBeenCalledWith(url, user, { "headers": { "Content-Type": "multipart/form-data" } });
   });
 });

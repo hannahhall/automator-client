@@ -12,14 +12,19 @@ interface CreateTechModalProps {
 function CreateTechModal({ showModal, closeModal }: CreateTechModalProps) {
   const [tech, setTech] = useState<Tech>({
     text: '',
-    icon: '',
   });
+
+  const [errors, setErrors] = useState<Tech>(null);
+
   const { getAccessToken } = useAuth();
 
   const saveTech = (event) => {
     event.preventDefault();
     createTech(tech, getAccessToken()).then(() => {
       event.target.reset();
+    }).catch((err) => {
+      const { response } = err;
+      setErrors(response.data);
     });
   };
 
@@ -36,12 +41,14 @@ function CreateTechModal({ showModal, closeModal }: CreateTechModalProps) {
               label="Tech Name"
               onChangeEvent={(e) => setTech({ ...tech, text: e.target.value })}
               isRequired
+              error={errors?.text}
             />
 
             <FileInput
               id="icon"
               label="Tech Icon"
               onChangeEvent={(icon) => setTech({ ...tech, icon })}
+              error={errors?.icon as string}
             />
           </>
         )}

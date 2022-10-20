@@ -12,6 +12,7 @@ export const createTech = (tech: Tech, token: string): Promise<AxiosResponse> =>
   return axios.post(url, tech, {
     headers: {
       Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
     },
   });
 };

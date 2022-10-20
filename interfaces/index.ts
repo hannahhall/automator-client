@@ -31,12 +31,12 @@ export interface IUserForm {
   email: string;
   username: string;
   password: string;
-  is_staff: boolean;
+  is_staff: number;
   instructor_password?: string;
   first_name?: string;
   last_name?: string;
   cohort?: number;
-  image?: string;
+  image?: File | string;
   bio?: string;
   favorite_quote?: string;
   podcast_link?: string;
@@ -48,7 +48,7 @@ export interface IUserForm {
 export interface Tech {
   id?: number;
   text: string;
-  icon: string;
+  icon?: File | string;
   square_icon?: string;
 }
 
