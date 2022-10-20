@@ -3,6 +3,12 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AuthorizedNav from '../../../components/navbar/authorized-nav';
 
+jest.mock("next/link", () => {
+  return ({ children }) => {
+    return children;
+  }
+});
+
 describe('Authorized Nav Items', () => {
   it('renders a logout button', () => {
     render(
@@ -24,5 +30,15 @@ describe('Authorized Nav Items', () => {
     await user.click(screen.getByText('Logout'));
 
     expect(mockLogoutFn.mock.calls.length).toBe(1);
+  });
+
+  it('routes to the Create Program page', async () => {
+    render(
+      <AuthorizedNav />
+    );
+
+    const link = screen.getByText('Create Program');
+
+    expect(link.href).toContain('/programs/create')
   });
 });
