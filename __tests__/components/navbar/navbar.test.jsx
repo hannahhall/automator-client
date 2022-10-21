@@ -12,11 +12,10 @@ const mockValue = {
 
 describe('Navbar', () => {
   it('renders', () => {
-
     render(
       <AuthContext.Provider value={mockValue}>
         <Navbar />
-      </AuthContext.Provider>
+      </AuthContext.Provider>,
     );
 
     const header = screen.getByText('Automator');
@@ -29,7 +28,7 @@ describe('Navbar', () => {
     render(
       <AuthContext.Provider value={mockValue}>
         <Navbar />
-      </AuthContext.Provider>
+      </AuthContext.Provider>,
     );
 
     const logoutBtn = screen.queryByText('Logout');
@@ -44,7 +43,7 @@ describe('Navbar', () => {
     render(
       <AuthContext.Provider value={mockValue}>
         <Navbar />
-      </AuthContext.Provider>
+      </AuthContext.Provider>,
     );
 
     const logoutBtn = screen.queryByText('Logout');
@@ -52,5 +51,5 @@ describe('Navbar', () => {
 
     expect(logoutBtn).toBeNull();
     expect(loginBtn).toBeInTheDocument();
-  })
+  });
 });

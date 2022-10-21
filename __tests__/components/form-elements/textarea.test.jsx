@@ -10,11 +10,11 @@ describe('Textarea', () => {
       id: 'check',
       label: 'Textarea Label',
       onChangeEvent: jest.fn(),
-      isRequired: false
+      isRequired: false,
     };
 
     render(
-      <Textarea {...props} />
+      <Textarea {...props} />,
     );
 
     const textareaEl = screen.getByLabelText(props.label);
@@ -27,13 +27,13 @@ describe('Textarea', () => {
       id: 'check',
       label: 'Textarea Label',
       onChangeEvent: jest.fn(),
-      isRequired: false
+      isRequired: false,
     };
 
     const value = 'test';
 
     render(
-      <Textarea {...props} />
+      <Textarea {...props} />,
     );
 
     const textarea = screen.getByLabelText(props.label);
@@ -51,11 +51,11 @@ describe('Textarea', () => {
     const props = {
       id: 'check',
       label: 'Textarea Label',
-      error: 'This is wrong'
+      error: 'This is wrong',
     };
 
     render(
-      <Textarea {...props} />
+      <Textarea {...props} />,
     );
 
     const errorEl = screen.getByText(props.error);
@@ -69,7 +69,7 @@ describe('Textarea', () => {
     };
 
     render(
-      <Textarea {...props} />
+      <Textarea {...props} />,
     );
 
     const errorEl = screen.queryByTestId('error-message');

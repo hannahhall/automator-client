@@ -1,29 +1,29 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import Login from '../../pages/login';
-import { AuthProvider } from '../../hooks/useAuth';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
+import Router from 'next/router';
+import Login from '../../pages/login';
 import { fetchToken } from '../../data/auth';
-
+import { AuthProvider } from '../../hooks/useAuth';
 
 jest.mock('../../data/auth', () => ({
   fetchUser: jest.fn().mockReturnValue(Promise.resolve({})),
   fetchToken: jest.fn(),
   login: jest.fn(),
 }));
-const pushMock = jest.fn()
-jest.spyOn(require('next/router'), 'useRouter').mockReturnValue({ push: pushMock, pathname: '/login' });
+const pushMock = jest.fn();
+jest.spyOn(Router, 'useRouter').mockReturnValue({ push: pushMock, pathname: '/login' });
 
 describe('Login', () => {
   it('renders a heading', () => {
     render(
       <AuthProvider>
         <Login />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     const heading = screen.getByRole('heading', {
-      name: "Login",
+      name: 'Login',
     });
 
     expect(heading).toBeInTheDocument();
@@ -34,9 +34,9 @@ describe('Login', () => {
       {
         data: {
           access: 'access',
-          refresh: 'refresh'
-        }
-      }
+          refresh: 'refresh',
+        },
+      },
     ));
 
     const user = userEvent.setup();
@@ -47,7 +47,7 @@ describe('Login', () => {
     render(
       <AuthProvider>
         <Login />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     const usernameInput = screen.getByLabelText('Username');
@@ -68,7 +68,7 @@ describe('Login', () => {
     render(
       <AuthProvider>
         <Login />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     await user.click(screen.getByText('Cancel'));
@@ -80,9 +80,9 @@ describe('Login', () => {
     const errorResponse = {
       response: {
         data: {
-          detail: 'No User Found'
-        }
-      }
+          detail: 'No User Found',
+        },
+      },
     };
 
     fetchToken.mockImplementation(() => Promise.reject(errorResponse));
@@ -93,7 +93,7 @@ describe('Login', () => {
     render(
       <AuthProvider>
         <Login />
-      </AuthProvider>
+      </AuthProvider>,
     );
     const usernameInput = screen.getByLabelText('Username');
     await user.type(usernameInput, username);

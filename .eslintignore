@@ -6,4 +6,4 @@ package-lock.json
 **/*.test.js
 coverage
 *.config.js
-__tests__
+# __tests__

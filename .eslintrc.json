@@ -32,7 +32,8 @@
         "extensions": [
           ".ts",
           ".tsx",
-          ".jsx"
+          ".jsx",
+          ".js"
         ]
       }
     ],
@@ -46,6 +47,12 @@
     "radix": "off"
   },
   "globals": {
-    "JSX": true
+    "JSX": true,
+    "jest": true,
+    "describe": true,
+    "beforeEach": true,
+    "it": true,
+    "expect": true,
+    "afterEach": true
   }
 }

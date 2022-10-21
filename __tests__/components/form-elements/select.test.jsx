@@ -14,13 +14,13 @@ describe('Select', () => {
       options: [
         {
           id: 1,
-          name: 'Option 1'
-        }
-      ]
+          name: 'Option 1',
+        },
+      ],
     };
 
     render(
-      <Select {...props} />
+      <Select {...props} />,
     );
 
     const selectEl = screen.getByLabelText(props.label);
@@ -37,20 +37,20 @@ describe('Select', () => {
       options: [
         {
           id: 1,
-          name: 'Option 1'
-        }
-      ]
+          name: 'Option 1',
+        },
+      ],
     };
 
     render(
-      <Select {...props} />
+      <Select {...props} />,
     );
 
     const select = screen.getByLabelText(props.label);
     const option = props.options[0].name;
     await user.selectOptions(select, option);
 
-    expect(screen.getByRole('option', { name: option }).selected).toBe(true)
+    expect(screen.getByRole('option', { name: option }).selected).toBe(true);
 
     await waitFor(() => {
       expect(props.onChangeEvent.mock.calls.length).toBe(1);
@@ -66,14 +66,14 @@ describe('Select', () => {
       options: [
         {
           id: 1,
-          name: 'Option 1'
-        }
+          name: 'Option 1',
+        },
       ],
-      error: "This is wrong"
+      error: 'This is wrong',
     };
 
     render(
-      <Select {...props} />
+      <Select {...props} />,
     );
 
     const errorEl = screen.getByText(props.error);
@@ -89,13 +89,13 @@ describe('Select', () => {
       options: [
         {
           id: 1,
-          name: 'Option 1'
-        }
-      ]
+          name: 'Option 1',
+        },
+      ],
     };
 
     render(
-      <Select {...props} />
+      <Select {...props} />,
     );
 
     const errorEl = screen.queryByTestId('error-message');

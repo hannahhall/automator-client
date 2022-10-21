@@ -1,34 +1,36 @@
 import '@testing-library/jest-dom';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import {
+  cleanup, render, screen, waitFor,
+} from '@testing-library/react';
+import Router from 'next/router';
 import userEvent from '@testing-library/user-event';
 import Register from '../../pages/register';
 import { AuthProvider } from '../../hooks/useAuth';
 import { registerUser } from '../../data/auth';
 
-
 jest.mock('../../data/auth', () => ({
   fetchUser: jest.fn().mockResolvedValue({}),
   fetchToken: jest.fn(),
-  registerUser: jest.fn()
+  registerUser: jest.fn(),
 }));
 
 jest.mock('../../data/cohort', () => ({
   fetchCohorts: jest.fn().mockResolvedValue({
     data: [{
       id: 1,
-      name: 'Cohort 13'
-    }]
-  })
+      name: 'Cohort 13',
+    }],
+  }),
 }));
 
-const pushMock = jest.fn()
-jest.spyOn(require('next/router'), 'useRouter').mockReturnValue({ push: pushMock, pathname: '/register' });
+const pushMock = jest.fn();
+jest.spyOn(Router, 'useRouter').mockReturnValue({ push: pushMock, pathname: '/register' });
 
 Object.defineProperty(window, 'sessionStorage', {
   value: {
-    setItem: jest.fn()
-  }
-})
+    setItem: jest.fn(),
+  },
+});
 
 describe('Register', () => {
   beforeEach(() => {
@@ -41,22 +43,21 @@ describe('Register', () => {
     render(
       <AuthProvider>
         <Register />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     const heading = await screen.findByRole('heading', {
-      name: "Register",
+      name: 'Register',
     });
 
     expect(heading).toBeInTheDocument();
-
   });
 
   it('should render the expected fields for students', async () => {
     render(
       <AuthProvider>
         <Register />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     expect(await screen.findByRole('form')).toHaveFormValues({
@@ -72,9 +73,8 @@ describe('Register', () => {
       podcast_link: '',
       favorite_quote: '',
       bio: '',
-      image: ''
+      image: '',
     });
-
   });
 
   it('should render the expected fields for instructors', async () => {
@@ -83,7 +83,7 @@ describe('Register', () => {
     render(
       <AuthProvider>
         <Register />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     await user.click(screen.getByText('Register as Instructor?'));
@@ -94,7 +94,7 @@ describe('Register', () => {
       first_name: '',
       last_name: '',
       is_staff: true,
-      instructor_password: ''
+      instructor_password: '',
     });
   });
 
@@ -104,17 +104,16 @@ describe('Register', () => {
     render(
       <AuthProvider>
         <Register />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     const userValues = {
-      username: 'test'
+      username: 'test',
     };
     const usernameInput = screen.getByLabelText('Username');
     await user.type(usernameInput, userValues.username);
 
     expect(screen.getByRole('form')).toHaveFormValues(userValues);
-
   });
 
   it('should update the image value', async () => {
@@ -123,7 +122,7 @@ describe('Register', () => {
     render(
       <AuthProvider>
         <Register />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     const username = 'test';
@@ -131,9 +130,8 @@ describe('Register', () => {
     await user.type(usernameInput, username);
 
     expect(await screen.findByRole('form')).toHaveFormValues({
-      username: username,
+      username,
     });
-
   });
 
   it('should navigate to the login page on click', async () => {
@@ -142,7 +140,7 @@ describe('Register', () => {
     render(
       <AuthProvider>
         <Register />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     await user.click(screen.getByText('Cancel'));
@@ -153,17 +151,17 @@ describe('Register', () => {
     const response = {
       data: {
         access: 'asdf1234',
-        refresh: 'jkl;1234'
-      }
+        refresh: 'jkl;1234',
+      },
     };
 
-    registerUser.mockResolvedValue(response)
+    registerUser.mockResolvedValue(response);
 
     const user = userEvent.setup();
     render(
       <AuthProvider>
         <Register />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     const userValues = {
@@ -172,11 +170,11 @@ describe('Register', () => {
       email: 't@t.com',
       first_name: 'Test',
       last_name: 'Test',
-      is_staff: 0
+      is_staff: 0,
     };
     const usernameInput = await screen.findByLabelText('Username');
     await user.type(usernameInput, userValues.username);
-    expect(usernameInput).toHaveValue(userValues.username)
+    expect(usernameInput).toHaveValue(userValues.username);
 
     const passwordInput = screen.getByLabelText('Password');
     await user.type(passwordInput, userValues.password);
@@ -191,10 +189,10 @@ describe('Register', () => {
     await user.type(lastNameInput, userValues.last_name);
 
     const form = await screen.findByRole('form');
-    form.submit()
+    form.submit();
     await waitFor(async () => {
       expect(registerUser).toBeCalledWith(userValues);
-      expect(window.sessionStorage.setItem).toBeCalledWith('refresh', response.data.refresh)
+      expect(window.sessionStorage.setItem).toBeCalledWith('refresh', response.data.refresh);
       expect(pushMock).toBeCalledWith('/');
     });
   });
@@ -204,9 +202,9 @@ describe('Register', () => {
     const errorResponse = {
       response: {
         data: {
-          username: error
-        }
-      }
+          username: error,
+        },
+      },
     };
 
     registerUser.mockImplementation(() => Promise.reject(errorResponse));
@@ -214,7 +212,7 @@ describe('Register', () => {
     render(
       <AuthProvider>
         <Register />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     const form = await screen.findByRole('form');

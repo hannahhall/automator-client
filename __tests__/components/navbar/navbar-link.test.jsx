@@ -6,11 +6,11 @@ describe('Navbar Link', () => {
   it('renders a link', () => {
     const props = {
       href: '/route',
-      children: 'Page Route'
+      children: 'Page Route',
     };
 
     render(
-      <NavbarLink {...props} />
+      <NavbarLink {...props} />,
     );
 
     const linkElement = screen.getByText(props.children);

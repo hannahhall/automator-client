@@ -1,30 +1,32 @@
 import '@testing-library/jest-dom';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import {
+  cleanup, render, screen, waitFor,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
+import Router from 'next/router';
 import CreateProgram from '../../pages/programs/create';
 import { AuthProvider } from '../../hooks/useAuth';
 import { createProgram } from '../../data/program';
 
-const accessToken = 'test1234'
+const accessToken = 'test1234';
 jest.mock('../../data/tech', () => ({
   fetchTechs: jest.fn().mockResolvedValue({
-    data: [{ id: 1, text: 'Python', square_icon: 'http://google.com' }]
-  })
+    data: [{ id: 1, text: 'Python', square_icon: 'http://google.com' }],
+  }),
 }));
 jest.mock('../../data/auth', () => ({
   fetchNewToken: jest.fn().mockResolvedValue({
     data: {
-      access: 'test1234'
-    }
+      access: 'test1234',
+    },
   }),
   fetchUser: jest.fn().mockResolvedValue({}),
 }));
 jest.mock('../../data/program', () => ({
-  createProgram: jest.fn()
+  createProgram: jest.fn(),
 }));
-const pushMock = jest.fn()
-jest.spyOn(require('next/router'), 'useRouter').mockReturnValue({ push: pushMock, pathname: '/programs/create' });
+const pushMock = jest.fn();
+jest.spyOn(Router, 'useRouter').mockReturnValue({ push: pushMock, pathname: '/programs/create' });
 
 describe('Create Program', () => {
   beforeEach(() => {
@@ -37,11 +39,11 @@ describe('Create Program', () => {
     render(
       <AuthProvider>
         <CreateProgram />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     const heading = await screen.findByRole('heading', {
-      name: "Create a Program",
+      name: 'Create a Program',
     });
 
     expect(heading).toBeInTheDocument();
@@ -53,14 +55,14 @@ describe('Create Program', () => {
     render(
       <AuthProvider>
         <CreateProgram />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     const programNameInput = await screen.findByLabelText('Program Name');
     await user.type(programNameInput, 'Web Dev');
 
     expect(await screen.findByRole('form')).toHaveFormValues({
-      name: 'Web Dev'
+      name: 'Web Dev',
     });
   });
 
@@ -69,19 +71,19 @@ describe('Create Program', () => {
     render(
       <AuthProvider>
         <CreateProgram />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     const techCheckbox = await screen.findByAltText('Python');
     await user.click(techCheckbox);
 
     expect(await screen.findByRole('form')).toHaveFormValues({
-      Python: true
+      Python: true,
     });
 
     await user.click(techCheckbox);
     expect(await screen.findByRole('form')).toHaveFormValues({
-      Python: false
+      Python: false,
     });
   });
 
@@ -89,15 +91,15 @@ describe('Create Program', () => {
     const user = userEvent.setup();
     const response = {
       data: {
-        id: 1
-      }
-    }
+        id: 1,
+      },
+    };
     createProgram.mockResolvedValue(response);
 
     render(
       <AuthProvider>
         <CreateProgram />
-      </AuthProvider>
+      </AuthProvider>,
     );
     const programNameInput = await screen.findByLabelText('Program Name');
     await user.type(programNameInput, 'Web Dev');
@@ -108,8 +110,8 @@ describe('Create Program', () => {
     const form = await screen.findByRole('form');
     form.submit();
     await waitFor(async () => {
-      expect(createProgram).toBeCalledWith({ "name": "Web Dev", "techs": [1] }, accessToken);
-      expect(pushMock).toBeCalledWith(`/programs/${response.data.id}`)
+      expect(createProgram).toBeCalledWith({ name: 'Web Dev', techs: [1] }, accessToken);
+      expect(pushMock).toBeCalledWith(`/programs/${response.data.id}`);
     });
   });
 
@@ -118,11 +120,11 @@ describe('Create Program', () => {
     render(
       <AuthProvider>
         <CreateProgram />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     await user.click(await screen.findByText('Cancel'));
-    expect(pushMock).toBeCalledWith('/')
+    expect(pushMock).toBeCalledWith('/');
   });
 
   it('should open and close the modal', async () => {
@@ -130,14 +132,13 @@ describe('Create Program', () => {
     render(
       <AuthProvider>
         <CreateProgram />
-      </AuthProvider>
+      </AuthProvider>,
     );
 
     await user.click(await screen.findByText('Add a new Tech'));
     expect(await screen.findByText('Create a Tech')).toBeInTheDocument();
 
     await user.click(await screen.findByLabelText('close'));
-    expect(screen.queryByText('Create a Tech')).toBeNull()
-
+    expect(screen.queryByText('Create a Tech')).toBeNull();
   });
 });
