@@ -79,4 +79,35 @@ describe('Create Tech Modal', () => {
       expect(createTech).toBeCalledWith({ text: techName, icon: fakeFile }, accessToken);
     });
   });
+
+  it('shows errors after submit', async () => {
+    const user = userEvent.setup();
+    const textError = 'Too Long';
+    const iconError = 'Wrong Format';
+    const error = {
+      response: {
+        data: {
+          text: textError,
+          icon: iconError,
+        },
+      },
+    };
+    createTech.mockRejectedValue(error);
+
+    render(
+      <AuthContext.Provider value={mockValue}>
+        <CreateTechModal showModal={mockShowModal} closeModal={mockCloseModal} />
+      </AuthContext.Provider>,
+    );
+    const techName = 'Python';
+    const input = screen.getByLabelText('Tech Name');
+    await user.type(input, techName);
+
+    const buttonEl = screen.getByText('Save Tech');
+    await user.click(buttonEl);
+    await waitFor(async () => {
+      expect(screen.getByText(textError)).toBeInTheDocument();
+      expect(screen.getByText(iconError)).toBeInTheDocument();
+    });
+  });
 });
