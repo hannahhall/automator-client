@@ -63,7 +63,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     fetchNewToken(getRefreshToken()).then((res) => {
       const { data } = res;
       setAccessToken(data.access);
-    }).catch((err) => {
+    }).catch(() => {
       logout();
     });
   };
