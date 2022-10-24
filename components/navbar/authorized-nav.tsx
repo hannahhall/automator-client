@@ -1,15 +1,21 @@
+import { User } from '../../interfaces';
 import NavbarLink from './navbarLink';
 
 interface AuthorizedNavProps {
   logout: () => void;
+  user: User;
 }
 
-function AuthorizedNav({ logout }: AuthorizedNavProps) {
+function AuthorizedNav({ logout, user }: AuthorizedNavProps) {
   return (
     <div className="navbar-end">
-      <NavbarLink href="/programs/create" className="navbar-item is-size-5">
-        Create Program
-      </NavbarLink>
+      {
+        user?.is_staff ? (
+          <NavbarLink href="/programs/create" className="navbar-item is-size-5">
+            Create Program
+          </NavbarLink>
+        ) : null
+      }
 
       <div className="navbar-item">
         <div className="buttons">

@@ -5,6 +5,7 @@ export interface User {
   first_name: string;
   username: string;
   last_name: string;
+  is_staff: boolean;
 }
 
 export interface TokenResponse {

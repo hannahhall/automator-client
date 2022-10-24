@@ -8,7 +8,7 @@ import { User } from '../interfaces';
 type AuthContextProps = {
   getIsAuthenticated: () => boolean;
   getAccessToken: () => string;
-  user: User | null;
+  getUser: () => User | null;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
   updateToken: () => void;
@@ -24,14 +24,11 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User>();
   const [accessToken, setAccessToken] = useState<string>('');
   const router = useRouter();
 
-  const getUser = () => {
-    fetchUser(accessToken).then((res) => setUser(res.data));
-  };
-
+  const getUser = () => user;
   const getIsAuthenticated = (): boolean => isAuthenticated;
   const getAccessToken = (): string => accessToken;
 
@@ -76,20 +73,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     if (accessToken) {
-      getUser();
+      fetchUser(accessToken).then((res) => setUser(res.data));
     }
   }, [accessToken]);
 
   const value = useMemo(() => ({
     getIsAuthenticated,
     getAccessToken,
-    user,
+    getUser,
     login,
     logout,
     updateToken,
     setRefreshToken,
     setAccessToken,
-  }), [isAuthenticated, accessToken]);
+  }), [isAuthenticated, accessToken, user]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
