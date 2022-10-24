@@ -23,8 +23,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/_app.js"  
-, "__tests__/components/navbar/navbar.test.jsx"  ],
+    "pages/_app.js"
+  ],
   "exclude": [
     "node_modules"
   ]

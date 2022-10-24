@@ -3,7 +3,7 @@ import AuthorizedNav from './authorized-nav';
 import UnauthorizedNav from './unauthorized-nav';
 
 function Navbar() {
-  const { getIsAuthenticated, logout } = useAuth();
+  const { getIsAuthenticated, logout, getUser } = useAuth();
   return (
     <nav className="navbar is-black is-fixed-top" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
@@ -18,7 +18,9 @@ function Navbar() {
 
       <div id="navbarLinks" className="navbar-menu">
         {
-          getIsAuthenticated() ? <AuthorizedNav logout={logout} /> : <UnauthorizedNav />
+          getIsAuthenticated()
+            ? <AuthorizedNav user={getUser()} logout={logout} />
+            : <UnauthorizedNav />
         }
       </div>
     </nav>

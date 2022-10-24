@@ -10,11 +10,11 @@ describe('Input', () => {
       id: 'check',
       label: 'Input Label',
       onChangeEvent: jest.fn(),
-      isRequired: false
+      isRequired: false,
     };
 
     render(
-      <Input {...props} />
+      <Input {...props} />,
     );
 
     const inputEl = screen.getByLabelText(props.label);
@@ -27,13 +27,13 @@ describe('Input', () => {
       id: 'check',
       label: 'Input Label',
       onChangeEvent: jest.fn(),
-      isRequired: false
+      isRequired: false,
     };
 
     const value = 'test';
 
     render(
-      <Input {...props} />
+      <Input {...props} />,
     );
 
     const input = screen.getByLabelText(props.label);
@@ -51,11 +51,11 @@ describe('Input', () => {
     const props = {
       id: 'check',
       label: 'Input Label',
-      error: 'This is wrong'
+      error: 'This is wrong',
     };
 
     render(
-      <Input {...props} />
+      <Input {...props} />,
     );
 
     const errorEl = screen.getByText(props.error);
@@ -69,7 +69,7 @@ describe('Input', () => {
     };
 
     render(
-      <Input {...props} />
+      <Input {...props} />,
     );
 
     const errorEl = screen.queryByTestId('error-message');

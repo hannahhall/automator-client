@@ -9,11 +9,11 @@ describe('Checkbox', () => {
     const props = {
       id: 'check',
       label: 'Checkbox Label',
-      onChangeEvent: jest.fn()
+      onChangeEvent: jest.fn(),
     };
 
     render(
-      <Checkbox {...props} />
+      <Checkbox {...props} />,
     );
 
     const checkboxEl = screen.getByLabelText(props.label);
@@ -25,11 +25,11 @@ describe('Checkbox', () => {
     const props = {
       id: 'check',
       label: 'Checkbox Label',
-      onChangeEvent: jest.fn()
+      onChangeEvent: jest.fn(),
     };
 
     render(
-      <Checkbox {...props} />
+      <Checkbox {...props} />,
     );
 
     await user.click(screen.getByLabelText(props.label));
@@ -41,11 +41,11 @@ describe('Checkbox', () => {
     const props = {
       id: 'check',
       label: 'Checkbox Label',
-      error: 'This is wrong'
+      error: 'This is wrong',
     };
 
     render(
-      <Checkbox {...props} />
+      <Checkbox {...props} />,
     );
 
     const errorEl = screen.getByText(props.error);
@@ -59,7 +59,7 @@ describe('Checkbox', () => {
     };
 
     render(
-      <Checkbox {...props} />
+      <Checkbox {...props} />,
     );
 
     const errorEl = screen.queryByTestId('error-message');

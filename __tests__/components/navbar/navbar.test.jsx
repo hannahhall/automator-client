@@ -8,15 +8,15 @@ let mockIsAuthenticated = false;
 const mockValue = {
   getIsAuthenticated: jest.fn(() => mockIsAuthenticated),
   logout: jest.fn(),
+  getUser: jest.fn(),
 };
 
 describe('Navbar', () => {
   it('renders', () => {
-
     render(
       <AuthContext.Provider value={mockValue}>
         <Navbar />
-      </AuthContext.Provider>
+      </AuthContext.Provider>,
     );
 
     const header = screen.getByText('Automator');
@@ -29,7 +29,7 @@ describe('Navbar', () => {
     render(
       <AuthContext.Provider value={mockValue}>
         <Navbar />
-      </AuthContext.Provider>
+      </AuthContext.Provider>,
     );
 
     const logoutBtn = screen.queryByText('Logout');
@@ -44,7 +44,7 @@ describe('Navbar', () => {
     render(
       <AuthContext.Provider value={mockValue}>
         <Navbar />
-      </AuthContext.Provider>
+      </AuthContext.Provider>,
     );
 
     const logoutBtn = screen.queryByText('Logout');
@@ -52,5 +52,5 @@ describe('Navbar', () => {
 
     expect(logoutBtn).toBeNull();
     expect(loginBtn).toBeInTheDocument();
-  })
+  });
 });

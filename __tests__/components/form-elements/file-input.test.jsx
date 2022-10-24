@@ -9,11 +9,11 @@ describe('File Input', () => {
     const props = {
       id: 'file',
       label: 'Add a File',
-      onChangeEvent: jest.fn()
+      onChangeEvent: jest.fn(),
     };
 
     render(
-      <FileInput {...props} />
+      <FileInput {...props} />,
     );
 
     const inputEl = screen.getByTestId('file-input');
@@ -29,11 +29,11 @@ describe('File Input', () => {
     const props = {
       id: 'file',
       label: 'Add a File',
-      onChangeEvent: jest.fn()
+      onChangeEvent: jest.fn(),
     };
 
     render(
-      <FileInput {...props} />
+      <FileInput {...props} />,
     );
 
     const inputEl = screen.getByTestId('file-input');
@@ -53,11 +53,11 @@ describe('File Input', () => {
     const props = {
       id: 'file',
       label: 'Add a File',
-      onChangeEvent: jest.fn()
+      onChangeEvent: jest.fn(),
     };
 
     render(
-      <FileInput {...props} />
+      <FileInput {...props} />,
     );
 
     const inputEl = screen.getByTestId('file-input');

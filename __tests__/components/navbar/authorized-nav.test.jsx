@@ -3,10 +3,12 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AuthorizedNav from '../../../components/navbar/authorized-nav';
 
+jest.mock('next/link', () => ({ children }) => children);
+
 describe('Authorized Nav Items', () => {
   it('renders a logout button', () => {
     render(
-      <AuthorizedNav />
+      <AuthorizedNav />,
     );
 
     const logoutButton = screen.getByText('Logout');
@@ -18,11 +20,21 @@ describe('Authorized Nav Items', () => {
     const user = userEvent.setup();
     const mockLogoutFn = jest.fn();
     render(
-      <AuthorizedNav logout={mockLogoutFn} />
+      <AuthorizedNav logout={mockLogoutFn} />,
     );
 
     await user.click(screen.getByText('Logout'));
 
     expect(mockLogoutFn.mock.calls.length).toBe(1);
+  });
+
+  it('routes to the Create Program page', async () => {
+    render(
+      <AuthorizedNav user={{ is_staff: true }} />,
+    );
+
+    const link = screen.getByText('Create Program');
+
+    expect(link.href).toContain('/programs/create');
   });
 });
