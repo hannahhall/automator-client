@@ -8,6 +8,7 @@ let mockIsAuthenticated = false;
 const mockValue = {
   getIsAuthenticated: jest.fn(() => mockIsAuthenticated),
   logout: jest.fn(),
+  getUser: jest.fn(),
 };
 
 describe('Navbar', () => {

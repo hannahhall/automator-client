@@ -30,7 +30,7 @@ describe('Authorized Nav Items', () => {
 
   it('routes to the Create Program page', async () => {
     render(
-      <AuthorizedNav />,
+      <AuthorizedNav user={{ is_staff: true }} />,
     );
 
     const link = screen.getByText('Create Program');
