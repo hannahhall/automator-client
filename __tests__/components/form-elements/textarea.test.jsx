@@ -7,10 +7,12 @@ import Textarea from '../../../components/form-elements/textarea';
 describe('Textarea', () => {
   it('should render', () => {
     const props = {
-      id: 'check',
+      name: 'check',
       label: 'Textarea Label',
-      onChangeEvent: jest.fn(),
-      isRequired: false,
+      register: (name) => ({
+        name,
+        onChange: jest.fn(),
+      }),
     };
 
     render(
@@ -21,13 +23,16 @@ describe('Textarea', () => {
     expect(textareaEl).toBeInTheDocument();
   });
 
-  it('should call the onChangeEvent when clicked', async () => {
+  it('should call the onChangeEvent when typing', async () => {
     const user = userEvent.setup();
+    const mockChange = jest.fn();
     const props = {
-      id: 'check',
+      name: 'check',
       label: 'Textarea Label',
-      onChangeEvent: jest.fn(),
-      isRequired: false,
+      register: (name) => ({
+        name,
+        onChange: mockChange,
+      }),
     };
 
     const value = 'test';
@@ -43,15 +48,19 @@ describe('Textarea', () => {
     expect(textarea).toHaveValue(value);
 
     await waitFor(() => {
-      expect(props.onChangeEvent.mock.calls.length).toBe(value.length);
+      expect(mockChange.mock.calls.length).toBe(value.length);
     });
   });
 
   it('should render an error message', () => {
     const props = {
-      id: 'check',
+      name: 'check',
       label: 'Textarea Label',
       error: 'This is wrong',
+      register: (name) => ({
+        name,
+        onChange: jest.fn(),
+      }),
     };
 
     render(
@@ -64,8 +73,12 @@ describe('Textarea', () => {
 
   it('should not render an error message', () => {
     const props = {
-      id: 'check',
+      name: 'check',
       label: 'Textarea Label',
+      register: (name) => ({
+        name,
+        onChange: jest.fn(),
+      }),
     };
 
     render(

@@ -7,9 +7,13 @@ import Checkbox from '../../../components/form-elements/checkbox';
 describe('Checkbox', () => {
   it('should render', () => {
     const props = {
-      id: 'check',
+      name: 'check',
       label: 'Checkbox Label',
       onChangeEvent: jest.fn(),
+      register: (name) => ({
+        name,
+        onChange: jest.fn(),
+      }),
     };
 
     render(
@@ -22,10 +26,14 @@ describe('Checkbox', () => {
 
   it('should call the onChangeEvent when clicked', async () => {
     const user = userEvent.setup();
+    const mockChange = jest.fn();
     const props = {
-      id: 'check',
+      name: 'check',
       label: 'Checkbox Label',
-      onChangeEvent: jest.fn(),
+      register: (name) => ({
+        name,
+        onChange: mockChange,
+      }),
     };
 
     render(
@@ -34,14 +42,18 @@ describe('Checkbox', () => {
 
     await user.click(screen.getByLabelText(props.label));
 
-    expect(props.onChangeEvent.mock.calls.length).toBe(1);
+    expect(mockChange.mock.calls.length).toBe(1);
   });
 
   it('should render an error message', () => {
     const props = {
-      id: 'check',
+      name: 'check',
       label: 'Checkbox Label',
       error: 'This is wrong',
+      register: (name) => ({
+        name,
+        onChange: jest.fn(),
+      }),
     };
 
     render(
@@ -54,8 +66,12 @@ describe('Checkbox', () => {
 
   it('should not render an error message', () => {
     const props = {
-      id: 'check',
+      name: 'check',
       label: 'Checkbox Label',
+      register: (name) => ({
+        name,
+        onChange: jest.fn(),
+      }),
     };
 
     render(

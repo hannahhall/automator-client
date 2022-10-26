@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { createTech } from '../../data/tech';
 import { useAuth } from '../../hooks/useAuth';
 import { Tech } from '../../interfaces';
@@ -10,18 +11,19 @@ interface CreateTechModalProps {
   closeModal: () => void;
 }
 function CreateTechModal({ showModal, closeModal }: CreateTechModalProps) {
-  const [tech, setTech] = useState<Tech>({
-    text: '',
-  });
+  const {
+    register, handleSubmit, reset, watch,
+  } = useForm<Tech>();
+  const { icon } = watch();
 
   const [errors, setErrors] = useState<Tech>(null);
 
   const { getAccessToken } = useAuth();
 
-  const saveTech = (event) => {
-    event.preventDefault();
-    createTech(tech, getAccessToken()).then(() => {
-      event.target.reset();
+  const saveTech = (tech: Tech) => {
+    const copy = { ...tech, icon: tech.icon[0] };
+    createTech(copy, getAccessToken()).then(() => {
+      reset();
     }).catch((err) => {
       const { response } = err;
       setErrors(response.data);
@@ -29,7 +31,7 @@ function CreateTechModal({ showModal, closeModal }: CreateTechModalProps) {
   };
 
   return (
-    <form onSubmit={saveTech}>
+    <form onSubmit={handleSubmit(saveTech)}>
       <Modal
         isActive={showModal}
         title="Create a Tech"
@@ -37,17 +39,18 @@ function CreateTechModal({ showModal, closeModal }: CreateTechModalProps) {
         body={(
           <>
             <Input
-              id="text"
+              name="text"
+              register={register}
               label="Tech Name"
-              onChangeEvent={(e) => setTech({ ...tech, text: e.target.value })}
               isRequired
               error={errors?.text}
             />
 
-            <FileInput
-              id="icon"
+            <FileInput<Tech>
+              name="icon"
+              register={register}
               label="Tech Icon"
-              onChangeEvent={(icon) => setTech({ ...tech, icon })}
+              filename={icon ? icon[0]?.name : undefined}
               error={errors?.icon as string}
             />
           </>

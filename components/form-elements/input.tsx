@@ -1,9 +1,11 @@
-interface InputProps {
-  id: string;
+import { Path, UseFormRegister } from 'react-hook-form';
+
+interface InputProps<TInputField> {
+  name: Path<TInputField>;
+  register: UseFormRegister<TInputField>;
   type?: string;
   placeholder?: string | undefined;
   label?: string | undefined;
-  onChangeEvent: (event) => void;
   addlClass?: string;
   error?: string | undefined;
   isRequired: boolean;
@@ -17,21 +19,21 @@ const defaultProps = {
   error: undefined,
 };
 
-function Input({
-  id, type, placeholder, label, onChangeEvent, addlClass, error, isRequired,
-}: InputProps & typeof defaultProps) {
+function Input<TInputField>({
+  name, register, type, placeholder, label, addlClass, error, isRequired,
+}: InputProps<TInputField> & typeof defaultProps) {
   return (
     <div className={`field ${addlClass}`}>
-      {label && <label className="label" htmlFor={id}>{label}</label>}
+      {label && <label className="label" htmlFor={name}>{label}</label>}
       <div className="control is-expanded">
         <input
-          id={id}
-          name={id}
+          id={name}
+          {...register(name, {
+            required: isRequired,
+          })}
           placeholder={placeholder}
           className="input"
           type={type}
-          onChange={onChangeEvent}
-          required={isRequired}
         />
       </div>
       {

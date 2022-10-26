@@ -1,5 +1,8 @@
-interface SelectProps {
-  id: string;
+import { Path, UseFormRegister } from 'react-hook-form';
+
+interface SelectProps<TInputField> {
+  name: Path<TInputField>;
+  register: UseFormRegister<TInputField>;
   options: {
     id: string;
     name: string;
@@ -7,7 +10,6 @@ interface SelectProps {
   title: string;
   label: string;
   addlClass?: string;
-  onChangeEvent: (event) => void;
   error?: string | undefined;
   isRequired: boolean;
 }
@@ -17,14 +19,19 @@ const defaultProps = {
   error: undefined,
 };
 
-function Select({
-  id, options, title, label, addlClass, onChangeEvent, error, isRequired,
-}: SelectProps & typeof defaultProps) {
+function Select<TInputField>({
+  name, register, options, title, label, addlClass, error, isRequired,
+}: SelectProps<TInputField> & typeof defaultProps) {
   return (
     <div className="field is-expanded">
-      <label className="label" htmlFor={id}>{label}</label>
+      <label className="label" htmlFor={name}>{label}</label>
       <div className={`select ${addlClass} is-fullwidth`}>
-        <select id={id} name={id} onChange={onChangeEvent} required={isRequired}>
+        <select
+          id={name}
+          {...register(name, {
+            required: isRequired,
+          })}
+        >
           <option value="0">{title}</option>
           {
             options.map((option) => (

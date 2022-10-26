@@ -44,7 +44,14 @@
     ],
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "warn",
-    "radix": "off"
+    "radix": "off",
+    "prefer-destructuring": [
+      "error",
+      {
+        "object": true,
+        "array": false
+      }
+    ]
   },
   "globals": {
     "JSX": true,

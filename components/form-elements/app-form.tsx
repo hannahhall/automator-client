@@ -1,24 +1,28 @@
-import { FormEvent, ReactNode } from 'react';
+import { ReactNode } from 'react';
+import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
+import { Tech } from '../../interfaces';
 
-interface AppFormProps {
-  children: ReactNode;
+interface AppFormProps<TFormValues> {
+  onSubmit: SubmitHandler<TFormValues>;
+  children: (methods: UseFormReturn<TFormValues>) => ReactNode;
   title: string;
-  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
   onCancel: () => void;
 }
 
-function AppForm({
+type Values = string | number | (string | Tech)[] | boolean | File
+
+function AppForm<TFormValues extends Record<string, Values>>({
   children, title, onSubmit, onCancel,
-}: AppFormProps) {
+}: AppFormProps<TFormValues>) {
+  const methods = useForm<TFormValues>();
   return (
     <article className="panel is-warning">
       <p role="heading" aria-level={2} className="panel-heading">
         {title}
       </p>
       <section className="panel-block p-6">
-        <form onSubmit={onSubmit} className="is-flex-grow-1" name={title}>
-          {children}
-
+        <form onSubmit={methods.handleSubmit(onSubmit)} className="is-flex-grow-1" name={title}>
+          {children(methods)}
           <div className="field is-grouped">
             <div className="control">
               <button type="submit" className="button is-primary">Submit</button>

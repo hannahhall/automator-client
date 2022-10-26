@@ -1,37 +1,31 @@
-import { ChangeEvent, useState } from 'react';
+import { Path, UseFormRegister } from 'react-hook-form';
 
-interface InputProps {
-  id: string;
+interface InputProps<TInputField> {
+  name: Path<TInputField>;
+  register: UseFormRegister<TInputField>;
   label: string | undefined;
-  onChangeEvent: (image: File) => void;
   error: string | undefined;
+  filename: string | undefined
 }
 
-function FileInput({
-  id, label, onChangeEvent, error,
-}: InputProps) {
-  const [file, setFile] = useState<File>(null);
-
-  const createImageString = (event: ChangeEvent<HTMLInputElement>) => {
-    setFile(event.target.files[0]);
-    onChangeEvent(event.target.files[0]);
-  };
-
+function FileInput<TInputField>({
+  name, register, label, error, filename,
+}: InputProps<TInputField>) {
   return (
     <div className="field">
       <div className="file has-name">
-        <label className="file-label" htmlFor={id}>
-          <input className="file-input" type="file" id={id} name={id} onChange={createImageString} data-testid="file-input" />
-          <span className="file-cta">
+        <label className="file-label" htmlFor={name}>
+          <input id="file-input" className="file-input" type="file" {...register(name)} data-testid="file-input" />
+          <button type="button" className="file-cta" onClick={() => document.getElementById('file-input').click()}>
             <span className="file-icon">
               <i className="fas fa-upload" />
             </span>
             <span className="file-label">
               {label}
             </span>
-          </span>
+          </button>
           <span className="file-name">
-            {file ? file.name : 'File should be .jpg or .png'}
+            {filename || 'File should be .jpg or .png'}
           </span>
         </label>
       </div>

@@ -7,10 +7,12 @@ import Input from '../../../components/form-elements/input';
 describe('Input', () => {
   it('should render', () => {
     const props = {
-      id: 'check',
+      name: 'check',
       label: 'Input Label',
-      onChangeEvent: jest.fn(),
-      isRequired: false,
+      register: (name) => ({
+        name,
+        onChange: jest.fn(),
+      }),
     };
 
     render(
@@ -23,11 +25,14 @@ describe('Input', () => {
 
   it('should call the onChangeEvent when clicked', async () => {
     const user = userEvent.setup();
+    const mockChange = jest.fn();
     const props = {
-      id: 'check',
+      name: 'check',
       label: 'Input Label',
-      onChangeEvent: jest.fn(),
-      isRequired: false,
+      register: (name) => ({
+        name,
+        onChange: mockChange,
+      }),
     };
 
     const value = 'test';
@@ -43,15 +48,19 @@ describe('Input', () => {
     expect(input).toHaveValue(value);
 
     await waitFor(() => {
-      expect(props.onChangeEvent.mock.calls.length).toBe(value.length);
+      expect(mockChange.mock.calls.length).toBe(value.length);
     });
   });
 
   it('should render an error message', () => {
     const props = {
-      id: 'check',
+      name: 'check',
       label: 'Input Label',
       error: 'This is wrong',
+      register: (name) => ({
+        name,
+        onChange: jest.fn(),
+      }),
     };
 
     render(
@@ -66,6 +75,10 @@ describe('Input', () => {
     const props = {
       id: 'check',
       label: 'Input Label',
+      register: (name) => ({
+        name,
+        onChange: jest.fn(),
+      }),
     };
 
     render(

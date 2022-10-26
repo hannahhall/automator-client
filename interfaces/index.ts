@@ -28,7 +28,7 @@ export interface ICohort {
   name: string;
 }
 
-export interface IUserForm {
+export type TUserForm = {
   email: string;
   username: string;
   password: string;
@@ -49,12 +49,12 @@ export interface IUserForm {
 export interface Tech {
   id?: number;
   text: string;
-  icon?: File | string;
+  icon?: File[] | File | string;
   square_icon?: string;
 }
 
-export interface Program {
+export type Program = {
   id?: number;
   name: string;
-  techs?: (number | Tech)[];
+  techs?: (string | Tech)[];
 }
