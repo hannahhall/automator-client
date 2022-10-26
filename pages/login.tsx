@@ -1,25 +1,20 @@
-import { FormEvent, ReactElement, useState } from 'react';
-
+import { ReactElement, useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../components/layout';
 import { useAuth } from '../hooks/useAuth';
-import { ApiError } from '../interfaces';
+import { ApiError, TUserForm } from '../interfaces';
 import AppForm from '../components/form-elements/app-form';
 import { Input } from '../components/form-elements';
 
 function Login(): ReactElement {
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const { login } = useAuth();
   const router = useRouter();
 
-  const handleSubmit = (
-    event: FormEvent<HTMLFormElement>,
+  const onSubmit = (
+    data,
   ): void => {
-    event.preventDefault();
-    setErrorMessage('');
-    login(username, password).then(() => {
+    login(data.username, data.password).then(() => {
       router.push('/');
     }).catch((error: ApiError) => {
       const { response } = error;
@@ -33,23 +28,25 @@ function Login(): ReactElement {
 
   return (
     <Layout title="Automator | Login">
-      <AppForm title="Login" onSubmit={handleSubmit} onCancel={handleCancel}>
-        <>
-          <Input
-            id="username"
-            label="Username"
-            onChangeEvent={(e) => setUsername(e.target.value)}
-            isRequired
-          />
+      <AppForm<TUserForm> title="Login" onSubmit={onSubmit} onCancel={handleCancel}>
+        {({ register }) => (
+          <>
+            <Input
+              name="username"
+              label="Username"
+              register={register}
+              isRequired
+            />
 
-          <Input
-            id="password"
-            type="password"
-            label="Password"
-            onChangeEvent={(e) => setPassword(e.target.value)}
-            isRequired
-          />
-        </>
+            <Input
+              name="password"
+              type="password"
+              label="Password"
+              register={register}
+              isRequired
+            />
+          </>
+        )}
       </AppForm>
       {errorMessage ? (
         <p className="text-red-400">

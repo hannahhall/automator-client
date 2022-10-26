@@ -66,27 +66,6 @@ describe('Create Program', () => {
     });
   });
 
-  it('should update the checkbox state', async () => {
-    const user = userEvent.setup();
-    render(
-      <AuthProvider>
-        <CreateProgram />
-      </AuthProvider>,
-    );
-
-    const techCheckbox = await screen.findByAltText('Python');
-    await user.click(techCheckbox);
-
-    expect(await screen.findByRole('form')).toHaveFormValues({
-      Python: true,
-    });
-
-    await user.click(techCheckbox);
-    expect(await screen.findByRole('form')).toHaveFormValues({
-      Python: false,
-    });
-  });
-
   it('should submit a new program', async () => {
     const user = userEvent.setup();
     const response = {
@@ -110,7 +89,7 @@ describe('Create Program', () => {
     const form = await screen.findByRole('form');
     form.submit();
     await waitFor(async () => {
-      expect(createProgram).toBeCalledWith({ name: 'Web Dev', techs: [1] }, accessToken);
+      expect(createProgram).toBeCalledWith({ name: 'Web Dev', techs: ['1'] }, accessToken);
       expect(pushMock).toBeCalledWith(`/programs/${response.data.id}`);
     });
   });
