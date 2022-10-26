@@ -47,9 +47,10 @@ function ProgramForm({
     <>
       <AppForm<Program> title={title} onSubmit={handleSubmit} onCancel={handleCancel}>
         {({ register, reset }) => {
-          if (initialData) {
+          useEffect(() => {
             reset(initialData);
-          }
+          }, [initialData, reset]);
+
           return (
             <>
               <Input

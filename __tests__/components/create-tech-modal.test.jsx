@@ -1,66 +1,74 @@
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import Router from 'next/router';
 
 import CreateTechModal from '../../components/techs/create-tech-modal';
+import { fetchNewToken } from '../../data/auth';
 import { createTech } from '../../data/tech';
-import { AuthContext } from '../../hooks/useAuth';
+import { AuthProvider } from '../../hooks/useAuth';
+import { mockDataRejection, mockDataSuccess, mockFetchToken } from '../mocks';
 
-const accessToken = 'Test1234';
+let mockShowModal;
+let mockCloseModal;
+let accessToken;
 
-const mockValue = {
-  getAccessToken: jest.fn(() => accessToken),
-};
-
-let mockShowModal; let
-  mockCloseModal;
+jest.spyOn(Router, 'useRouter').mockReturnValue({ push: jest.fn(), pathname: '/programs/create' });
 
 jest.mock('../../data/tech', () => ({
   createTech: jest.fn(),
 }));
 
+jest.mock('../../data/auth', () => ({
+  fetchNewToken: jest.fn(),
+  fetchUser: jest.fn().mockResolvedValue({}),
+}));
+
 describe('Create Tech Modal', () => {
   beforeEach(() => {
+    jest.clearAllMocks();
     mockShowModal = true;
     mockCloseModal = jest.fn();
+    accessToken = 'Test1234';
+    mockFetchToken(accessToken);
   });
-  it('renders', () => {
+
+  it('renders', async () => {
     render(
-      <AuthContext.Provider value={mockValue}>
+      <AuthProvider>
         <CreateTechModal showModal={mockShowModal} closeModal={mockCloseModal} />
-      </AuthContext.Provider>,
+      </AuthProvider>,
     );
-    const modalElement = screen.getByRole('alertdialog');
+    const modalElement = await screen.findByRole('alertdialog');
 
     expect(modalElement).toBeInTheDocument();
     expect(modalElement.classList).toContain('is-active');
   });
 
-  it('hides when not shown', () => {
+  it('hides when not shown', async () => {
     mockShowModal = false;
     render(
-      <AuthContext.Provider value={mockValue}>
+      <AuthProvider>
         <CreateTechModal showModal={mockShowModal} closeModal={mockCloseModal} />
-      </AuthContext.Provider>,
+      </AuthProvider>,
     );
-    const modalElement = screen.getByRole('alertdialog');
+    const modalElement = await screen.findByRole('alertdialog');
     expect(modalElement.classList).not.toContain('is-active');
   });
 
   it('submits a new tech', async () => {
     const user = userEvent.setup();
 
-    const response = {
-      data: {
-        id: 1,
-      },
+    const data = {
+      id: 1,
     };
-    createTech.mockResolvedValue(response);
+
+    mockDataSuccess(createTech, data);
 
     render(
-      <AuthContext.Provider value={mockValue}>
+      <AuthProvider>
         <CreateTechModal showModal={mockShowModal} closeModal={mockCloseModal} />
-      </AuthContext.Provider>,
+      </AuthProvider>,
     );
 
     const techName = 'Python';
@@ -85,19 +93,16 @@ describe('Create Tech Modal', () => {
     const textError = 'Too Long';
     const iconError = 'Wrong Format';
     const error = {
-      response: {
-        data: {
-          text: textError,
-          icon: iconError,
-        },
-      },
+      text: textError,
+      icon: iconError,
     };
-    createTech.mockRejectedValue(error);
+
+    mockDataRejection(createTech, error);
 
     render(
-      <AuthContext.Provider value={mockValue}>
+      <AuthProvider>
         <CreateTechModal showModal={mockShowModal} closeModal={mockCloseModal} />
-      </AuthContext.Provider>,
+      </AuthProvider>,
     );
     const techName = 'Python';
     const input = screen.getByLabelText('Tech Name');
