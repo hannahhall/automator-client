@@ -21,7 +21,7 @@ const defaultProps = {
 
 function Input<TInputField>({
   name, register, type, placeholder, label, addlClass, error, isRequired,
-}: InputProps<TInputField> & typeof defaultProps) {
+}: InputProps<TInputField>) {
   return (
     <div className={`field ${addlClass}`}>
       {label && <label className="label" htmlFor={name}>{label}</label>}

@@ -21,7 +21,7 @@ const defaultProps = {
 
 function Select<TInputField>({
   name, register, options, title, label, addlClass, error, isRequired,
-}: SelectProps<TInputField> & typeof defaultProps) {
+}: SelectProps<TInputField>) {
   return (
     <div className="field is-expanded">
       <label className="label" htmlFor={name}>{label}</label>

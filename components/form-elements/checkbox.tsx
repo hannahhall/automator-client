@@ -19,7 +19,7 @@ const defaultProps = {
 
 function Checkbox<TInputField>({
   name, register, label, onChangeEvent, addlClass, error, value,
-}: CheckboxProps<TInputField> & typeof defaultProps) {
+}: CheckboxProps<TInputField>) {
   return (
     <div className={`field ${addlClass}`}>
       <div className="control">
