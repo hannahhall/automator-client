@@ -1,12 +1,12 @@
 import {
-  ChangeEvent, FormEvent, useEffect, useState,
+  useEffect, useState,
 } from 'react';
 import { useRouter } from 'next/router';
 import {
   Checkbox, Input, Select, Textarea, FileInput,
 } from '../components/form-elements';
 import { fetchCohorts } from '../data/cohort';
-import { ICohort, IUserForm } from '../interfaces';
+import { ICohort, TUserForm } from '../interfaces';
 
 import Layout from '../components/layout';
 import AppForm from '../components/form-elements/app-form';
@@ -15,20 +15,18 @@ import { useAuth } from '../hooks/useAuth';
 
 function Register() {
   const [cohorts, setCohorts] = useState<ICohort[]>([]);
-  const [user, setUser] = useState<IUserForm>({
-    email: '',
-    username: '',
-    password: '',
-    is_staff: 0,
-  });
-  const [errors, setErrors] = useState<IUserForm>(null);
+  const [errors, setErrors] = useState<TUserForm>(null);
   const router = useRouter();
 
   const { setAccessToken, setRefreshToken } = useAuth();
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    registerUser(user).then((res) => {
+  const handleSubmit = (user: TUserForm) => {
+    const copy = {
+      ...user,
+      image: user.image[0],
+      is_staff: user.is_staff ? 1 : 0,
+    };
+    registerUser(copy).then((res) => {
       const { data } = res;
       setAccessToken(data.access);
       setRefreshToken(data.refresh);
@@ -43,161 +41,151 @@ function Register() {
     router.push('/login');
   };
 
-  const handleImage = (image: File) => {
-    user.image = image;
-    setUser(user);
-  };
-
   useEffect(() => {
     fetchCohorts().then((res) => {
       setCohorts(res.data);
     });
   }, []);
 
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { target } = e;
-    const copy = { ...user };
-    if (target.id === 'is_staff') {
-      copy[target.id] = target.checked ? 1 : 0;
-    } else {
-      copy[target.id] = target.value;
-    }
-    setUser(copy);
-  };
-
   return (
     <Layout title="Automator | Register">
-      <AppForm title="Register" onSubmit={handleSubmit} onCancel={handleCancel}>
-        <>
-          <Input
-            id="username"
-            label="Username"
-            onChangeEvent={handleOnChange}
-            error={errors?.username}
-            isRequired
-          />
+      <AppForm<TUserForm> title="Register" onSubmit={handleSubmit} onCancel={handleCancel}>
+        {({ register, watch }) => {
+          const { is_staff: isStaff, image } = watch();
+          return (
+            <>
+              <Input
+                register={register}
+                name="username"
+                label="Username"
+                error={errors?.username}
+                isRequired
+              />
 
-          <Input
-            id="email"
-            label="Email"
-            type="email"
-            onChangeEvent={handleOnChange}
-            error={errors?.email}
-            isRequired
-          />
+              <Input
+                register={register}
+                name="email"
+                label="Email"
+                type="email"
+                error={errors?.email}
+                isRequired
+              />
 
-          <Input
-            id="password"
-            type="password"
-            label="Password"
-            onChangeEvent={handleOnChange}
-            error={errors?.password}
-            isRequired
-          />
+              <Input
+                register={register}
+                name="password"
+                type="password"
+                label="Password"
+                error={errors?.password}
+                isRequired
+              />
 
-          <Input
-            id="first_name"
-            label="First Name"
-            onChangeEvent={handleOnChange}
-            error={errors?.first_name}
-            isRequired
-          />
+              <Input
+                register={register}
+                name="first_name"
+                label="First Name"
+                error={errors?.first_name}
+                isRequired
+              />
 
-          <Input
-            id="last_name"
-            label="Last Name"
-            onChangeEvent={handleOnChange}
-            error={errors?.last_name}
-            isRequired
-          />
-          <Checkbox
-            id="is_staff"
-            label="Register as Instructor?"
-            onChangeEvent={handleOnChange}
-          />
+              <Input
+                register={register}
+                name="last_name"
+                label="Last Name"
+                error={errors?.last_name}
+                isRequired
+              />
+              <Checkbox
+                register={register}
+                name="is_staff"
+                label="Register as Instructor?"
+              />
 
-          {
-            user.is_staff
-              ? (
-                <Input
-                  id="instructor_password"
-                  type="password"
-                  label="Add the password to register as an instructor"
-                  onChangeEvent={handleOnChange}
-                  error={errors?.instructor_password}
-                  isRequired
-                />
-              ) : (
-                <>
-                  <Select
-                    id="cohort"
-                    label="Select your Cohort"
-                    title="Cohort #"
-                    options={cohorts}
-                    onChangeEvent={handleOnChange}
-                    error={errors?.cohort}
-                    isRequired
-                  />
+              {
+                isStaff
+                  ? (
+                    <Input
+                      register={register}
+                      name="instructor_password"
+                      type="password"
+                      label="Add the password to register as an instructor"
+                      error={errors?.instructor_password}
+                      isRequired
+                    />
+                  ) : (
+                    <>
+                      <Select
+                        name="cohort"
+                        register={register}
+                        label="Select your Cohort"
+                        title="Cohort #"
+                        options={cohorts}
+                        error={errors?.cohort}
+                        isRequired
+                      />
 
-                  <Input
-                    id="github_handle"
-                    label="Github Username"
-                    onChangeEvent={handleOnChange}
-                    error={errors?.github_handle}
-                    isRequired
-                  />
+                      <Input
+                        register={register}
+                        name="github_handle"
+                        label="Github Username"
+                        error={errors?.github_handle}
+                        isRequired
+                      />
 
-                  <Input
-                    id="linkedin"
-                    label="Linkedin Username"
-                    onChangeEvent={handleOnChange}
-                    error={errors?.linkedin}
-                    isRequired={false}
-                  />
+                      <Input
+                        register={register}
+                        name="linkedin"
+                        label="Linkedin Username"
+                        error={errors?.linkedin}
+                        isRequired={false}
+                      />
 
-                  <Input
-                    id="resume_link"
-                    label="Resume Link"
-                    onChangeEvent={handleOnChange}
-                    error={errors?.resume_link}
-                    isRequired={false}
-                  />
+                      <Input
+                        register={register}
+                        name="resume_link"
+                        label="Resume Link"
+                        error={errors?.resume_link}
+                        isRequired={false}
+                      />
 
-                  <Input
-                    id="podcast_link"
-                    label="Podcast Link"
-                    onChangeEvent={handleOnChange}
-                    error={errors?.podcast_link}
-                    isRequired={false}
-                  />
+                      <Input
+                        register={register}
+                        name="podcast_link"
+                        label="Podcast Link"
+                        error={errors?.podcast_link}
+                        isRequired={false}
+                      />
 
-                  <Input
-                    id="favorite_quote"
-                    label="Favorite Quote"
-                    onChangeEvent={handleOnChange}
-                    error={errors?.favorite_quote}
-                    isRequired={false}
-                  />
+                      <Input
+                        register={register}
+                        name="favorite_quote"
+                        label="Favorite Quote"
+                        error={errors?.favorite_quote}
+                        isRequired={false}
+                      />
 
-                  <Textarea
-                    id="bio"
-                    label="Bio"
-                    placeholder="Write a short paragraph about yourself"
-                    onChangeEvent={handleOnChange}
-                    error={errors?.bio}
-                    isRequired={false}
-                  />
+                      <Textarea
+                        name="bio"
+                        register={register}
+                        label="Bio"
+                        placeholder="Write a short paragraph about yourself"
+                        error={errors?.bio}
+                        isRequired={false}
+                      />
 
-                  <FileInput
-                    id="image"
-                    label="Upload a profile image"
-                    onChangeEvent={handleImage}
-                    error={errors?.image as string}
-                  />
-                </>
-              )
-          }
-        </>
+                      <FileInput
+                        name="image"
+                        register={register}
+                        label="Upload a profile image"
+                        filename={image ? image[0]?.name : undefined}
+                        error={errors?.image as string}
+                      />
+                    </>
+                  )
+              }
+            </>
+          );
+        }}
       </AppForm>
     </Layout>
   );

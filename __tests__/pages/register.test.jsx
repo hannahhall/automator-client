@@ -26,15 +26,57 @@ jest.mock('../../data/cohort', () => ({
 const pushMock = jest.fn();
 jest.spyOn(Router, 'useRouter').mockReturnValue({ push: pushMock, pathname: '/register' });
 
+const fillOutForm = async (user, userValues) => {
+  const usernameInput = await screen.findByLabelText('Username');
+  await user.type(usernameInput, userValues.username);
+  expect(usernameInput).toHaveValue(userValues.username);
+
+  const passwordInput = screen.getByLabelText('Password');
+  await user.type(passwordInput, userValues.password);
+
+  const emailInput = screen.getByLabelText('Email');
+  await user.type(emailInput, userValues.email);
+
+  const firstNameInput = screen.getByLabelText('First Name');
+  await user.type(firstNameInput, userValues.first_name);
+
+  const lastNameInput = screen.getByLabelText('Last Name');
+  await user.type(lastNameInput, userValues.last_name);
+
+  const cohortInput = screen.getByLabelText('Select your Cohort');
+  await user.selectOptions(cohortInput, userValues.cohort);
+
+  const githubInput = screen.getByLabelText('Github Username');
+  await user.type(githubInput, userValues.github_handle);
+};
+
 Object.defineProperty(window, 'sessionStorage', {
   value: {
     setItem: jest.fn(),
   },
 });
 
+let userValues;
+
 describe('Register', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    userValues = {
+      username: 'test',
+      password: 'password',
+      email: 't@t.com',
+      first_name: 'Test',
+      last_name: 'Test',
+      is_staff: 0,
+      cohort: '1',
+      github_handle: 'github',
+      bio: '',
+      favorite_quote: '',
+      image: undefined,
+      linkedin: '',
+      podcast_link: '',
+      resume_link: '',
+    };
   });
 
   afterEach(cleanup);
@@ -86,55 +128,15 @@ describe('Register', () => {
       </AuthProvider>,
     );
 
-    await user.click(screen.getByText('Register as Instructor?'));
+    await user.click(screen.getByLabelText('Register as Instructor?'));
     expect(screen.getByRole('form')).toHaveFormValues({
-      username: '',
-      email: '',
-      password: '',
-      first_name: '',
-      last_name: '',
       is_staff: true,
-      instructor_password: '',
     });
+
+    expect(screen.queryByLabelText('Select your Cohort')).toBeNull();
   });
 
-  it('should update the form values', async () => {
-    const user = userEvent.setup();
-
-    render(
-      <AuthProvider>
-        <Register />
-      </AuthProvider>,
-    );
-
-    const userValues = {
-      username: 'test',
-    };
-    const usernameInput = screen.getByLabelText('Username');
-    await user.type(usernameInput, userValues.username);
-
-    expect(screen.getByRole('form')).toHaveFormValues(userValues);
-  });
-
-  it('should update the image value', async () => {
-    const user = userEvent.setup();
-
-    render(
-      <AuthProvider>
-        <Register />
-      </AuthProvider>,
-    );
-
-    const username = 'test';
-    const usernameInput = screen.getByLabelText('Username');
-    await user.type(usernameInput, username);
-
-    expect(await screen.findByRole('form')).toHaveFormValues({
-      username,
-    });
-  });
-
-  it('should navigate to the login page on click', async () => {
+  it('should navigate to the login page on cancel', async () => {
     const user = userEvent.setup();
 
     render(
@@ -164,29 +166,7 @@ describe('Register', () => {
       </AuthProvider>,
     );
 
-    const userValues = {
-      username: 'test',
-      password: 'password',
-      email: 't@t.com',
-      first_name: 'Test',
-      last_name: 'Test',
-      is_staff: 0,
-    };
-    const usernameInput = await screen.findByLabelText('Username');
-    await user.type(usernameInput, userValues.username);
-    expect(usernameInput).toHaveValue(userValues.username);
-
-    const passwordInput = screen.getByLabelText('Password');
-    await user.type(passwordInput, userValues.password);
-
-    const emailInput = screen.getByLabelText('Email');
-    await user.type(emailInput, userValues.email);
-
-    const firstNameInput = screen.getByLabelText('First Name');
-    await user.type(firstNameInput, userValues.first_name);
-
-    const lastNameInput = screen.getByLabelText('Last Name');
-    await user.type(lastNameInput, userValues.last_name);
+    await fillOutForm(user, userValues);
 
     const form = await screen.findByRole('form');
     form.submit();
@@ -208,12 +188,15 @@ describe('Register', () => {
     };
 
     registerUser.mockImplementation(() => Promise.reject(errorResponse));
+    const user = userEvent.setup();
 
     render(
       <AuthProvider>
         <Register />
       </AuthProvider>,
     );
+
+    await fillOutForm(user, userValues);
 
     const form = await screen.findByRole('form');
     form.submit();

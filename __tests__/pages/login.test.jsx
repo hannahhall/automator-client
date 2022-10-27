@@ -59,7 +59,7 @@ describe('Login', () => {
     await user.click(screen.getByText('Submit'));
 
     expect(pushMock).toBeCalledWith('/');
-    expect(screen.getByText('Logout')).toBeInTheDocument();
+    expect(await screen.findByText('Logout')).toBeInTheDocument();
   });
 
   it('should navigate to the register page on click', async () => {

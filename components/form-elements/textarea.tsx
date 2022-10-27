@@ -1,22 +1,31 @@
-interface TextareaProps {
-  id: string;
+import { Path, UseFormRegister } from 'react-hook-form';
+
+interface TextareaProps<TInputField> {
+  name: Path<TInputField>;
+  register: UseFormRegister<TInputField>;
   label: string;
   placeholder: string;
-  onChangeEvent: (event) => void;
   error?: string | undefined;
   isRequired: boolean;
 }
 
 const defaultProps = { error: undefined };
 
-function Textarea({
-  id, label, placeholder, onChangeEvent, error, isRequired,
-}: TextareaProps) {
+function Textarea<TInputField>({
+  name, register, label, placeholder, error, isRequired,
+}: TextareaProps<TInputField>) {
   return (
     <div className="field">
-      <label className="label" htmlFor={id}>{label}</label>
+      <label className="label" htmlFor={name}>{label}</label>
       <div className="control">
-        <textarea id={id} name={id} className="textarea" placeholder={placeholder} onChange={onChangeEvent} required={isRequired} />
+        <textarea
+          id={name}
+          className="textarea"
+          placeholder={placeholder}
+          {...register(name, {
+            required: isRequired,
+          })}
+        />
       </div>
       {
         error ? (

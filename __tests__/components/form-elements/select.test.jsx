@@ -7,10 +7,12 @@ import Select from '../../../components/form-elements/select';
 describe('Select', () => {
   it('should render', () => {
     const props = {
-      id: 'check',
+      name: 'check',
       label: 'Select Label',
-      onChangeEvent: jest.fn(),
-      isRequired: false,
+      register: (name) => ({
+        name,
+        onChange: jest.fn(),
+      }),
       options: [
         {
           id: 1,
@@ -29,11 +31,14 @@ describe('Select', () => {
 
   it('should call the onChangeEvent when clicked', async () => {
     const user = userEvent.setup();
+    const mockChange = jest.fn();
     const props = {
-      id: 'check',
+      name: 'check',
       label: 'Select Label',
-      onChangeEvent: jest.fn(),
-      isRequired: false,
+      register: (name) => ({
+        name,
+        onChange: mockChange,
+      }),
       options: [
         {
           id: 1,
@@ -53,16 +58,18 @@ describe('Select', () => {
     expect(screen.getByRole('option', { name: option }).selected).toBe(true);
 
     await waitFor(() => {
-      expect(props.onChangeEvent.mock.calls.length).toBe(1);
+      expect(mockChange.mock.calls.length).toBe(1);
     });
   });
 
   it('should render an error message', () => {
     const props = {
-      id: 'check',
+      name: 'check',
       label: 'Select Label',
-      onChangeEvent: jest.fn(),
-      isRequired: false,
+      register: (name) => ({
+        name,
+        onChange: jest.fn(),
+      }),
       options: [
         {
           id: 1,
@@ -84,8 +91,10 @@ describe('Select', () => {
     const props = {
       id: 'check',
       label: 'Select Label',
-      onChangeEvent: jest.fn(),
-      isRequired: false,
+      register: (name) => ({
+        name,
+        onChange: jest.fn(),
+      }),
       options: [
         {
           id: 1,
