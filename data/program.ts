@@ -2,8 +2,13 @@ import axios, { AxiosResponse } from 'axios';
 import makeUrl from '.';
 import { Program } from '../interfaces';
 
-export const fetchPrograms = (): Promise<AxiosResponse> => {
-  const url = makeUrl('/api/programs');
+export const fetchPrograms = (query: string = null): Promise<AxiosResponse> => {
+  let url: string;
+  if (query) {
+    url = makeUrl(`/api/programs?name=${query}`);
+  } else {
+    url = makeUrl('/api/programs');
+  }
   return axios.get(url);
 };
 

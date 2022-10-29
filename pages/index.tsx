@@ -1,15 +1,10 @@
-import Link from 'next/link';
 import Layout from '../components/layout';
+import ProgramList from '../components/programs/list';
 
 function IndexPage() {
   return (
-    <Layout title="Automator">
-      <h1>Hello Next.js 👋</h1>
-      <p>
-        <Link href="/Login">
-          Login
-        </Link>
-      </p>
+    <Layout title="Automator | Programs">
+      <ProgramList />
     </Layout>
   );
 }

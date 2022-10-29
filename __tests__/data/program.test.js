@@ -17,6 +17,13 @@ describe('Program Data', () => {
     expect(axios.get).toHaveBeenCalledWith(url);
   });
 
+  it('should make add a query to the get request when fetchPrograms is called', () => {
+    const query = 'test';
+    const url = `${API_BASE}/api/programs?name=${query}`;
+    fetchPrograms(query);
+    expect(axios.get).toHaveBeenCalledWith(url);
+  });
+
   it('should make a get request when fetchProgram is called', () => {
     const id = 1;
     const url = API_BASE + '/api/programs/' + id;
