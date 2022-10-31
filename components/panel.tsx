@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent } from 'react';
+import { ChangeEvent, MouseEvent, ReactNode } from 'react';
 
 interface PanelProps {
   color?: string;
@@ -6,11 +6,8 @@ interface PanelProps {
   filters?: string[];
   handleFilter?: (event: MouseEvent<HTMLInputElement>) => void | undefined;
   handleSearch?: (event: ChangeEvent<HTMLInputElement>) => void | undefined;
-  links: {
-    id: number,
-    href: string,
-    text: string
-  }[]
+  children: ReactNode;
+  placeholderText: string;
 }
 
 const defaultProps = {
@@ -21,7 +18,7 @@ const defaultProps = {
 };
 
 function Panel({
-  color, heading, filters, handleFilter, handleSearch, links,
+  color, heading, filters, handleFilter, handleSearch, children, placeholderText,
 }: PanelProps) {
   return (
     <article className={`panel ${color}`}>
@@ -46,19 +43,13 @@ function Panel({
       }
       <div className="panel-block">
         <p className="control has-icons-left">
-          <input className="input is-success" type="text" name="search" onChange={handleSearch} placeholder="Search" />
+          <input className="input is-success" type="text" name="search" onChange={handleSearch} placeholder={placeholderText} />
           <span className="icon is-left">
             <i className="fas fa-search" aria-hidden="true" />
           </span>
         </p>
       </div>
-      {
-        links.map((link) => (
-          <a href={link.href} key={link.id} className="panel-block">
-            {link.text}
-          </a>
-        ))
-      }
+      {children}
     </article>
   );
 }

@@ -34,7 +34,7 @@ describe('ProgramList', () => {
     render(<ProgramList />);
     fetchPrograms.mockClear();
 
-    const searchEl = await screen.findByPlaceholderText('Search');
+    const searchEl = await screen.findByPlaceholderText('Search Programs');
     const value = 'test';
     await user.type(searchEl, value);
 

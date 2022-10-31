@@ -5,7 +5,6 @@ import Panel from '../panel';
 
 function ProgramList() {
   const [programs, setPrograms] = useState<Program[]>([]);
-  const [links, setLinks] = useState([]);
   const [search, setSearch] = useState('');
 
   const getData = () => {
@@ -25,18 +24,20 @@ function ProgramList() {
     setSearch(event.target.value);
   };
 
-  useEffect(() => {
-    setLinks(programs.map(
-      (program) => ({
-        id: program.id,
-        href: `/programs/${program.id}`,
-        text: program.name,
-      }),
-    ));
-  }, [programs, setLinks]);
-
   return (
-    <Panel heading="Programs" links={links} handleSearch={handleSearch} />
+    <Panel heading="Programs" handleSearch={handleSearch} placeholderText="Search Programs">
+      {
+        programs.length
+          ? (
+            programs.map((program) => (
+              <a href={`/programs/${program.id}`} key={program.id} className="panel-block">
+                {program.name}
+              </a>
+            ))
+          )
+          : <div className="panel-block">No programs found</div>
+      }
+    </Panel>
   );
 }
 

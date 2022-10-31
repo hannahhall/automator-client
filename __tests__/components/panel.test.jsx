@@ -9,13 +9,7 @@ describe('Panel', () => {
   beforeEach(() => {
     props = {
       heading: 'Panel Heading',
-      links: [
-        {
-          id: 1,
-          href: '/programs/1',
-          text: 'Web Dev',
-        },
-      ],
+      placeholderText: 'Search',
     };
   });
   it('should render', () => {
@@ -55,5 +49,16 @@ describe('Panel', () => {
     await user.click(filterEl);
 
     expect(props.handleFilter).toBeCalled();
+  });
+
+  it('should show any children', () => {
+    const divText = 'Children Div';
+    props.children = <div>{divText}</div>;
+
+    render(
+      <Panel {...props} />,
+    );
+
+    expect(screen.getByText(divText)).toBeInTheDocument();
   });
 });

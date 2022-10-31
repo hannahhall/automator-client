@@ -1,4 +1,5 @@
 import { AxiosResponse, AxiosError } from 'axios';
+import { ReactNode } from 'react';
 
 export interface User {
   email: string;
@@ -24,8 +25,9 @@ export interface ApiError extends AxiosError {
 }
 
 export interface ICohort {
-  id: string;
+  id: number;
   name: string;
+  graduation_date?: string;
 }
 
 export type TUserForm = {
@@ -57,4 +59,16 @@ export type Program = {
   id?: number;
   name: string;
   techs?: (string | Tech)[];
+  cohorts?: ICohort[];
+}
+
+export interface TableRow {
+  key: string;
+  data: ReactNode[];
+}
+
+export interface TableProps {
+  headers: string[];
+  footers: string[];
+  rows: TableRow[];
 }

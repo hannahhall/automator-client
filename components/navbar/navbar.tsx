@@ -1,5 +1,6 @@
 import { useAuth } from '../../hooks/useAuth';
 import AuthorizedNav from './authorized-nav';
+import NavbarLink from './navbarLink';
 import UnauthorizedNav from './unauthorized-nav';
 
 function Navbar() {
@@ -7,7 +8,7 @@ function Navbar() {
   return (
     <nav className="navbar is-black is-fixed-top" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
-        <h1 className="navbar-item title m-0">Automator</h1>
+        <NavbarLink href="/" className="navbar-item title m-0">Automator</NavbarLink>
 
         <div role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarLinks">
           <span aria-hidden="true" />

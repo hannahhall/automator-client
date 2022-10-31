@@ -30,7 +30,7 @@ jest.spyOn(Router, 'useRouter').mockReturnValue({ push: pushMock, pathname: '/pr
 let program;
 let accessToken;
 let techs;
-describe('Create Program', () => {
+describe('Edit Program', () => {
   beforeEach(() => {
     techs = [{ id: 1, text: 'Python', square_icon: 'http://google.com' }];
     program = {
