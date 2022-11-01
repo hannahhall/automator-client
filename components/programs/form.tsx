@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { fetchTechs } from '../../data/tech';
 import { Program, Tech } from '../../interfaces';
 import { AppForm, Input, Checkbox } from '../form-elements';
-import CreateTechModal from '../techs/create-tech-modal';
+import TechModalForm from '../techs/tech-modal-form';
 import TechIcon from '../techs/icon';
 
 interface ProgramFormProps {
@@ -79,7 +79,7 @@ function ProgramForm({
         }}
       </AppForm>
       {
-        showModal ? <CreateTechModal showModal={showModal} closeModal={closeModal} /> : null
+        showModal ? <TechModalForm showModal={showModal} closeModal={closeModal} /> : null
       }
     </>
   );

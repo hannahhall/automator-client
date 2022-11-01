@@ -16,3 +16,13 @@ export const createTech = (tech: Tech, token: string): Promise<AxiosResponse> =>
     },
   });
 };
+
+export const updateTech = (id: number, tech: Tech, token: string): Promise<AxiosResponse> => {
+  const url = makeUrl(`/api/techs/${id}`);
+  return axios.put(url, tech, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};

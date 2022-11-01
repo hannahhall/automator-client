@@ -15,7 +15,7 @@ function ProgramDetail() {
   const [cohorts, setCohorts] = useState<ICohort[]>([]);
   const [techs, setTechs] = useState<Tech[]>([]);
 
-  useEffect(() => {
+  const getData = () => {
     const { id } = router.query;
     if (id) {
       fetchProgram(id as string).then((res) => {
@@ -25,6 +25,10 @@ function ProgramDetail() {
         setCohorts(data.cohorts);
       });
     }
+  };
+
+  useEffect(() => {
+    getData();
   }, [router.query]);
 
   const searchTechs = (event: ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +74,7 @@ function ProgramDetail() {
           program?.techs
             ? (
               <div className="column">
-                <TechList techs={techs} search={searchTechs} />
+                <TechList techs={techs} search={searchTechs} refresh={getData} />
               </div>
             ) : null
         }

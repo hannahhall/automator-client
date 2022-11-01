@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Router from 'next/router';
 
-import CreateTechModal from '../../components/techs/create-tech-modal';
+import TechModalForm from '../../components/techs/create-tech-modal';
 import { fetchNewToken } from '../../data/auth';
 import { createTech } from '../../data/tech';
 import { AuthProvider } from '../../hooks/useAuth';
@@ -36,7 +36,7 @@ describe('Create Tech Modal', () => {
   it('renders', async () => {
     render(
       <AuthProvider>
-        <CreateTechModal showModal={mockShowModal} closeModal={mockCloseModal} />
+        <TechModalForm showModal={mockShowModal} closeModal={mockCloseModal} />
       </AuthProvider>,
     );
     const modalElement = await screen.findByRole('alertdialog');
@@ -49,7 +49,7 @@ describe('Create Tech Modal', () => {
     mockShowModal = false;
     render(
       <AuthProvider>
-        <CreateTechModal showModal={mockShowModal} closeModal={mockCloseModal} />
+        <TechModalForm showModal={mockShowModal} closeModal={mockCloseModal} />
       </AuthProvider>,
     );
     const modalElement = await screen.findByRole('alertdialog');
@@ -67,7 +67,7 @@ describe('Create Tech Modal', () => {
 
     render(
       <AuthProvider>
-        <CreateTechModal showModal={mockShowModal} closeModal={mockCloseModal} />
+        <TechModalForm showModal={mockShowModal} closeModal={mockCloseModal} />
       </AuthProvider>,
     );
 
@@ -101,7 +101,7 @@ describe('Create Tech Modal', () => {
 
     render(
       <AuthProvider>
-        <CreateTechModal showModal={mockShowModal} closeModal={mockCloseModal} />
+        <TechModalForm showModal={mockShowModal} closeModal={mockCloseModal} />
       </AuthProvider>,
     );
     const techName = 'Python';
