@@ -33,22 +33,21 @@ function TechModalForm({ showModal, closeModal, initialData }: TechModalFormProp
     }
   }, [initialData, reset]);
 
+  const showErrors = (err) => {
+    const { response } = err;
+    setErrors(response.data);
+  };
+
   const saveTech = (tech: Tech) => {
     const copy = { ...tech, icon: tech.icon[0] };
     if (initialData) {
       updateTech(initialData.id, copy, getAccessToken()).then(() => {
         closeModal();
-      }).catch((err) => {
-        const { response } = err;
-        setErrors(response.data);
-      });
+      }).catch(showErrors);
     } else {
       createTech(copy, getAccessToken()).then(() => {
         reset();
-      }).catch((err) => {
-        const { response } = err;
-        setErrors(response.data);
-      });
+      }).catch(showErrors);
     }
   };
 
@@ -75,9 +74,8 @@ function TechModalForm({ showModal, closeModal, initialData }: TechModalFormProp
               filename={icon ? icon[0]?.name : undefined}
               error={errors?.icon as string}
             />
-
             {
-              initialData.square_icon ? (
+              initialData?.square_icon ? (
                 <>
                   <TechIcon src={initialData.square_icon} text={initialData.text} />
                   <p className="help is-danger">This will edit across all programs using this tech</p>
