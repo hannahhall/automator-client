@@ -116,7 +116,7 @@ describe('Create Tech Modal', () => {
     });
   });
 
-  it('fills in initial data', () => {
+  it('fills in initial data', async () => {
     const initialData = {
       id: 1,
       text: 'Python',
@@ -132,7 +132,7 @@ describe('Create Tech Modal', () => {
       </AuthProvider>,
     );
 
-    const input = screen.getByLabelText('Tech Name');
+    const input = await screen.findByLabelText('Tech Name');
     expect(input.value).toBe(initialData.text);
 
     expect(screen.getByText(`Edit ${initialData.text}`)).toBeInTheDocument();
