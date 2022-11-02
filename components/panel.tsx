@@ -1,4 +1,5 @@
 import { ChangeEvent, MouseEvent, ReactNode } from 'react';
+import NavbarLink from './navbar/navbarLink';
 
 interface PanelProps {
   color?: string;
@@ -7,7 +8,8 @@ interface PanelProps {
   handleFilter?: (event: MouseEvent<HTMLInputElement>) => void | undefined;
   handleSearch?: (event: ChangeEvent<HTMLInputElement>) => void | undefined;
   children: ReactNode;
-  placeholderText: string;
+  placeholderText?: string | undefined;
+  editLink?: string | undefined;
 }
 
 const defaultProps = {
@@ -15,15 +17,23 @@ const defaultProps = {
   handleSearch: undefined,
   handleFilter: undefined,
   filters: [],
+  editLink: undefined,
+  placeholderText: undefined,
 };
 
 function Panel({
-  color, heading, filters, handleFilter, handleSearch, children, placeholderText,
+  color, heading, filters, handleFilter, handleSearch, children, placeholderText, editLink,
 }: PanelProps) {
   return (
     <article className={`panel ${color}`}>
-      <p className="panel-heading">
+      <p className="panel-heading is-flex is-justify-content-space-between is-align-items-center">
         {heading}
+        {
+          editLink
+            ? (
+              <NavbarLink className="button" href={editLink}>Edit</NavbarLink>
+            ) : null
+        }
       </p>
       {
         filters.length ? (
@@ -41,14 +51,19 @@ function Panel({
           </p>
         ) : null
       }
-      <div className="panel-block">
-        <p className="control has-icons-left">
-          <input className="input is-success" type="text" name="search" onChange={handleSearch} placeholder={placeholderText} />
-          <span className="icon is-left">
-            <i className="fas fa-search" aria-hidden="true" />
-          </span>
-        </p>
-      </div>
+      {
+        handleSearch
+          ? (
+            <div className="panel-block">
+              <p className="control has-icons-left">
+                <input className="input is-success" type="text" name="search" onChange={handleSearch} placeholder={placeholderText} />
+                <span className="icon is-left">
+                  <i className="fas fa-search" aria-hidden="true" />
+                </span>
+              </p>
+            </div>
+          ) : null
+      }
       {children}
     </article>
   );

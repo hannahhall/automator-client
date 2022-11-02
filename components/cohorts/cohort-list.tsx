@@ -5,11 +5,10 @@ import Table from '../table';
 
 interface CohortListProps {
   cohorts: ICohort[];
-  title: string;
   search: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-function CohortList({ cohorts, title, search }: CohortListProps) {
+function CohortList({ cohorts, search }: CohortListProps) {
   const [cohortTable, setCohortTable] = useState<TableProps>({
     headers: [],
     footers: [],
@@ -36,7 +35,7 @@ function CohortList({ cohorts, title, search }: CohortListProps) {
   }, [cohorts]);
 
   return (
-    <Panel heading={title} color="is-danger" handleSearch={search} placeholderText="Search Cohorts">
+    <Panel heading="Cohorts" color="is-danger" handleSearch={search} placeholderText="Search Cohorts">
       <div className="panel-block">
         {
           cohortTable?.rows.length

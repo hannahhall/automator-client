@@ -3,8 +3,11 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import CohortList from '../../../components/cohorts/cohort-list';
 import Layout from '../../../components/layout';
+import Panel from '../../../components/panel';
+
 import TechList from '../../../components/techs/tech-list';
-import { fetchProgram } from '../../../data/program';
+import { fetchProgram, deleteTechFromProgram } from '../../../data/program';
+import { useAuth } from '../../../hooks/useAuth';
 import {
   ICohort, Program, Tech,
 } from '../../../interfaces';
@@ -14,6 +17,8 @@ function ProgramDetail() {
   const [program, setProgram] = useState<Program>(null);
   const [cohorts, setCohorts] = useState<ICohort[]>([]);
   const [techs, setTechs] = useState<Tech[]>([]);
+
+  const { getAccessToken } = useAuth();
 
   const getData = () => {
     const { id } = router.query;
@@ -59,26 +64,41 @@ function ProgramDetail() {
     setCohorts(filteredCohorts);
   };
 
+  const removeTech = (tech: Tech) => {
+    deleteTechFromProgram(program.id, tech.id, getAccessToken()).then(() => {
+      getData();
+    });
+  };
+
   return (
     <Layout title={program?.name}>
-      <div className="columns">
-        {
-          program?.cohorts
-            ? (
-              <div className="column">
-                <CohortList title={program.name} cohorts={cohorts} search={searchCohorts} />
-              </div>
-            ) : null
-        }
-        {
-          program?.techs
-            ? (
-              <div className="column">
-                <TechList techs={techs} search={searchTechs} refresh={getData} />
-              </div>
-            ) : null
-        }
-      </div>
+      <Panel heading={program?.name} editLink={`/programs/${program?.id}/edit`}>
+        <section className="section">
+          <div className="columns">
+            {
+              program?.cohorts
+                ? (
+                  <div className="column">
+                    <CohortList cohorts={cohorts} search={searchCohorts} />
+                  </div>
+                ) : null
+            }
+            {
+              program?.techs
+                ? (
+                  <div className="column">
+                    <TechList
+                      techs={techs}
+                      search={searchTechs}
+                      refresh={getData}
+                      handleRemoveTech={removeTech}
+                    />
+                  </div>
+                ) : null
+            }
+          </div>
+        </section>
+      </Panel>
     </Layout>
   );
 }

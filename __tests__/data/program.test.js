@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import axios from 'axios';
 
-import { fetchPrograms, createProgram, updateProgram, fetchProgram } from '../../data/program';
+import { fetchPrograms, createProgram, updateProgram, fetchProgram, deleteTechFromProgram } from '../../data/program';
 const API_BASE = 'http://localhost:8000';
 
 jest.mock('axios');
@@ -56,6 +56,17 @@ describe('Program Data', () => {
     expect(axios.put).toHaveBeenCalledWith(
       url,
       data,
+      { 'headers': { 'Authorization': `Bearer ${token}` } }
+    );
+  });
+  it('should make a delete request when deleteTechFromProgram is called', () => {
+    const programId = 1;
+    const techId = 3
+    const url = `${API_BASE}/api/programs/${programId}/techs/${techId}`;
+    const token = 'test1234';
+    deleteTechFromProgram(programId, techId, token);
+    expect(axios.delete).toHaveBeenCalledWith(
+      url,
       { 'headers': { 'Authorization': `Bearer ${token}` } }
     );
   });

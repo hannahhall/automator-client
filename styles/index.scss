@@ -32,3 +32,8 @@ body {
 .is-full-height {
     min-height: calc(100vh - 15rem);
 }
+
+.table td,
+.table th {
+    vertical-align: middle;
+}

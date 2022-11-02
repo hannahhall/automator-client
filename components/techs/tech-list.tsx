@@ -4,14 +4,18 @@ import Panel from '../panel';
 import Table from '../table';
 import TechModalForm from './tech-modal-form';
 import TechIcon from './icon';
+import DeleteModal from '../delete-modal';
 
 interface TechListProps {
   techs: Tech[];
   search: (event: ChangeEvent<HTMLInputElement>) => void;
   refresh: () => void;
+  handleRemoveTech: (tech: Tech) => void;
 }
 
-function TechList({ techs, search, refresh }: TechListProps) {
+function TechList({
+  techs, search, refresh, handleRemoveTech,
+}: TechListProps) {
   const [techTable, setTechTable] = useState<TableProps>({
     headers: [],
     footers: [],
@@ -19,17 +23,24 @@ function TechList({ techs, search, refresh }: TechListProps) {
   });
 
   const [techToEdit, setTechToEdit] = useState<Tech>(null);
-  const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleEditOpen = (tech: Tech) => {
     setTechToEdit(tech);
-    setShowModal(true);
+    setShowEditModal(true);
   };
 
   const handleCloseModal = () => {
-    setShowModal(false);
+    setShowEditModal(false);
+    setShowDeleteModal(false);
     setTechToEdit(null);
     refresh();
+  };
+
+  const handleDeleteOpen = (tech: Tech) => {
+    setShowDeleteModal(true);
+    setTechToEdit(tech);
   };
 
   const buildRows = (data: Tech[]) => data.map((tech: Tech) => ({
@@ -37,7 +48,30 @@ function TechList({ techs, search, refresh }: TechListProps) {
     data: [
       tech.text,
       <TechIcon src={tech.square_icon} text={tech.text} />,
-      <button type="button" onClick={() => handleEditOpen(tech)}>Edit</button>,
+      (
+        <div className="buttons">
+          <button
+            type="button"
+            className="button is-ghost"
+            onClick={() => handleEditOpen(tech)}
+            data-testid={`edit-${tech.id}`}
+          >
+            <span className="icon is-medium has-text-info">
+              <i className="fas fa-lg fa-edit" />
+            </span>
+          </button>
+          <button
+            type="button"
+            className="button is-ghost"
+            onClick={() => handleDeleteOpen(tech)}
+            data-testid={`delete-${tech.id}`}
+          >
+            <span className="icon is-medium has-text-danger">
+              <i className="fas fa-lg fa-trash" />
+            </span>
+          </button>
+        </div>
+      ),
     ],
   }));
 
@@ -68,11 +102,25 @@ function TechList({ techs, search, refresh }: TechListProps) {
         }
       </div>
       {
-        showModal ? (
+        showEditModal ? (
           <TechModalForm
-            showModal={showModal}
+            showModal={showEditModal}
             closeModal={handleCloseModal}
             initialData={techToEdit}
+          />
+        ) : null
+      }
+      {
+        showDeleteModal ? (
+          <DeleteModal
+            isActive={showDeleteModal}
+            handleCancel={handleCloseModal}
+            name={techToEdit?.text}
+            handleSubmit={() => {
+              handleRemoveTech(techToEdit);
+              setShowDeleteModal(false);
+              setTechToEdit(null);
+            }}
           />
         ) : null
       }

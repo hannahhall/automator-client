@@ -42,12 +42,46 @@ describe('TechList', () => {
       <TechList {...props} />,
     );
 
-    await user.click(screen.getAllByText('Edit')[0]);
+    await user.click(screen.getByTestId(`edit-${techs[0].id}`));
     expect(screen.getByText(`Edit ${techs[0].text}`)).toBeInTheDocument();
 
     await user.click(screen.getByLabelText('close'));
 
     expect(screen.queryByText(`Edit ${techs[0].text}`)).toBeNull();
     expect(props.refresh).toBeCalled();
+  });
+
+  it('should open/close the delete tech modal', async () => {
+    props.refresh = jest.fn();
+    const user = userEvent.setup();
+    render(
+      <TechList {...props} />,
+    );
+
+    await user.click(screen.getByTestId(`delete-${techs[0].id}`));
+    expect(screen.getByText(`Delete ${techs[0].text}?`)).toBeInTheDocument();
+
+    await user.click(screen.getByLabelText('close'));
+
+    expect(screen.queryByText(`Delete ${techs[0].text}?`)).toBeNull();
+    expect(props.refresh).toBeCalled();
+  });
+
+  it('should delete a tech', async () => {
+    props.handleRemoveTech = jest.fn();
+
+    const user = userEvent.setup();
+    render(
+      <TechList {...props} />,
+    );
+
+    await user.click(screen.getByTestId(`delete-${techs[0].id}`));
+    expect(screen.getByText(`Delete ${techs[0].text}?`)).toBeInTheDocument();
+
+    await user.click(screen.getByText(`Delete ${techs[0].text}`));
+
+    expect(props.handleRemoveTech).toBeCalledWith(techs[0]);
+
+    expect(screen.queryByText(`Delete ${techs[0].text}?`)).toBeNull();
   });
 });

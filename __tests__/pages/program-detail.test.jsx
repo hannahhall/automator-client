@@ -10,7 +10,7 @@ import {
   mockDataSuccess,
   mockFetchToken,
 } from '../mocks';
-import { fetchProgram } from '../../data/program';
+import { fetchProgram, deleteTechFromProgram } from '../../data/program';
 
 jest.mock('../../data/tech', () => ({
   fetchTechs: jest.fn(),
@@ -21,6 +21,7 @@ jest.mock('../../data/auth', () => ({
 }));
 jest.mock('../../data/program', () => ({
   fetchProgram: jest.fn(),
+  deleteTechFromProgram: jest.fn(),
 }));
 const pushMock = jest.fn();
 jest.spyOn(Router, 'useRouter').mockReturnValue({ push: pushMock, pathname: '/programs/1', query: { id: 1 } });
@@ -100,5 +101,19 @@ describe('Program Detail', () => {
     expect(await screen.findByText(techs[1].text)).toBeInTheDocument();
   });
 
+  it('should delete a tech', async () => {
+    const user = userEvent.setup();
+    mockDataSuccess(deleteTechFromProgram, {});
+    render(
+      <AuthProvider>
+        <ProgramDetail />
+      </AuthProvider>,
+    );
 
+    const tech = techs[0];
+
+    await user.click(await screen.findByTestId(`delete-${tech.id}`));
+    await user.click(screen.getByText(`Delete ${tech.text}`));
+    expect(deleteTechFromProgram).toBeCalledWith(program.id, tech.id, accessToken);
+  });
 });

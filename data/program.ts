@@ -34,3 +34,16 @@ export const updateProgram = (program: Program, token: string): Promise<AxiosRes
     },
   });
 };
+
+export const deleteTechFromProgram = (
+  programId: number,
+  techId: number,
+  token: string,
+): Promise<AxiosResponse> => {
+  const url = makeUrl(`/api/programs/${programId}/techs/${techId}`);
+  return axios.delete(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
