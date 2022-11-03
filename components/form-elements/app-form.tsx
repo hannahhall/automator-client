@@ -9,7 +9,7 @@ interface AppFormProps<TFormValues> {
   onCancel: () => void;
 }
 
-type Values = string | number | (string | Tech | ICohort)[] | boolean | File
+type Values = string | number | (string | Tech | ICohort | number)[] | boolean | File
 
 function AppForm<TFormValues extends Record<string, Values>>({
   children, title, onSubmit, onCancel,

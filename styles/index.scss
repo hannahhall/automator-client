@@ -37,3 +37,18 @@ body {
 .table th {
     vertical-align: middle;
 }
+
+.multiselect-container {
+    .chip {
+        background: $warning;
+    }
+
+    .searchWrapper {
+        border: none;
+        padding: 0;
+    }
+
+    #search_input {
+        @extend .input
+    }
+}

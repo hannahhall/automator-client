@@ -83,13 +83,15 @@ describe('Create Program', () => {
     const programNameInput = await screen.findByLabelText('Program Name');
     await user.type(programNameInput, 'Web Dev');
 
-    const techCheckbox = await screen.findByAltText('Python');
-    await user.click(techCheckbox);
+    const multiSelect = await screen.findByPlaceholderText('Search Techs');
+    await user.click(multiSelect);
+
+    await user.click(await screen.findByText('Python'));
 
     const form = await screen.findByRole('form');
     form.submit();
     await waitFor(async () => {
-      expect(createProgram).toBeCalledWith({ name: 'Web Dev', techs: ['1'] }, accessToken);
+      expect(createProgram).toBeCalledWith({ name: 'Web Dev', techs: [1] }, accessToken);
       expect(pushMock).toBeCalledWith(`/programs/${response.data.id}`);
     });
   });

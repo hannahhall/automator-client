@@ -18,17 +18,13 @@ function EditProgram() {
     if (id) {
       fetchProgram(id as string).then((res) => {
         const { data } = res;
-        setInitialData({
-          id: data.id,
-          name: data.name,
-          techs: data.techs.map((t: Tech) => t.id),
-        });
+        setInitialData(data);
       });
     }
   }, [router.query, setInitialData]);
 
   const handleProgramUpdate = (program: Program) => {
-    const copy = { ...program, techs: program.techs.filter((t) => t) };
+    const copy = { ...program, techs: program.techs.map((t: Tech) => t.id) };
     updateProgram(copy, getAccessToken()).then(() => {
       router.push(`/programs/${program.id}`);
     });

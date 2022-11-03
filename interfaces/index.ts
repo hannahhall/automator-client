@@ -58,7 +58,7 @@ export interface Tech {
 export type Program = {
   id?: number;
   name: string;
-  techs?: (string | Tech)[];
+  techs?: (number | Tech)[];
   cohorts?: ICohort[];
 }
 

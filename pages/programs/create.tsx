@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import Layout from '../../components/layout';
 import { createProgram } from '../../data/program';
 import { useAuth } from '../../hooks/useAuth';
-import { Program } from '../../interfaces';
+import { Program, Tech } from '../../interfaces';
 import ProductForm from '../../components/programs/form';
 
 function CreateProgram() {
@@ -10,7 +10,7 @@ function CreateProgram() {
   const { getAccessToken } = useAuth();
 
   const handleProgramSubmit = (program: Program) => {
-    const copy = { ...program, techs: program.techs.filter((t) => t) };
+    const copy = { ...program, techs: program.techs.map((t: Tech) => t.id) };
     createProgram(copy, getAccessToken()).then((response) => {
       const { data } = response;
       router.push(`/programs/${data.id}`);
