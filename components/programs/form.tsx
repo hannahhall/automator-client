@@ -5,6 +5,7 @@ import { fetchTechs } from '../../data/tech';
 import { Program, Tech } from '../../interfaces';
 import { AppForm, Input } from '../form-elements';
 import TechModalForm from '../techs/tech-modal-form';
+import TechMultiSelect from '../techs/tech-multiselect';
 
 interface ProgramFormProps {
   title: string;
@@ -61,29 +62,8 @@ function ProgramForm({
                 isRequired
               />
 
-              <div className="field">
+              <TechMultiSelect control={control} availableTechs={availableTechs} />
 
-                <Controller
-                  control={control}
-                  name="techs"
-                  render={({ field: { value, onChange } }) => (
-                    <>
-                      <p className="label">Choose existing techs</p>
-                      <Multiselect
-                        options={availableTechs}
-                        placeholder="Search Techs"
-                        displayValue="text"
-                        closeOnSelect={false}
-                        onSelect={onChange}
-                        onRemove={onChange}
-                        selectedValues={value}
-                        avoidHighlightFirstOption
-                        isObject
-                      />
-                    </>
-                  )}
-                />
-              </div>
               <div className="field">
                 <button className="button is-info" type="button" onClick={openModal}>Add a new Tech</button>
               </div>
