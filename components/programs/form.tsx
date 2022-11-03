@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Controller } from 'react-hook-form';
-import Multiselect from 'multiselect-react-dropdown';
 import { fetchTechs } from '../../data/tech';
 import { Program, Tech } from '../../interfaces';
 import { AppForm, Input } from '../form-elements';
