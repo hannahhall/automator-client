@@ -3,9 +3,8 @@ import { Controller } from 'react-hook-form';
 import Multiselect from 'multiselect-react-dropdown';
 import { fetchTechs } from '../../data/tech';
 import { Program, Tech } from '../../interfaces';
-import { AppForm, Input, Checkbox } from '../form-elements';
+import { AppForm, Input } from '../form-elements';
 import TechModalForm from '../techs/tech-modal-form';
-import TechIcon from '../techs/icon';
 
 interface ProgramFormProps {
   title: string;
