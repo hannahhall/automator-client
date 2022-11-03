@@ -8,4 +8,5 @@ module.exports = {
   images: {
     domains: ['bulma.io', 'res.cloudinary.com'],
   },
+  optimizeFonts: false,
 };
