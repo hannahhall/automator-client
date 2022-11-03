@@ -4,7 +4,7 @@ interface SelectProps<TInputField> {
   name: Path<TInputField>;
   register: UseFormRegister<TInputField>;
   options: {
-    id: string;
+    id: number;
     name: string;
   }[]
   title: string;

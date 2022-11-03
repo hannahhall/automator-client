@@ -38,7 +38,7 @@ export type TUserForm = {
   instructor_password?: string;
   first_name?: string;
   last_name?: string;
-  cohort?: number;
+  cohort?: number | string;
   image?: File | string;
   bio?: string;
   favorite_quote?: string;

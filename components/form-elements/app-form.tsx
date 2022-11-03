@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
-import { Tech } from '../../interfaces';
+import { ICohort, Tech } from '../../interfaces';
 
 interface AppFormProps<TFormValues> {
   onSubmit: SubmitHandler<TFormValues>;
@@ -9,7 +9,7 @@ interface AppFormProps<TFormValues> {
   onCancel: () => void;
 }
 
-type Values = string | number | (string | Tech)[] | boolean | File
+type Values = string | number | (string | Tech | ICohort)[] | boolean | File
 
 function AppForm<TFormValues extends Record<string, Values>>({
   children, title, onSubmit, onCancel,

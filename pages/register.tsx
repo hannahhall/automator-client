@@ -120,7 +120,7 @@ function Register() {
                         label="Select your Cohort"
                         title="Cohort #"
                         options={cohorts}
-                        error={errors?.cohort}
+                        error={errors?.cohort as string}
                         isRequired
                       />
 
