@@ -24,7 +24,7 @@ function Select<TInputField>({
 }: SelectProps<TInputField>) {
   return (
     <div className="field is-expanded">
-      <label className="label" htmlFor={name}>{label}</label>
+      <label className={`label ${isRequired ? 'has-text-weight-bold' : 'has-text-weight-normal'}`} htmlFor={name}>{label}</label>
       <div className={`select ${addlClass} is-fullwidth`}>
         <select
           id={name}

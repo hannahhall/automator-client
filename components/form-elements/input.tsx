@@ -24,7 +24,11 @@ function Input<TInputField>({
 }: InputProps<TInputField>) {
   return (
     <div className={`field ${addlClass}`}>
-      {label && <label className="label" htmlFor={name}>{label}</label>}
+      {label && (
+        <label className={`label ${isRequired ? 'has-text-weight-bold' : 'has-text-weight-normal'}`} htmlFor={name}>
+          {label}
+        </label>
+      )}
       <div className="control is-expanded">
         <input
           id={name}

@@ -16,7 +16,7 @@ function Textarea<TInputField>({
 }: TextareaProps<TInputField>) {
   return (
     <div className="field">
-      <label className="label" htmlFor={name}>{label}</label>
+      <label className={`label ${isRequired ? 'has-text-weight-bold' : 'has-text-weight-normal'}`} htmlFor={name}>{label}</label>
       <div className="control">
         <textarea
           id={name}
