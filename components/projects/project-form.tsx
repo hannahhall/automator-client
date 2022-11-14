@@ -19,19 +19,11 @@ const defaultProps = {
 function ProjectForm({
   title, initialData, handleSubmit, handleCancel, errors, setErrors,
 }: ProjectFormProps) {
-  const onError: SubmitErrorHandler<Project> = (formErrors) => {
-    const errorMessages = {};
-    Object.entries(formErrors).forEach(([field, error]) => {
-      errorMessages[field] = error.message;
-    });
-    setErrors(errorMessages as Project);
-  };
-
   return (
     <AppForm<Project>
       title={title}
       onSubmit={handleSubmit}
-      onError={onError}
+      setErrors={setErrors}
       onCancel={handleCancel}
     >
       {({ register, reset, watch }) => {

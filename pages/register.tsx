@@ -2,6 +2,7 @@ import {
   useEffect, useState,
 } from 'react';
 import { useRouter } from 'next/router';
+import { SubmitErrorHandler } from 'react-hook-form';
 import {
   Checkbox, Input, Select, Textarea, FileInput,
 } from '../components/form-elements';
@@ -49,7 +50,12 @@ function Register() {
 
   return (
     <Layout title="Automator | Register">
-      <AppForm<TUserForm> title="Register" onSubmit={handleSubmit} onCancel={handleCancel}>
+      <AppForm<TUserForm>
+        title="Register"
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+        setErrors={setErrors}
+      >
         {({ register, watch }) => {
           const { is_staff: isStaff, image } = watch();
           return (

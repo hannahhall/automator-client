@@ -21,22 +21,4 @@ describe('ProjectForm', () => {
     const projectFormTitle = screen.getByText(props.title);
     expect(projectFormTitle).toBeInTheDocument();
   });
-
-  it('should set errors', async () => {
-    const requiredText = 'This field is required';
-    render(
-      <ProjectForm {...props} />,
-    );
-    props.setErrors.mockClear();
-
-    const form = screen.getByRole('form');
-    await form.submit();
-    await waitFor(() => {
-      expect(props.setErrors).toBeCalledWith({
-        github_url: requiredText,
-        description: requiredText,
-        title: requiredText,
-      });
-    });
-  });
 });

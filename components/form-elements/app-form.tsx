@@ -6,7 +6,7 @@ import { ICohort, Tech } from '../../interfaces';
 
 interface AppFormProps<TFormValues> {
   onSubmit: SubmitHandler<TFormValues>;
-  onError?: SubmitErrorHandler<TFormValues> | undefined;
+  setErrors: (object: TFormValues) => void;
   children: (methods: UseFormReturn<TFormValues>) => ReactNode;
   title: string;
   onCancel: () => void;
@@ -14,14 +14,19 @@ interface AppFormProps<TFormValues> {
 
 type Values = string | number | (string | Tech | ICohort | number)[] | boolean | File;
 
-const defaultProps = {
-  onError: undefined,
-};
-
 function AppForm<TFormValues extends Record<string, Values>>({
-  children, title, onSubmit, onCancel, onError,
+  children, title, onSubmit, onCancel, setErrors,
 }: AppFormProps<TFormValues>) {
   const methods = useForm<TFormValues>();
+
+  const onError: SubmitErrorHandler<TFormValues> = (formErrors) => {
+    const errorMessages = {};
+    Object.entries(formErrors).forEach(([field, error]) => {
+      errorMessages[field] = error.message;
+    });
+    setErrors(errorMessages as TFormValues);
+  };
+
   return (
     <article className="panel is-warning">
       <p role="heading" aria-level={2} className="panel-heading">
@@ -43,7 +48,5 @@ function AppForm<TFormValues extends Record<string, Values>>({
     </article>
   );
 }
-
-AppForm.defaultProps = defaultProps;
 
 export default AppForm;

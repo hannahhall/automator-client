@@ -8,6 +8,7 @@ import { Input } from '../components/form-elements';
 
 function Login(): ReactElement {
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [errors, setErrors] = useState<TUserForm>(null);
   const { login } = useAuth();
   const router = useRouter();
 
@@ -28,13 +29,19 @@ function Login(): ReactElement {
 
   return (
     <Layout title="Automator | Login">
-      <AppForm<TUserForm> title="Login" onSubmit={onSubmit} onCancel={handleCancel}>
+      <AppForm<TUserForm>
+        title="Login"
+        onSubmit={onSubmit}
+        onCancel={handleCancel}
+        setErrors={setErrors}
+      >
         {({ register }) => (
           <>
             <Input
               name="username"
               label="Username"
               register={register}
+              error={errors?.username}
               isRequired
             />
 
@@ -43,6 +50,7 @@ function Login(): ReactElement {
               type="password"
               label="Password"
               register={register}
+              error={errors?.password}
               isRequired
             />
           </>

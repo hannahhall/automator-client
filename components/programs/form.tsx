@@ -20,6 +20,7 @@ function ProgramForm({
   title, initialData, handleSubmit, handleCancel,
 }: ProgramFormProps) {
   const [availableTechs, setTechs] = useState<Tech[]>([]);
+  const [errors, setErrors] = useState<Program>(null);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -45,7 +46,12 @@ function ProgramForm({
 
   return (
     <>
-      <AppForm<Program> title={title} onSubmit={handleSubmit} onCancel={handleCancel}>
+      <AppForm<Program>
+        title={title}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+        setErrors={setErrors}
+      >
         {({ register, reset, control }) => {
           useEffect(() => {
             reset(initialData);
@@ -57,6 +63,7 @@ function ProgramForm({
                 name="name"
                 register={register}
                 label="Program Name"
+                error={errors?.name}
                 isRequired
               />
 
