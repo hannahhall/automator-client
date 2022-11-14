@@ -62,6 +62,14 @@ export type Program = {
   cohorts?: ICohort[];
 }
 
+export type Project = {
+  id?: number;
+  title: string;
+  description: string;
+  github_url: string;
+  deployed_url: string;
+}
+
 export interface TableRow {
   key: string;
   data: ReactNode[];

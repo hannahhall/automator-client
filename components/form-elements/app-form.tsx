@@ -1,18 +1,25 @@
 import { ReactNode } from 'react';
-import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
+import {
+  SubmitErrorHandler, SubmitHandler, useForm, UseFormReturn,
+} from 'react-hook-form';
 import { ICohort, Tech } from '../../interfaces';
 
 interface AppFormProps<TFormValues> {
   onSubmit: SubmitHandler<TFormValues>;
+  onError?: SubmitErrorHandler<TFormValues> | undefined;
   children: (methods: UseFormReturn<TFormValues>) => ReactNode;
   title: string;
   onCancel: () => void;
 }
 
-type Values = string | number | (string | Tech | ICohort | number)[] | boolean | File
+type Values = string | number | (string | Tech | ICohort | number)[] | boolean | File;
+
+const defaultProps = {
+  onError: undefined,
+};
 
 function AppForm<TFormValues extends Record<string, Values>>({
-  children, title, onSubmit, onCancel,
+  children, title, onSubmit, onCancel, onError,
 }: AppFormProps<TFormValues>) {
   const methods = useForm<TFormValues>();
   return (
@@ -21,7 +28,7 @@ function AppForm<TFormValues extends Record<string, Values>>({
         {title}
       </p>
       <section className="panel-block p-6">
-        <form onSubmit={methods.handleSubmit(onSubmit)} className="is-flex-grow-1" name={title}>
+        <form onSubmit={methods.handleSubmit(onSubmit, onError)} className="is-flex-grow-1" name={title}>
           {children(methods)}
           <div className="field is-grouped">
             <div className="control">
@@ -36,5 +43,7 @@ function AppForm<TFormValues extends Record<string, Values>>({
     </article>
   );
 }
+
+AppForm.defaultProps = defaultProps;
 
 export default AppForm;

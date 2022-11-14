@@ -7,12 +7,16 @@ interface TextareaProps<TInputField> {
   placeholder: string;
   error?: string | undefined;
   isRequired: boolean;
+  maxLength?: number;
 }
 
-const defaultProps = { error: undefined };
+const defaultProps = {
+  error: undefined,
+  maxLength: 500,
+};
 
 function Textarea<TInputField>({
-  name, register, label, placeholder, error, isRequired,
+  name, register, label, placeholder, error, isRequired, maxLength,
 }: TextareaProps<TInputField>) {
   return (
     <div className="field">
@@ -23,7 +27,11 @@ function Textarea<TInputField>({
           className="textarea"
           placeholder={placeholder}
           {...register(name, {
-            required: isRequired,
+            required: isRequired ? 'This field is required' : isRequired,
+            maxLength: {
+              value: maxLength,
+              message: 'This field is too long to be saved. Please update your input',
+            },
           })}
         />
       </div>

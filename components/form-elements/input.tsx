@@ -33,7 +33,7 @@ function Input<TInputField>({
         <input
           id={name}
           {...register(name, {
-            required: isRequired,
+            required: isRequired ? 'This field is required' : isRequired,
           })}
           placeholder={placeholder}
           className="input"

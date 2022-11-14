@@ -29,7 +29,7 @@ function Select<TInputField>({
         <select
           id={name}
           {...register(name, {
-            required: isRequired,
+            required: isRequired ? 'This field is required' : isRequired,
           })}
         >
           <option value="0">{title}</option>
