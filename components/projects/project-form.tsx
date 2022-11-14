@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { SubmitErrorHandler } from 'react-hook-form';
 import { Project } from '../../interfaces';
 import { AppForm, Input, Textarea } from '../form-elements';
 
