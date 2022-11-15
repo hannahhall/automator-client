@@ -19,6 +19,11 @@ function EditProject() {
       fetchProject(id as string, getAccessToken()).then((res) => {
         const { data } = res;
         setInitialData(data);
+      }).catch((err) => {
+        const { response } = err;
+        if (response.status === 404) {
+          router.back();
+        }
       });
     }
   }, [router.query, setInitialData]);

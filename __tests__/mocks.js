@@ -14,8 +14,8 @@ export const mockDataSuccess = (func, data) => {
   });
 };
 
-export const mockDataRejection = (func, data) => {
+export const mockDataRejection = (func, data, status = 400) => {
   func.mockRejectedValue({
-    response: { data },
+    response: { data, status },
   });
 };

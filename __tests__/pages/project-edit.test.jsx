@@ -10,6 +10,7 @@ import { updateProject, fetchProject } from '../../data/project';
 import {
   mockDataSuccess,
   mockFetchToken,
+  mockDataRejection,
 } from '../mocks';
 
 jest.mock('../../data/auth', () => ({
@@ -21,7 +22,13 @@ jest.mock('../../data/project', () => ({
   fetchProject: jest.fn(),
 }));
 const pushMock = jest.fn();
-jest.spyOn(Router, 'useRouter').mockReturnValue({ push: pushMock, pathname: '/projects/1/edit', query: { id: 1 } });
+const backMock = jest.fn();
+jest.spyOn(Router, 'useRouter').mockReturnValue({
+  push: pushMock,
+  pathname: '/projects/1/edit',
+  query: { id: 1 },
+  back: backMock,
+});
 
 let accessToken;
 let project;
@@ -74,6 +81,20 @@ describe('Edit Project', () => {
     await form.submit();
     await waitFor(async () => {
       expect(updateProject).toBeCalledWith({ ...project, title: `${project.title} Updated` }, accessToken);
+    });
+  });
+
+  it('should route to the previous page if the project is not found', async () => {
+    mockDataRejection(fetchProject, {}, 404);
+
+    render(
+      <AuthProvider>
+        <EditProject />
+      </AuthProvider>,
+    );
+
+    await waitFor(() => {
+      expect(backMock).toBeCalled();
     });
   });
 });
