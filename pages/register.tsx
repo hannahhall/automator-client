@@ -26,19 +26,12 @@ function Register() {
       image: user.image[0],
       is_staff: user.is_staff ? 1 : 0,
     };
-    registerUser(copy).then((res) => {
+    return registerUser(copy).then((res) => {
       const { data } = res;
       setAccessToken(data.access);
       setRefreshToken(data.refresh);
       router.push('/');
-    }).catch((err) => {
-      const { response } = err;
-      setErrors(response.data);
     });
-  };
-
-  const handleCancel = () => {
-    router.push('/login');
   };
 
   useEffect(() => {
@@ -52,7 +45,7 @@ function Register() {
       <AppForm<TUserForm>
         title="Register"
         onSubmit={handleSubmit}
-        onCancel={handleCancel}
+        cancelRoute="/login"
         setErrors={setErrors}
       >
         {({ register, watch }) => {

@@ -6,7 +6,6 @@ interface ProjectFormProps {
   title: string;
   initialData?: Project | undefined,
   handleSubmit: (project: Project) => void;
-  handleCancel: () => void;
   errors: Project;
   setErrors: (project: Project) => void;
 }
@@ -16,14 +15,14 @@ const defaultProps = {
 };
 
 function ProjectForm({
-  title, initialData, handleSubmit, handleCancel, errors, setErrors,
+  title, initialData, handleSubmit, errors, setErrors,
 }: ProjectFormProps) {
   return (
     <AppForm<Project>
       title={title}
       onSubmit={handleSubmit}
       setErrors={setErrors}
-      onCancel={handleCancel}
+      cancelRoute="/"
     >
       {({ register, reset, watch }) => {
         useEffect(() => {

@@ -4,7 +4,7 @@ import Layout from '../../../components/layout';
 import { fetchProgram, updateProgram } from '../../../data/program';
 import { useAuth } from '../../../hooks/useAuth';
 import { Program, Tech } from '../../../interfaces';
-import ProductForm from '../../../components/programs/form';
+import ProgramForm from '../../../components/programs/form';
 
 function EditProgram() {
   const [initialData, setInitialData] = useState<Program>({
@@ -25,21 +25,17 @@ function EditProgram() {
 
   const handleProgramUpdate = (program: Program) => {
     const copy = { ...program, techs: program.techs.map((t: Tech) => t.id) };
-    updateProgram(copy, getAccessToken()).then(() => {
+    return updateProgram(copy, getAccessToken()).then(() => {
       router.push(`/programs/${program.id}`);
     });
   };
 
-  const handleCancelUpdate = () => {
-    router.push(`/programs/${initialData.id}`);
-  };
-
   return (
     <Layout title="Automator | Edit Program">
-      <ProductForm
+      <ProgramForm
         title={`Edit ${initialData.name}`}
         handleSubmit={handleProgramUpdate}
-        handleCancel={handleCancelUpdate}
+        cancelRoute={`/programs/${initialData.id}`}
         initialData={initialData}
       />
     </Layout>

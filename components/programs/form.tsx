@@ -9,7 +9,7 @@ interface ProgramFormProps {
   title: string;
   initialData?: Program | undefined,
   handleSubmit: (program: Program) => void;
-  handleCancel: () => void;
+  cancelRoute: string;
 }
 
 const defaultProps = {
@@ -17,7 +17,7 @@ const defaultProps = {
 };
 
 function ProgramForm({
-  title, initialData, handleSubmit, handleCancel,
+  title, initialData, handleSubmit, cancelRoute,
 }: ProgramFormProps) {
   const [availableTechs, setTechs] = useState<Tech[]>([]);
   const [errors, setErrors] = useState<Program>(null);
@@ -49,7 +49,7 @@ function ProgramForm({
       <AppForm<Program>
         title={title}
         onSubmit={handleSubmit}
-        onCancel={handleCancel}
+        cancelRoute={cancelRoute}
         setErrors={setErrors}
       >
         {({ register, reset, control }) => {

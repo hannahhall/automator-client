@@ -96,18 +96,6 @@ describe('Create Program', () => {
     });
   });
 
-  it('should route back to home on cancel', async () => {
-    const user = userEvent.setup();
-    render(
-      <AuthProvider>
-        <CreateProgram />
-      </AuthProvider>,
-    );
-
-    await user.click(await screen.findByText('Cancel'));
-    expect(pushMock).toBeCalledWith('/');
-  });
-
   it('should open and close the modal', async () => {
     const user = userEvent.setup();
     render(

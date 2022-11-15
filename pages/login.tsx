@@ -2,37 +2,27 @@ import { ReactElement, useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../components/layout';
 import { useAuth } from '../hooks/useAuth';
-import { ApiError, TUserForm } from '../interfaces';
+import { TUserForm } from '../interfaces';
 import AppForm from '../components/form-elements/app-form';
 import { Input } from '../components/form-elements';
 
 function Login(): ReactElement {
-  const [errorMessage, setErrorMessage] = useState<string>('');
   const [errors, setErrors] = useState<TUserForm>(null);
   const { login } = useAuth();
   const router = useRouter();
 
-  const onSubmit = (
-    data,
-  ): void => {
+  const onSubmit = (data) => (
     login(data.username, data.password).then(() => {
       router.push('/');
-    }).catch((error: ApiError) => {
-      const { response } = error;
-      setErrorMessage(response.data.detail);
-    });
-  };
-
-  const handleCancel = () => {
-    router.push('/register');
-  };
+    })
+  );
 
   return (
     <Layout title="Automator | Login">
       <AppForm<TUserForm>
         title="Login"
         onSubmit={onSubmit}
-        onCancel={handleCancel}
+        cancelRoute="/register"
         setErrors={setErrors}
       >
         {({ register }) => (
@@ -56,9 +46,9 @@ function Login(): ReactElement {
           </>
         )}
       </AppForm>
-      {errorMessage ? (
+      {errors?.detail ? (
         <p className="text-red-400">
-          {errorMessage}
+          {errors?.detail}
         </p>
       ) : null}
     </Layout>

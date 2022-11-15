@@ -1,4 +1,3 @@
-import { AxiosResponse, AxiosError } from 'axios';
 import { ReactNode } from 'react';
 
 export interface User {
@@ -12,16 +11,6 @@ export interface User {
 export interface TokenResponse {
   access: string;
   refresh: number;
-}
-
-interface ResponseError extends AxiosResponse {
-  data: {
-    detail: string
-  }
-}
-
-export interface ApiError extends AxiosError {
-  response: ResponseError
 }
 
 export interface ICohort {
@@ -46,6 +35,7 @@ export type TUserForm = {
   resume_link?: string;
   linkedin?: string;
   github_handle?: string;
+  detail?: string;
 }
 
 export interface Tech {

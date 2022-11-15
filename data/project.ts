@@ -7,9 +7,13 @@ export const fetchProjects = (): Promise<AxiosResponse> => {
   return axios.get(url);
 };
 
-export const fetchProject = (id: string): Promise<AxiosResponse> => {
+export const fetchProject = (id: string, token: string): Promise<AxiosResponse> => {
   const url = makeUrl(`/api/projects/${id}`);
-  return axios.get(url);
+  return axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 
 export const createProject = (project: Project, token: string): Promise<AxiosResponse> => {

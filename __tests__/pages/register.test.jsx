@@ -136,19 +136,6 @@ describe('Register', () => {
     expect(screen.queryByLabelText('Select your Cohort')).toBeNull();
   });
 
-  it('should navigate to the login page on cancel', async () => {
-    const user = userEvent.setup();
-
-    render(
-      <AuthProvider>
-        <Register />
-      </AuthProvider>,
-    );
-
-    await user.click(screen.getByText('Cancel'));
-    expect(pushMock).toBeCalledWith('/login');
-  });
-
   it('should register the user and route to the home page', async () => {
     const response = {
       data: {
@@ -175,31 +162,5 @@ describe('Register', () => {
       expect(window.sessionStorage.setItem).toBeCalledWith('refresh', response.data.refresh);
       expect(pushMock).toBeCalledWith('/');
     });
-  });
-
-  it('should show errors', async () => {
-    const error = 'UserName Error';
-    const errorResponse = {
-      response: {
-        data: {
-          username: error,
-        },
-      },
-    };
-
-    registerUser.mockImplementation(() => Promise.reject(errorResponse));
-    const user = userEvent.setup();
-
-    render(
-      <AuthProvider>
-        <Register />
-      </AuthProvider>,
-    );
-
-    await fillOutForm(user, userValues);
-
-    const form = await screen.findByRole('form');
-    form.submit();
-    expect(await screen.findByText(error)).toBeInTheDocument();
   });
 });

@@ -83,16 +83,4 @@ describe('Edit Program', () => {
       expect(pushMock).toBeCalledWith(`/programs/${program.id}`);
     });
   });
-
-  it('should route back to the detail page on cancel', async () => {
-    const user = userEvent.setup();
-    render(
-      <AuthProvider>
-        <EditProgram />
-      </AuthProvider>,
-    );
-
-    await user.click(await screen.findByText('Cancel'));
-    expect(pushMock).toBeCalledWith(`/programs/${program.id}`);
-  });
 });

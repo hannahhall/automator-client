@@ -3,7 +3,7 @@ import Layout from '../../components/layout';
 import { createProgram } from '../../data/program';
 import { useAuth } from '../../hooks/useAuth';
 import { Program, Tech } from '../../interfaces';
-import ProductForm from '../../components/programs/form';
+import ProgramForm from '../../components/programs/form';
 
 function CreateProgram() {
   const router = useRouter();
@@ -11,22 +11,18 @@ function CreateProgram() {
 
   const handleProgramSubmit = (program: Program) => {
     const copy = { ...program, techs: program.techs.map((t: Tech) => t.id) };
-    createProgram(copy, getAccessToken()).then((response) => {
+    return createProgram(copy, getAccessToken()).then((response) => {
       const { data } = response;
       router.push(`/programs/${data.id}`);
     });
   };
 
-  const handleProgramCancel = () => {
-    router.push('/');
-  };
-
   return (
     <Layout title="Automator | Create Program">
-      <ProductForm
+      <ProgramForm
         title="Create a Program"
         handleSubmit={handleProgramSubmit}
-        handleCancel={handleProgramCancel}
+        cancelRoute="/"
       />
     </Layout>
   );

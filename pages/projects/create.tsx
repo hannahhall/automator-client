@@ -12,26 +12,18 @@ function CreateProject() {
 
   const { getAccessToken } = useAuth();
 
-  const handleProjectSubmit = (project: Project) => {
+  const handleProjectSubmit = (project: Project) => (
     createProject(project, getAccessToken()).then((response) => {
       const { data } = response;
       router.push(`/projects/${data.id}`);
-    }).catch((err) => {
-      const { response } = err;
-      setErrors(response.data);
-    });
-  };
-
-  const handleProjectCancel = () => {
-    router.push('/');
-  };
+    })
+  );
 
   return (
     <Layout title="Automator | Create Project">
       <ProjectForm
         title="Create a Project"
         handleSubmit={handleProjectSubmit}
-        handleCancel={handleProjectCancel}
         errors={errors}
         setErrors={setErrors}
       />

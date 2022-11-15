@@ -5,6 +5,7 @@ import Router from 'next/router';
 import Login from '../../pages/login';
 import { fetchToken } from '../../data/auth';
 import { AuthProvider } from '../../hooks/useAuth';
+import { mockDataRejection } from '../mocks';
 
 jest.mock('../../data/auth', () => ({
   fetchUser: jest.fn().mockReturnValue(Promise.resolve({})),
@@ -62,31 +63,13 @@ describe('Login', () => {
     expect(await screen.findByText('Logout')).toBeInTheDocument();
   });
 
-  it('should navigate to the register page on click', async () => {
-    const user = userEvent.setup();
-
-    render(
-      <AuthProvider>
-        <Login />
-      </AuthProvider>,
-    );
-
-    await user.click(screen.getByText('Cancel'));
-    expect(pushMock).toBeCalledWith('/register');
-  });
-
   it('should show errors on a login error', async () => {
     const user = userEvent.setup();
-    const errorResponse = {
-      response: {
-        data: {
-          detail: 'No User Found',
-        },
-      },
+    const error = {
+      detail: 'No User Found',
     };
 
-    fetchToken.mockImplementation(() => Promise.reject(errorResponse));
-
+    mockDataRejection(fetchToken, error);
     const username = 'username';
     const password = 'password';
 
@@ -103,6 +86,6 @@ describe('Login', () => {
 
     await user.click(screen.getByText('Submit'));
 
-    expect(await screen.findByText(errorResponse.response.data.detail)).toBeInTheDocument();
+    expect(await screen.findByText(error.detail)).toBeInTheDocument();
   });
 });
