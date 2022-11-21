@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import axios from "axios";
 
-import { fetchToken, fetchNewToken, fetchUser, registerUser } from '../../data/auth';
+import { fetchToken, fetchNewToken, fetchUser, registerUser, fetchStudent } from '../../data/auth';
 const API_BASE = 'http://localhost:8000';
 
 
@@ -46,4 +46,16 @@ describe('Auth Data', () => {
     registerUser(user);
     expect(axios.post).toHaveBeenCalledWith(url, user, { "headers": { "Content-Type": "multipart/form-data" } });
   });
+
+  it('should make a get request when fetchStudent is called', () => {
+    const url = API_BASE + '/api/users/student';
+    const token = 'token';
+
+    fetchStudent(token);
+    expect(axios.get).toHaveBeenCalledWith(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  })
 });

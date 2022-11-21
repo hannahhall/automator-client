@@ -15,9 +15,14 @@ function AuthorizedNav({ logout, user }: AuthorizedNavProps) {
             Create Program
           </NavbarLink>
         ) : (
-          <NavbarLink href="/projects/create" className="navbar-item is-size-5">
-            Add Project
-          </NavbarLink>
+          <>
+            <NavbarLink href="/student/edit" className="navbar-item is-size-5">
+              Edit My Info
+            </NavbarLink>
+            <NavbarLink href="/projects/create" className="navbar-item is-size-5">
+              Add Project
+            </NavbarLink>
+          </>
         )
       }
 

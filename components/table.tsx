@@ -23,7 +23,9 @@ function Table({ headers, footers, rows }: TableProps) {
             <tr key={`row-${row.key}`}>
               {
                 row.data.map((data, index) => (
-                  <td key={`${row.key}-${headers[index]}`}>{data}</td>
+                  index === 0
+                    ? <th key={`${row.key}-${headers[index]}`}>{data}</th>
+                    : <td key={`${row.key}-${headers[index]}`}>{data}</td>
                 ))
               }
             </tr>

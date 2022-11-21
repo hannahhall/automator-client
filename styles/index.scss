@@ -32,9 +32,30 @@ body {
     min-height: calc(100vh - 15rem);
 }
 
-.table td,
-.table th {
-    vertical-align: middle;
+.table {
+
+    td,
+    th {
+        vertical-align: middle;
+        min-width: 175px;
+    }
+
+    @include touch {
+        tr {
+            display: flex;
+            flex-wrap: wrap;
+            border: $table-cell-border
+        }
+
+        td,
+        th {
+            border: none;
+        }
+
+        tfoot {
+            display: none;
+        }
+    }
 }
 
 .multiselect-container {
@@ -49,5 +70,13 @@ body {
 
     #search_input {
         @extend .input
+    }
+}
+
+.student-index {
+
+    table thead,
+    table tfoot {
+        display: none;
     }
 }

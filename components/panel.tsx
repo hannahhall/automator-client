@@ -1,5 +1,4 @@
 import { ChangeEvent, MouseEvent, ReactNode } from 'react';
-import NavbarLink from './navbar/navbarLink';
 
 interface PanelProps {
   color?: string;
@@ -9,7 +8,7 @@ interface PanelProps {
   handleSearch?: (event: ChangeEvent<HTMLInputElement>) => void | undefined;
   children: ReactNode;
   placeholderText?: string | undefined;
-  editLink?: string | undefined;
+  headingRight?: ReactNode | undefined;
 }
 
 const defaultProps = {
@@ -17,24 +16,21 @@ const defaultProps = {
   handleSearch: undefined,
   handleFilter: undefined,
   filters: [],
-  editLink: undefined,
+  headingRight: undefined,
   placeholderText: undefined,
 };
 
 function Panel({
-  color, heading, filters, handleFilter, handleSearch, children, placeholderText, editLink,
+  color, heading, filters, handleFilter, handleSearch, children, placeholderText, headingRight,
 }: PanelProps) {
   return (
     <article className={`panel ${color}`}>
-      <p className="panel-heading is-flex is-justify-content-space-between is-align-items-center">
+      <header className="panel-heading is-flex is-justify-content-space-between is-align-items-center">
         {heading}
         {
-          editLink
-            ? (
-              <NavbarLink className="button" href={editLink}>Edit</NavbarLink>
-            ) : null
+          headingRight || null
         }
-      </p>
+      </header>
       {
         filters.length ? (
           <p className="panel-tabs">

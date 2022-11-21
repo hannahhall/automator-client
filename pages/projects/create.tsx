@@ -13,9 +13,8 @@ function CreateProject() {
   const { getAccessToken } = useAuth();
 
   const handleProjectSubmit = (project: Project) => (
-    createProject(project, getAccessToken()).then((response) => {
-      const { data } = response;
-      router.push(`/projects/${data.id}`);
+    createProject(project, getAccessToken()).then(() => {
+      router.push('/');
     })
   );
 

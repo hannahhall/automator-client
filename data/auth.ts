@@ -22,6 +22,15 @@ export const fetchUser = (token: string): Promise<AxiosResponse> => {
   });
 };
 
+export const fetchStudent = (token: string): Promise<AxiosResponse> => {
+  const url = makeUrl('/api/users/student');
+  return axios.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const registerUser = (user: TUserForm): Promise<AxiosResponse> => {
   const url = makeUrl('/api/register');
   return axios.post(url, user, {

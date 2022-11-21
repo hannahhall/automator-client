@@ -3,6 +3,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import CohortList from '../../../components/cohorts/cohort-list';
 import Layout from '../../../components/layout';
+import NavbarLink from '../../../components/navbar/navbarLink';
 import Panel from '../../../components/panel';
 
 import TechList from '../../../components/techs/tech-list';
@@ -72,9 +73,12 @@ function ProgramDetail() {
 
   return (
     <Layout title={program?.name}>
-      <Panel heading={program?.name} editLink={`/programs/${program?.id}/edit`}>
+      <Panel
+        heading={program?.name}
+        headingRight={<NavbarLink className="button" href={`/programs/${program?.id}/edit`}>Edit</NavbarLink>}
+      >
         <section className="section">
-          <div className="columns">
+          <div className="columns is-multiline">
             {
               program?.cohorts
                 ? (

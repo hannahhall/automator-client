@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Layout from '../components/layout';
 import ProgramList from '../components/programs/list';
+import StudentIndex from '../components/student-index';
 import { useAuth } from '../hooks/useAuth';
 import { User } from '../interfaces';
 
@@ -11,16 +12,25 @@ function IndexPage() {
   useEffect(() => {
     setUser(getUser());
   }, [getUser]);
+
+  if (!user) return <div>Loading...</div>;
+
   return (
     <Layout title="Automator | Programs">
-      {
-        user?.is_staff
-          ? (
-            <ProgramList />
-          ) : (
-            <p>Student Homepage</p>
-          )
-      }
+      <div className="columns is-multiline">
+        {
+          user?.is_staff
+            ? (
+              <div className="column">
+                <ProgramList />
+              </div>
+            ) : (
+              <div className="column">
+                <StudentIndex />
+              </div>
+            )
+        }
+      </div>
     </Layout>
   );
 }

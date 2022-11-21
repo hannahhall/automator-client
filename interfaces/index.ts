@@ -70,3 +70,22 @@ export interface TableProps {
   footers: string[];
   rows: TableRow[];
 }
+
+interface ExpandedField {
+  verbose_name: string,
+  value: string | null,
+}
+
+export interface IStudentDetail {
+  bio: ExpandedField,
+  circle_image: ExpandedField,
+  cohort_name: ExpandedField,
+  email: ExpandedField,
+  favorite_quote: ExpandedField,
+  first_name: ExpandedField,
+  github_handle: ExpandedField,
+  last_name: ExpandedField,
+  linkedin: ExpandedField,
+  podcast_link: ExpandedField,
+  resume_link: ExpandedField,
+}
