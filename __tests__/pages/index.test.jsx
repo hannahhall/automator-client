@@ -11,6 +11,7 @@ import {
 } from '../mocks';
 import { fetchUser, fetchStudent } from '../../data/auth';
 import { fetchProjects } from '../../data/project';
+import { fetchPrograms } from '../../data/program';
 
 jest.mock('../../data/auth', () => ({
   fetchNewToken: jest.fn(),
@@ -18,26 +19,28 @@ jest.mock('../../data/auth', () => ({
   fetchStudent: jest.fn(),
 }));
 
+jest.mock('../../data/program', () => ({
+  fetchPrograms: jest.fn(),
+}));
+
 jest.mock('../../data/project', () => ({
   fetchProjects: jest.fn(),
 }));
 
-const pushMock = jest.fn();
-jest.spyOn(Router, 'useRouter').mockReturnValue({
-  push: pushMock,
-  pathname: '/',
-});
-
 let accessToken;
 describe('Index page', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
+    jest.spyOn(Router, 'useRouter').mockReturnValue({
+      pathname: '/',
+    });
 
     accessToken = '12345';
 
     mockFetchToken(accessToken);
+    mockDataSuccess(fetchProjects, []);
+    mockDataSuccess(fetchPrograms, []);
     mockDataSuccess(fetchStudent, {
-      id: 1,
       first_name: {
         verbose_name: 'First Name',
         value: 'Test',
@@ -51,8 +54,6 @@ describe('Index page', () => {
         value: 'http://test.com',
       },
     });
-
-    mockDataSuccess(fetchProjects, []);
   });
 
   afterEach(cleanup);

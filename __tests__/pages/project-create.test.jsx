@@ -72,6 +72,6 @@ describe('Create Project', () => {
     await user.click(screen.getByText('Submit'));
 
     expect(createProject).toBeCalledWith(project, accessToken);
-    expect(pushMock).toBeCalledWith('/projects/1');
+    expect(pushMock).toBeCalledWith('/');
   });
 });
