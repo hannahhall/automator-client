@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Layout from '../components/layout';
 import ProgramList from '../components/programs/list';
-import StudentIndex from '../components/student-index';
+import StudentIndex from '../components/student/student-index';
 import { useAuth } from '../hooks/useAuth';
 import { User } from '../interfaces';
 

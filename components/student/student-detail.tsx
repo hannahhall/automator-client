@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import Panel from './panel';
+import Panel from '../panel';
 import {
   TableProps, TableRow, IStudentDetail,
-} from '../interfaces';
-import Table from './table';
+} from '../../interfaces';
+import Table from '../table';
 
 interface StudentDetailProps {
   student: IStudentDetail

@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { fetchStudent } from '../data/auth';
-import { useAuth } from '../hooks/useAuth';
-import { IStudentDetail } from '../interfaces';
-import Panel from './panel';
-import ProjectList from './projects/project-list';
+import { fetchStudent } from '../../data/auth';
+import { useAuth } from '../../hooks/useAuth';
+import { IStudentDetail } from '../../interfaces';
+import Panel from '../panel';
+import ProjectList from '../projects/project-list';
 import StudentDetail from './student-detail';
 
 function StudentIndex() {
