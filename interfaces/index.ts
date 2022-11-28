@@ -38,6 +38,19 @@ export type TUserForm = {
   detail?: string;
 }
 
+export type TStudentForm = {
+  user: TUserForm;
+  cohort?: number | string;
+  image?: File | string;
+  bio?: string;
+  favorite_quote?: string;
+  podcast_link?: string;
+  resume_link?: string;
+  linkedin?: string;
+  github_handle?: string;
+  detail?: string;
+}
+
 export interface Tech {
   id?: number;
   text: string;

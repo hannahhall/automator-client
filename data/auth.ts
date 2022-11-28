@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
 import makeUrl from '.';
-import { TUserForm } from '../interfaces';
+import { TUserForm, TStudentForm } from '../interfaces';
 
 export const fetchToken = (username: string, password: string): Promise<AxiosResponse> => {
   const url = makeUrl('/auth/token/');
@@ -22,8 +22,13 @@ export const fetchUser = (token: string): Promise<AxiosResponse> => {
   });
 };
 
-export const fetchStudent = (token: string): Promise<AxiosResponse> => {
-  const url = makeUrl('/api/users/student');
+export const fetchStudent = (token: string, expand = true): Promise<AxiosResponse> => {
+  let url: string;
+  if (expand) {
+    url = makeUrl('/api/users/student?expand');
+  } else {
+    url = makeUrl('/api/users/student');
+  }
   return axios.get(url, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -36,6 +41,16 @@ export const registerUser = (user: TUserForm): Promise<AxiosResponse> => {
   return axios.post(url, user, {
     headers: {
       'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+
+export const updateStudent = (student: TStudentForm, token: string): Promise<AxiosResponse> => {
+  const url = makeUrl('/api/users/student-update');
+  return axios.put(url, student, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`,
     },
   });
 };
