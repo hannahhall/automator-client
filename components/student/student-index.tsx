@@ -31,7 +31,11 @@ function StudentIndex() {
       heading={`${student.first_name.value} ${student.last_name.value}`}
       headingRight={(
         <figure className="image is-128x128">
-          <Image className="is-rounded" layout="fill" src={student?.circle_image?.value} alt="Profile Image" />
+          {
+            student.circle_image.value
+              ? <Image className="is-rounded" layout="fill" src={student?.circle_image?.value} alt="Profile Image" />
+              : <i className="fas fa-smile" />
+          }
         </figure>
       )}
     >
