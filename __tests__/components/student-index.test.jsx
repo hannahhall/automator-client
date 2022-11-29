@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import Router from 'next/router';
-import StudentIndex from '../../components/student-index';
+import StudentIndex from '../../components/student/student-index';
 import { AuthProvider } from '../../hooks/useAuth';
 import { fetchStudent } from '../../data/auth';
 import { mockDataSuccess, mockFetchToken } from '../mocks';

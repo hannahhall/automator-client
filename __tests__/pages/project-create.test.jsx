@@ -26,7 +26,7 @@ let accessToken;
 describe('Create Project', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-
+    accessToken = '12345';
     mockFetchToken(accessToken);
   });
 

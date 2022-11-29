@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
-import StudentDetail from '../../components/student-detail';
+import StudentDetail from '../../components/student/student-detail';
 
 let props;
 let student;

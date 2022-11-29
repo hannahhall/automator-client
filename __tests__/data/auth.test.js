@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import axios from "axios";
 
-import { fetchToken, fetchNewToken, fetchUser, registerUser, fetchStudent } from '../../data/auth';
+import { fetchToken, fetchNewToken, fetchUser, registerUser, fetchStudent, updateStudent } from '../../data/auth';
 const API_BASE = 'http://localhost:8000';
 
 
@@ -48,7 +48,7 @@ describe('Auth Data', () => {
   });
 
   it('should make a get request when fetchStudent is called', () => {
-    const url = API_BASE + '/api/users/student';
+    const url = API_BASE + '/api/users/student?expand';
     const token = 'token';
 
     fetchStudent(token);
@@ -57,5 +57,37 @@ describe('Auth Data', () => {
         Authorization: `Bearer ${token}`,
       },
     });
-  })
+  });
+
+  it('should make a get request when fetchStudent is called without expanding', () => {
+    const url = API_BASE + '/api/users/student';
+    const token = 'token';
+
+    fetchStudent(token, false);
+    expect(axios.get).toHaveBeenCalledWith(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  });
+
+  it('should make a put request when updateStudent is called', () => {
+    const url = API_BASE + '/api/users/student-update';
+    const student = {
+      github: 'username'
+    };
+    const token = '12345'
+
+    updateStudent(student, token);
+    expect(axios.put).toHaveBeenCalledWith(
+      url,
+      student,
+      {
+        "headers": {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        }
+      }
+    );
+  });
 });
