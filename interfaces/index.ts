@@ -13,12 +13,6 @@ export interface TokenResponse {
   refresh: number;
 }
 
-export interface ICohort {
-  id: number;
-  name: string;
-  graduation_date?: string;
-}
-
 export type TUserForm = {
   email: string;
   username: string;
@@ -58,11 +52,24 @@ export interface Tech {
   square_icon?: string;
 }
 
-export type Program = {
-  id?: number;
+export type TCohort = {
+  id: number;
   name: string;
-  techs?: (number | Tech)[];
-  cohorts?: ICohort[];
+  graduation_date?: string;
+  program: string;
+  techs: (number | Tech)[];
+  github_organization: string;
+  demo_day: string;
+  demo_day_time: string;
+  slack_channel: string;
+  is_deployed: boolean;
+}
+
+export type Program = {
+  id: number;
+  name: string;
+  techs: (number | Tech)[];
+  cohorts?: TCohort[];
 }
 
 export type Project = {

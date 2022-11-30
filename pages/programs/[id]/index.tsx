@@ -10,13 +10,13 @@ import TechList from '../../../components/techs/tech-list';
 import { fetchProgram, deleteTechFromProgram } from '../../../data/program';
 import { useAuth } from '../../../hooks/useAuth';
 import {
-  ICohort, Program, Tech,
+  TCohort, Program, Tech,
 } from '../../../interfaces';
 
 function ProgramDetail() {
   const router = useRouter();
   const [program, setProgram] = useState<Program>(null);
-  const [cohorts, setCohorts] = useState<ICohort[]>([]);
+  const [cohorts, setCohorts] = useState<TCohort[]>([]);
   const [techs, setTechs] = useState<Tech[]>([]);
 
   const { getAccessToken } = useAuth();
@@ -54,7 +54,7 @@ function ProgramDetail() {
   const searchCohorts = (event: ChangeEvent<HTMLInputElement>) => {
     const { target: { value } } = event;
 
-    let filteredCohorts: ICohort[];
+    let filteredCohorts: TCohort[];
     if (value.length > 1) {
       filteredCohorts = cohorts.filter((t) => (
         t.name.toLowerCase().includes(value.toLowerCase())

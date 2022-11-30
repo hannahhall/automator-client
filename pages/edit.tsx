@@ -7,10 +7,10 @@ import Layout from '../components/layout';
 import { fetchStudent, updateStudent } from '../data/auth';
 import { fetchCohorts } from '../data/cohort';
 import { useAuth } from '../hooks/useAuth';
-import { ICohort, TStudentForm } from '../interfaces';
+import { TCohort, TStudentForm } from '../interfaces';
 
 function EditStudent() {
-  const [cohorts, setCohorts] = useState<ICohort[]>([]);
+  const [cohorts, setCohorts] = useState<TCohort[]>([]);
   const [initialData, setInitialData] = useState<TStudentForm>(null);
   const [errors, setErrors] = useState<TStudentForm>(null);
   const router = useRouter();

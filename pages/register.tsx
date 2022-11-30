@@ -6,7 +6,7 @@ import {
   Checkbox, Input, Select, Textarea, FileInput,
 } from '../components/form-elements';
 import { fetchCohorts } from '../data/cohort';
-import { ICohort, TUserForm } from '../interfaces';
+import { TCohort, TUserForm } from '../interfaces';
 
 import Layout from '../components/layout';
 import AppForm from '../components/form-elements/app-form';
@@ -14,7 +14,7 @@ import { registerUser } from '../data/auth';
 import { useAuth } from '../hooks/useAuth';
 
 function Register() {
-  const [cohorts, setCohorts] = useState<ICohort[]>([]);
+  const [cohorts, setCohorts] = useState<TCohort[]>([]);
   const [errors, setErrors] = useState<TUserForm>(null);
   const router = useRouter();
 

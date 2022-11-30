@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import {
   SubmitErrorHandler, SubmitHandler, useForm, UseFormReturn,
 } from 'react-hook-form';
-import { ICohort, Tech, TUserForm } from '../../interfaces';
+import { TCohort, Tech, TUserForm } from '../../interfaces';
 
 interface AppFormProps<TFormValues> {
   onSubmit: SubmitHandler<TFormValues>;
@@ -14,7 +14,7 @@ interface AppFormProps<TFormValues> {
   cancelRoute: string;
 }
 
-type Values = string | number | (string | Tech | ICohort | number)[] | boolean | File | TUserForm;
+type Values = string | number | (string | Tech | TCohort | number)[] | boolean | File | TUserForm;
 
 function AppForm<TFormValues extends Record<string, Values>>({
   children, title, onSubmit, cancelRoute, setErrors,
