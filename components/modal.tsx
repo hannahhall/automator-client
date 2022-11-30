@@ -5,8 +5,12 @@ interface ModalProps {
   title: string;
   handleClose: (event) => void;
   body: ReactNode;
-  footer: ReactNode
+  footer?: ReactNode | undefined;
 }
+
+const defaultProps = {
+  footer: undefined,
+};
 
 function Modal({
   isActive, handleClose, body, footer, title,
@@ -28,12 +32,19 @@ function Modal({
         <section className="modal-card-body" id="modal-body">
           {body}
         </section>
-        <footer className="modal-card-foot">
-          {footer}
-        </footer>
+        {
+          footer
+          && (
+            <footer className="modal-card-foot">
+              {footer}
+            </footer>
+          )
+        }
       </div>
     </div>
   );
 }
+
+Modal.defaultProps = defaultProps;
 
 export default Modal;

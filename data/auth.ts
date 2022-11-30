@@ -54,3 +54,8 @@ export const updateStudent = (student: TStudentForm, token: string): Promise<Axi
     },
   });
 };
+
+export const fetchGithubAuth = (code: string) => {
+  const url = makeUrl(`/api/github-auth?code=${code}`);
+  return axios.get(url);
+};

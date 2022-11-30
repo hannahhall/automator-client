@@ -9,11 +9,15 @@ type AuthContextProps = {
   getIsAuthenticated: () => boolean;
   getAccessToken: () => string;
   getUser: () => User | null;
+  getGithubAccessToken: () => string;
+  setGithubAccessToken: (token: string) => void;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
   updateToken: () => void;
   setRefreshToken: (token: string) => void;
   setAccessToken: (token: string) => void;
+  setRedirectTo: (url: string) => void;
+  getRedirectTo: () => string;
 }
 
 export const AuthContext = createContext<Partial<AuthContextProps>>({});
@@ -26,16 +30,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<User>();
   const [accessToken, setAccessToken] = useState<string>('');
+  const [githubAccessToken, setGithubAccessToken] = useState<string>('');
   const router = useRouter();
 
   const getUser = () => user;
   const getIsAuthenticated = (): boolean => isAuthenticated;
   const getAccessToken = (): string => accessToken;
+  const getGithubAccessToken = (): string => githubAccessToken;
 
   const getRefreshToken = (): string => sessionStorage.getItem('refresh');
 
   const setRefreshToken = (value: string): void => {
     sessionStorage.setItem('refresh', value);
+  };
+
+  const getRedirectTo = (): string => sessionStorage.getItem('redirectTo');
+  const setRedirectTo = (value: string): void => {
+    sessionStorage.setItem('redirectTo', value);
   };
 
   const login = (username: string, password: string): Promise<void> => (
@@ -81,12 +92,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     getIsAuthenticated,
     getAccessToken,
     getUser,
+    getGithubAccessToken,
+    getRedirectTo,
+    setGithubAccessToken,
     login,
     logout,
     updateToken,
     setRefreshToken,
     setAccessToken,
-  }), [isAuthenticated, accessToken, user]);
+    setRedirectTo,
+  }), [isAuthenticated, accessToken, user, githubAccessToken]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
