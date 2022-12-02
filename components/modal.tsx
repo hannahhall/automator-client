@@ -3,13 +3,14 @@ import { ReactNode } from 'react';
 interface ModalProps {
   isActive: boolean;
   title: string;
-  handleClose: (event) => void;
+  handleClose?: (event) => void | undefined;
   body: ReactNode;
   footer?: ReactNode | undefined;
 }
 
 const defaultProps = {
   footer: undefined,
+  handleClose: undefined,
 };
 
 function Modal({
@@ -27,7 +28,9 @@ function Modal({
       <div className="modal-card">
         <header className="modal-card-head">
           <p className="modal-card-title" id="modal-title">{title}</p>
-          <button type="button" className="delete" aria-label="close" onClick={handleClose} />
+          {
+            handleClose && <button type="button" className="delete" aria-label="close" onClick={handleClose} />
+          }
         </header>
         <section className="modal-card-body" id="modal-body">
           {body}

@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import axios from "axios";
 
-import { fetchToken, fetchNewToken, fetchUser, registerUser, fetchStudent, updateStudent } from '../../data/auth';
+import { fetchToken, fetchNewToken, fetchUser, registerUser, fetchStudent, updateStudent, fetchGithubAuth } from '../../data/auth';
 const API_BASE = 'http://localhost:8000';
 
 
@@ -90,4 +90,12 @@ describe('Auth Data', () => {
       }
     );
   });
+
+  it('should fetch the github auth', () => {
+    const code = '12345'
+    const url = API_BASE + `/api/github-auth?code=${code}`
+
+    fetchGithubAuth(code);
+    expect(axios.get).toHaveBeenCalledWith(url);
+  })
 });

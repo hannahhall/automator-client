@@ -11,9 +11,15 @@ function AuthorizedNav({ logout, user }: AuthorizedNavProps) {
     <div className="navbar-end">
       {
         user?.is_staff ? (
-          <NavbarLink href="/programs/create" className="navbar-item is-size-5">
-            Create Program
-          </NavbarLink>
+          <>
+            <NavbarLink href="/programs/create" className="navbar-item is-size-5">
+              Create Program
+            </NavbarLink>
+
+            <NavbarLink href="/cohorts/create" className="navbar-item is-size-5">
+              Create Cohort
+            </NavbarLink>
+          </>
         ) : (
           <>
             <NavbarLink href="/edit" className="navbar-item is-size-5">

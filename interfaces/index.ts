@@ -65,6 +65,10 @@ export type TCohort = {
   is_deployed: boolean;
 }
 
+export type TCohortErrors = TCohort & {
+  message?: string;
+}
+
 export type Program = {
   id: number;
   name: string;
