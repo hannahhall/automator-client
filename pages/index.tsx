@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
+import InstructorIndex from '../components/instructor-index';
 import Layout from '../components/layout';
-import ProgramList from '../components/programs/list';
 import StudentIndex from '../components/student/student-index';
 import { useAuth } from '../hooks/useAuth';
 import { User } from '../interfaces';
@@ -21,9 +21,7 @@ function IndexPage() {
         {
           user?.is_staff
             ? (
-              <div className="column">
-                <ProgramList />
-              </div>
+              <InstructorIndex />
             ) : (
               <div className="column">
                 <StudentIndex />

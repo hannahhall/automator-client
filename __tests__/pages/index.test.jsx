@@ -12,6 +12,7 @@ import {
 import { fetchUser, fetchStudent } from '../../data/auth';
 import { fetchProjects } from '../../data/project';
 import { fetchPrograms } from '../../data/program';
+import { fetchCohorts } from '../../data/cohort';
 
 jest.mock('../../data/auth', () => ({
   fetchNewToken: jest.fn(),
@@ -21,6 +22,10 @@ jest.mock('../../data/auth', () => ({
 
 jest.mock('../../data/program', () => ({
   fetchPrograms: jest.fn(),
+}));
+
+jest.mock('../../data/cohort', () => ({
+  fetchCohorts: jest.fn(),
 }));
 
 jest.mock('../../data/project', () => ({
@@ -40,6 +45,7 @@ describe('Index page', () => {
     mockFetchToken(accessToken);
     mockDataSuccess(fetchProjects, []);
     mockDataSuccess(fetchPrograms, []);
+    mockDataSuccess(fetchCohorts, []);
     mockDataSuccess(fetchStudent, {
       first_name: {
         verbose_name: 'First Name',

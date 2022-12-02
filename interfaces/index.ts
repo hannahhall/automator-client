@@ -76,6 +76,10 @@ export type Program = {
   cohorts?: TCohort[];
 }
 
+export interface CohortRead extends TCohort {
+  demo_day_readable: string;
+}
+
 export type Project = {
   id?: number;
   title: string;

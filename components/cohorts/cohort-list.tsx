@@ -1,10 +1,10 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { TCohort, TableProps } from '../../interfaces';
+import { CohortRead, TableProps } from '../../interfaces';
 import Panel from '../panel';
 import Table from '../table';
 
 interface CohortListProps {
-  cohorts: TCohort[];
+  cohorts: CohortRead[];
   search: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -15,17 +15,22 @@ function CohortList({ cohorts, search }: CohortListProps) {
     rows: [],
   });
 
-  const buildRows = (data: TCohort[]) => data.map((cohort) => ({
+  const buildRows = (data: CohortRead[]) => data.map((cohort) => ({
     key: `cohort-${cohort.id}`,
     data: [
       <a href={`/cohorts/${cohort.id}`}>{cohort.name}</a>,
-      cohort.graduation_date,
+      cohort.demo_day_readable,
+      <span className="icon">
+        {cohort.is_deployed
+          ? <i className="far fa-check-square" />
+          : <i className="far fa-square" />}
+      </span>,
     ],
   }));
 
   useEffect(() => {
     if (cohorts) {
-      const columns = ['Cohort', 'Graduation Date', ''];
+      const columns = ['Cohort', 'Graduation Date', 'Website Deployed?'];
       setCohortTable({
         headers: columns,
         footers: columns,

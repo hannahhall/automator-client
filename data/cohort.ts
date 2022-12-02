@@ -2,8 +2,13 @@ import axios, { AxiosResponse } from 'axios';
 import { TCohort } from '../interfaces/index';
 import makeUrl from '.';
 
-export const fetchCohorts = (): Promise<AxiosResponse> => {
-  const url = makeUrl('/api/cohorts');
+export const fetchCohorts = (query: string = null): Promise<AxiosResponse> => {
+  let url: string;
+  if (query) {
+    url = makeUrl(`/api/cohorts?name=${query}`);
+  } else {
+    url = makeUrl('/api/cohorts');
+  }
   return axios.get(url);
 };
 
