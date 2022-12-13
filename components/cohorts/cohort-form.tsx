@@ -48,7 +48,7 @@ function CohortForm({
   useEffect(() => {
     const githubToken = getGithubAccessToken();
     if (!githubToken) {
-      setRedirectTo(router.pathname);
+      setRedirectTo(router.asPath);
       setShowGithubModal(true);
     }
 
@@ -56,7 +56,7 @@ function CohortForm({
     fetchPrograms().then((res) => {
       setAvailablePrograms(res.data);
     });
-  }, []);
+  }, [router.asPath]);
 
   const openModal = () => setShowModal(true);
   const closeModal = () => {
@@ -90,10 +90,12 @@ function CohortForm({
           const { program } = watch();
 
           useEffect(() => {
-            if (program && program !== '0') {
-              fetchProgram(program).then((res) => {
-                setValue('techs', res.data.techs);
-              });
+            if (!initialData) {
+              if (program && program !== '0') {
+                fetchProgram(program).then((res) => {
+                  setValue('techs', res.data.techs);
+                });
+              }
             }
           }, [program]);
 

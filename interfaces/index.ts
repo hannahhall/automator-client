@@ -45,6 +45,12 @@ export type TStudentForm = {
   detail?: string;
 }
 
+export interface Student {
+  student_id: string;
+  full_name: string;
+  is_complete: boolean;
+}
+
 export interface Tech {
   id?: number;
   text: string;
@@ -69,15 +75,21 @@ export type TCohortErrors = TCohort & {
   message?: string;
 }
 
-export type Program = {
-  id: number;
-  name: string;
-  techs: (number | Tech)[];
-  cohorts?: TCohort[];
+export type TCohortDetail = TCohort & {
+  students: Student[];
+  repo_created: boolean;
+  student_count: number;
 }
 
 export interface CohortRead extends TCohort {
   demo_day_readable: string;
+}
+
+export type Program = {
+  id: number;
+  name: string;
+  techs: (number | Tech)[];
+  cohorts?: CohortRead[];
 }
 
 export type Project = {

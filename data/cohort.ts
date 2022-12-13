@@ -28,3 +28,61 @@ export const createCohort = (
     },
   });
 };
+
+export const fetchCohort = (id: string): Promise<AxiosResponse> => {
+  const url = makeUrl(`/api/cohorts/${id}`);
+  return axios.get(url);
+};
+
+export const deleteTechFromCohort = (
+  cohortId: number,
+  techId: number,
+  token: string,
+): Promise<AxiosResponse> => {
+  const url = makeUrl(`/api/cohorts/${cohortId}/techs/${techId}`);
+  return axios.delete(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteStudentFromCohort = (
+  cohortId: number,
+  studentId: string,
+  token: string,
+): Promise<AxiosResponse> => {
+  const url = makeUrl(`/api/cohorts/${cohortId}/students/${studentId}`);
+  return axios.delete(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const updateCohort = (cohort: TCohort, token: string): Promise<AxiosResponse> => {
+  const url = makeUrl(`/api/cohorts/${cohort.id}`);
+  return axios.put(url, cohort, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const addCohortWebsite = (
+  cohortId: number,
+  token: string,
+  githubToken: string,
+): Promise<AxiosResponse> => {
+  const url = makeUrl(`/api/cohorts/${cohortId}/deploy-website`);
+
+  return axios.put(
+    url,
+    { github_access: githubToken },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+};

@@ -78,7 +78,7 @@ function TechModalForm({ showModal, closeModal, initialData }: TechModalFormProp
               initialData?.square_icon ? (
                 <>
                   <TechIcon src={initialData.square_icon} text={initialData.text} />
-                  <p className="help is-danger">This will edit across all programs using this tech</p>
+                  <p className="help is-danger">This will edit across all programs and cohorts using this tech</p>
                 </>
               ) : null
             }
