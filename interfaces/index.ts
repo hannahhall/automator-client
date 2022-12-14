@@ -66,7 +66,7 @@ export type TCohort = {
   techs: (number | Tech)[];
   github_organization: string;
   demo_day: string;
-  demo_day_time: string;
+  demo_day_link: string;
   slack_channel: string;
   is_deployed: boolean;
 }
@@ -79,6 +79,8 @@ export type TCohortDetail = TCohort & {
   students: Student[];
   repo_created: boolean;
   student_count: number;
+  deployed_link: string;
+  github_repo_link: string;
 }
 
 export interface CohortRead extends TCohort {

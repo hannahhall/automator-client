@@ -144,7 +144,7 @@ function CohortForm({
               />
 
               <div className="field">
-                <p className="label has-text-weight-normal">Demo Date and Time</p>
+                <p className="label has-text-weight-normal">Demo Date and RSVP link</p>
                 <div className="field-body">
                   <Input
                     name="demo_day"
@@ -156,11 +156,10 @@ function CohortForm({
                   />
 
                   <Input
-                    name="demo_day_time"
-                    type="time"
-                    placeholder="Time of Demo day"
+                    name="demo_day_link"
+                    placeholder="Link to RSVP"
                     register={register}
-                    error={errors?.demo_day_time}
+                    error={errors?.demo_day_link}
                     isRequired={false}
                   />
                 </div>

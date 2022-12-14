@@ -107,9 +107,14 @@ function CohortDetail() {
       {
         !cohort?.is_deployed
           ? <button type="button" className="button navbar-item is-link has-text-weight-bold" onClick={deployWebsite}>Deploy Website</button>
-          : null
+          : (
+            <>
+              <a className="button is-link is-light" href={cohort.github_repo_link} target="_blank" rel="noopener noreferrer">View Repository</a>
+              <a className="button is-link is-light" href={cohort.deployed_link} target="_blank" rel="noopener noreferrer">View Website</a>
+            </>
+          )
       }
-      <NavbarLink className="button" href={`/cohorts/${cohort?.id}/edit`}>Edit</NavbarLink>
+      <NavbarLink className="button is-danger is-light" href={`/cohorts/${cohort?.id}/edit`}>Edit</NavbarLink>
     </div>
   );
 
