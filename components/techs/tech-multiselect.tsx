@@ -1,11 +1,9 @@
 import Multiselect from 'multiselect-react-dropdown';
 import { Control, Controller } from 'react-hook-form';
-import { Program, TCohort, Tech } from '../../interfaces';
-
-interface Value extends Program, TCohort { }
+import { Tech } from '../../interfaces';
 
 interface TechMultiSelectProps {
-  control: Control<Value>,
+  control: Control<any>,
   availableTechs: Tech[]
 }
 

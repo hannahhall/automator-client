@@ -67,7 +67,10 @@ function ProgramForm({
                 isRequired
               />
 
-              <TechMultiSelect control={control} availableTechs={availableTechs} />
+              <TechMultiSelect
+                control={control}
+                availableTechs={availableTechs}
+              />
 
               <div className="field">
                 <button className="button is-info" type="button" onClick={openModal}>Add a new Tech</button>

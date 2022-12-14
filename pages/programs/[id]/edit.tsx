@@ -7,9 +7,7 @@ import { Program, Tech } from '../../../interfaces';
 import ProgramForm from '../../../components/programs/form';
 
 function EditProgram() {
-  const [initialData, setInitialData] = useState<Program>({
-    name: '',
-  });
+  const [initialData, setInitialData] = useState<Program>(null);
   const router = useRouter();
   const { getAccessToken } = useAuth();
 
@@ -33,9 +31,9 @@ function EditProgram() {
   return (
     <Layout title="Automator | Edit Program">
       <ProgramForm
-        title={`Edit ${initialData.name}`}
+        title={`Edit ${initialData?.name}`}
         handleSubmit={handleProgramUpdate}
-        cancelRoute={`/programs/${initialData.id}`}
+        cancelRoute={`/programs/${initialData?.id}`}
         initialData={initialData}
       />
     </Layout>
