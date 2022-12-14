@@ -3,6 +3,7 @@ import { Control, Controller } from 'react-hook-form';
 import { Tech } from '../../interfaces';
 
 interface TechMultiSelectProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>,
   availableTechs: Tech[]
 }
