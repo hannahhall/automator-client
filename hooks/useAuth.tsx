@@ -18,6 +18,7 @@ type AuthContextProps = {
   setAccessToken: (token: string) => void;
   setRedirectTo: (url: string) => void;
   getRedirectTo: () => string;
+  setIsAuthenticated: (is_auth: boolean) => void;
 }
 
 export const AuthContext = createContext<Partial<AuthContextProps>>({});
@@ -101,6 +102,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setRefreshToken,
     setAccessToken,
     setRedirectTo,
+    setIsAuthenticated,
   }), [isAuthenticated, accessToken, user, githubAccessToken]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

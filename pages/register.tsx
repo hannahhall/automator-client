@@ -18,7 +18,7 @@ function Register() {
   const [errors, setErrors] = useState<TUserForm>(null);
   const router = useRouter();
 
-  const { setAccessToken, setRefreshToken } = useAuth();
+  const { setAccessToken, setRefreshToken, setIsAuthenticated } = useAuth();
 
   const handleSubmit = (user: TUserForm) => {
     const copy = {
@@ -28,6 +28,7 @@ function Register() {
     };
     return registerUser(copy).then((res) => {
       const { data } = res;
+      setIsAuthenticated(true);
       setAccessToken(data.access);
       setRefreshToken(data.refresh);
       router.push('/');
@@ -52,14 +53,6 @@ function Register() {
           const { is_staff: isStaff, image } = watch();
           return (
             <>
-              <Input
-                register={register}
-                name="username"
-                label="Username"
-                error={errors?.username}
-                isRequired
-              />
-
               <Input
                 register={register}
                 name="email"

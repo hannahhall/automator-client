@@ -27,10 +27,6 @@ const pushMock = jest.fn();
 jest.spyOn(Router, 'useRouter').mockReturnValue({ push: pushMock, pathname: '/register' });
 
 const fillOutForm = async (user, userValues) => {
-  const usernameInput = await screen.findByLabelText('Username');
-  await user.type(usernameInput, userValues.username);
-  expect(usernameInput).toHaveValue(userValues.username);
-
   const passwordInput = screen.getByLabelText('Password');
   await user.type(passwordInput, userValues.password);
 
@@ -62,7 +58,6 @@ describe('Register', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     userValues = {
-      username: 'test',
       password: 'password',
       email: 't@t.com',
       first_name: 'Test',
@@ -103,7 +98,6 @@ describe('Register', () => {
     );
 
     expect(await screen.findByRole('form')).toHaveFormValues({
-      username: '',
       email: '',
       password: '',
       first_name: '',
