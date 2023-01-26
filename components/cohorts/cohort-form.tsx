@@ -105,6 +105,7 @@ function CohortForm({
                 name="name"
                 register={register}
                 label="Cohort Name"
+                placeholder="Day Cohort 13"
                 error={errors?.name}
                 isRequired
               />
@@ -130,6 +131,7 @@ function CohortForm({
               <Input
                 name="slack_channel"
                 register={register}
+                placeholder="day-cohort-13"
                 label="Slack Channel"
                 error={errors?.slack_channel}
                 isRequired
@@ -140,6 +142,7 @@ function CohortForm({
                 register={register}
                 label="Github Organization"
                 error={errors?.github_organization}
+                placeholder="nss-day-cohort-13"
                 isRequired
               />
 
@@ -157,7 +160,7 @@ function CohortForm({
 
                   <Input
                     name="demo_day_link"
-                    placeholder="Link to RSVP"
+                    placeholder="Link to Eventbrite RSVP"
                     register={register}
                     error={errors?.demo_day_link}
                     isRequired={false}
