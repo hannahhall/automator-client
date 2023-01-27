@@ -128,7 +128,7 @@ function Register() {
                         name="linkedin"
                         label="Linkedin Username"
                         error={errors?.linkedin}
-                        isRequired={false}
+                        isRequired
                       />
 
                       <Input
