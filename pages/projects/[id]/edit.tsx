@@ -15,7 +15,8 @@ function EditProject() {
 
   useEffect(() => {
     const { id } = router.query;
-    if (id) {
+    const token = getAccessToken();
+    if (id && token) {
       fetchProject(id as string, getAccessToken()).then((res) => {
         const { data } = res;
         setInitialData(data);
@@ -26,7 +27,7 @@ function EditProject() {
         }
       });
     }
-  }, [router.query, setInitialData]);
+  }, [router.query, setInitialData, getAccessToken()]);
 
   const handleProjectSubmit = (project: Project) => (
     updateProject(project, getAccessToken()).then(() => {
