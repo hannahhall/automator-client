@@ -140,11 +140,19 @@ function CohortForm({
                 register={register}
                 label="Github Organization"
                 error={errors?.github_organization}
+                addlClass="has-addons"
+                addOns={(
+                  <p className="control">
+                    <span className="button is-static">
+                      https://github.com/
+                    </span>
+                  </p>
+                )}
                 isRequired
               />
 
               <div className="field">
-                <p className="label has-text-weight-normal">Demo Date and RSVP link</p>
+                <p className="label has-text-weight-normal">Demo Day Date</p>
                 <div className="field-body">
                   <Input
                     name="demo_day"
@@ -152,14 +160,6 @@ function CohortForm({
                     placeholder="Date of Demo day"
                     register={register}
                     error={errors?.demo_day}
-                    isRequired={false}
-                  />
-
-                  <Input
-                    name="demo_day_link"
-                    placeholder="Link to RSVP"
-                    register={register}
-                    error={errors?.demo_day_link}
                     isRequired={false}
                   />
                 </div>

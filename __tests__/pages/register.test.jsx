@@ -44,6 +44,9 @@ const fillOutForm = async (user, userValues) => {
 
   const githubInput = screen.getByLabelText('Github Username');
   await user.type(githubInput, userValues.github_handle);
+
+  const linkedinInput = screen.getByLabelText('Linkedin Username');
+  await user.type(linkedinInput, userValues.linkedin);
 };
 
 Object.defineProperty(window, 'sessionStorage', {
@@ -68,7 +71,7 @@ describe('Register', () => {
       bio: '',
       favorite_quote: '',
       image: undefined,
-      linkedin: '',
+      linkedin: 'linkedin',
       podcast_link: '',
       resume_link: '',
     };

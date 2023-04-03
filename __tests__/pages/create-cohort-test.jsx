@@ -48,8 +48,6 @@ const fillOutForm = async (user, cohortValues) => {
   await user.type(githubInput, cohortValues.github_organization);
   const demoDayInput = await screen.findByPlaceholderText('Date of Demo day');
   await user.type(demoDayInput, cohortValues.demo_day);
-  const demoTimeInput = await screen.findByPlaceholderText('Link to RSVP');
-  await user.type(demoTimeInput, cohortValues.demo_day_link);
 
   const deployCheck = await screen.findByLabelText('Deploy Website?');
   await user.click(deployCheck);
@@ -91,7 +89,6 @@ describe('CreateCohort', () => {
       slack_channel: 'day-cohort-13',
       github_organization: 'day-cohort-13',
       demo_day: '2022-12-12',
-      demo_day_link: 'google.com',
       is_deployed: true,
     };
 

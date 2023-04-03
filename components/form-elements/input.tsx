@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { Path, UseFormRegister } from 'react-hook-form';
 
 interface InputProps<TInputField> {
@@ -9,6 +10,7 @@ interface InputProps<TInputField> {
   addlClass?: string;
   error?: string | undefined;
   isRequired: boolean;
+  addOns?: ReactNode | undefined;
 }
 
 const defaultProps = {
@@ -17,37 +19,41 @@ const defaultProps = {
   label: undefined,
   addlClass: '',
   error: undefined,
+  addOns: false,
 };
 
 function Input<TInputField>({
-  name, register, type, placeholder, label, addlClass, error, isRequired,
+  name, register, type, placeholder, label, addlClass, error, isRequired, addOns,
 }: InputProps<TInputField>) {
   return (
-    <div className={`field ${addlClass}`}>
+    <>
       {label && (
         <label className={`label ${isRequired ? 'has-text-weight-bold' : 'has-text-weight-normal'}`} htmlFor={name}>
           {label}
         </label>
       )}
-      <div className="control is-expanded">
-        <input
-          id={name}
-          {...register(name, {
-            required: isRequired ? 'This field is required' : isRequired,
-          })}
-          placeholder={placeholder}
-          className="input"
-          type={type}
-        />
+      <div className={`field ${addlClass}`}>
+        {addOns && addOns}
+        <div className="control is-expanded">
+          <input
+            id={name}
+            {...register(name, {
+              required: isRequired ? 'This field is required' : isRequired,
+            })}
+            placeholder={placeholder}
+            className="input"
+            type={type}
+          />
+        </div>
+        {
+          error ? (
+            <p className="help is-danger" data-testid="error-message">
+              {error}
+            </p>
+          ) : null
+        }
       </div>
-      {
-        error ? (
-          <p className="help is-danger" data-testid="error-message">
-            {error}
-          </p>
-        ) : null
-      }
-    </div>
+    </>
   );
 }
 

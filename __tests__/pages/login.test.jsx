@@ -51,7 +51,7 @@ describe('Login', () => {
       </AuthProvider>,
     );
 
-    const usernameInput = screen.getByLabelText('Username');
+    const usernameInput = screen.getByLabelText('Email');
     await user.type(usernameInput, username);
 
     const passwordInput = screen.getByLabelText('Password');
@@ -78,7 +78,7 @@ describe('Login', () => {
         <Login />
       </AuthProvider>,
     );
-    const usernameInput = screen.getByLabelText('Username');
+    const usernameInput = screen.getByLabelText('Email');
     await user.type(usernameInput, username);
 
     const passwordInput = screen.getByLabelText('Password');

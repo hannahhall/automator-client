@@ -29,7 +29,7 @@ function Login(): ReactElement {
           <>
             <Input
               name="username"
-              label="Username"
+              label="Email"
               register={register}
               error={errors?.username}
               isRequired
