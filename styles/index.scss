@@ -12,6 +12,8 @@ $danger: $red;
 
 $family-primary: 'Inter', 'sans-serif';
 $family-secondary: 'Space Mono', 'monospace';
+$navbar-background-color: $black;
+$navbar-item-color: $white;
 
 @import 'bulma/bulma.sass';
 
@@ -33,6 +35,7 @@ body {
 }
 
 .table {
+    table-layout: fixed;
 
     td,
     th {

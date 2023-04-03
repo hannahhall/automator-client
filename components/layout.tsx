@@ -21,13 +21,6 @@ function Layout({ children, title }: Props) {
           {children}
         </section>
       </article>
-      <footer className="footer">
-        <div className="content has-text-centered">
-          <p>
-            Copyright
-          </p>
-        </div>
-      </footer>
     </main>
   );
 }

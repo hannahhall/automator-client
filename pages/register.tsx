@@ -120,6 +120,14 @@ function Register() {
                         name="github_handle"
                         label="Github Username"
                         error={errors?.github_handle}
+                        addlClass="has-addons"
+                        addOns={(
+                          <p className="control">
+                            <span className="button is-static">
+                              https://github.com/
+                            </span>
+                          </p>
+                        )}
                         isRequired
                       />
 
@@ -128,6 +136,14 @@ function Register() {
                         name="linkedin"
                         label="Linkedin Username"
                         error={errors?.linkedin}
+                        addlClass="has-addons"
+                        addOns={(
+                          <p className="control">
+                            <span className="button is-static">
+                              https://www.linkedin.com/in/
+                            </span>
+                          </p>
+                        )}
                         isRequired
                       />
 
