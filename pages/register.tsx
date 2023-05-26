@@ -128,6 +128,12 @@ function Register() {
                             </span>
                           </p>
                         )}
+                        validation={(value: string) => {
+                          if (value.toLowerCase().includes('github')) {
+                            return 'Only include your username, not the full URL';
+                          }
+                          return true;
+                        }}
                         isRequired
                       />
 
@@ -144,6 +150,12 @@ function Register() {
                             </span>
                           </p>
                         )}
+                        validation={(value: string) => {
+                          if (value.toLowerCase().includes('linkedin')) {
+                            return 'Only include your username, not the full URL';
+                          }
+                          return true;
+                        }}
                         isRequired
                       />
 
@@ -153,6 +165,13 @@ function Register() {
                         label="Resume Link"
                         error={errors?.resume_link}
                         isRequired={false}
+                        validation={(value: string) => {
+                          const regex = /^(http|https):\/\/[^ "]+$/;
+                          if (value && !regex.test(value)) {
+                            return 'Please enter a valid URL';
+                          }
+                          return true;
+                        }}
                       />
 
                       <Input
@@ -161,6 +180,13 @@ function Register() {
                         label="Podcast Link"
                         error={errors?.podcast_link}
                         isRequired={false}
+                        validation={(value: string) => {
+                          const regex = /^(http|https):\/\/[^ "]+$/;
+                          if (value && !regex.test(value)) {
+                            return 'Please enter a valid URL';
+                          }
+                          return true;
+                        }}
                       />
 
                       <Input
@@ -178,6 +204,7 @@ function Register() {
                         placeholder="Write a short paragraph about yourself"
                         error={errors?.bio}
                         isRequired={false}
+                        maxLength={500}
                       />
 
                       <FileInput

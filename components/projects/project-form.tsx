@@ -50,6 +50,13 @@ function ProjectForm({
               register={register}
               label="Github Url"
               error={errors?.github_url}
+              validation={(value: string) => {
+                const regex = /^(http|https):\/\/[^ "]+$/;
+                if (value && !regex.test(value)) {
+                  return 'Please enter a valid URL';
+                }
+                return true;
+              }}
               isRequired
             />
 
@@ -58,6 +65,13 @@ function ProjectForm({
               register={register}
               label="Deployed Url"
               error={errors?.deployed_url}
+              validation={(value: string) => {
+                const regex = /^(http|https):\/\/[^ "]+$/;
+                if (value && !regex.test(value)) {
+                  return 'Please enter a valid URL';
+                }
+                return true;
+              }}
               isRequired={false}
             />
 
