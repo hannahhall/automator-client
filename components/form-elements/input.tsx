@@ -11,6 +11,7 @@ interface InputProps<TInputField> {
   error?: string | undefined;
   isRequired: boolean;
   addOns?: ReactNode | undefined;
+  validation?: (value: string) => boolean | string;
 }
 
 const defaultProps = {
@@ -20,10 +21,11 @@ const defaultProps = {
   addlClass: '',
   error: undefined,
   addOns: false,
+  validation: undefined,
 };
 
 function Input<TInputField>({
-  name, register, type, placeholder, label, addlClass, error, isRequired, addOns,
+  name, register, type, placeholder, label, addlClass, error, isRequired, addOns, validation,
 }: InputProps<TInputField>) {
   return (
     <>
@@ -32,13 +34,19 @@ function Input<TInputField>({
           {label}
         </label>
       )}
-      <div className={`field ${addlClass}`}>
+      <div className={`field is-flex-wrap-wrap ${addlClass}`}>
         {addOns && addOns}
         <div className="control is-expanded">
           <input
             id={name}
             {...register(name, {
               required: isRequired ? 'This field is required' : isRequired,
+              validate: (value) => {
+                if (validation) {
+                  return validation(value as string);
+                }
+                return true;
+              },
             })}
             placeholder={placeholder}
             className="input"
@@ -47,7 +55,7 @@ function Input<TInputField>({
         </div>
         {
           error ? (
-            <p className="help is-danger" data-testid="error-message">
+            <p className="help is-danger w-100" data-testid="error-message">
               {error}
             </p>
           ) : null

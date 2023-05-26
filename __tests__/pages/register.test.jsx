@@ -67,11 +67,11 @@ describe('Register', () => {
       last_name: 'Test',
       is_staff: 0,
       cohort: '1',
-      github_handle: 'github',
+      github_handle: 'username',
       bio: '',
       favorite_quote: '',
       image: undefined,
-      linkedin: 'linkedin',
+      linkedin: 'username',
       podcast_link: '',
       resume_link: '',
     };

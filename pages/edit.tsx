@@ -98,6 +98,20 @@ function EditStudent() {
                 name="github_handle"
                 label="Github Username"
                 error={errors?.github_handle}
+                addlClass="has-addons"
+                addOns={(
+                  <p className="control">
+                    <span className="button is-static">
+                      https://github.com/
+                    </span>
+                  </p>
+                )}
+                validation={(value: string) => {
+                  if (value.toLowerCase().includes('github')) {
+                    return 'Only include your username, not the full URL';
+                  }
+                  return true;
+                }}
                 isRequired
               />
 
@@ -106,7 +120,21 @@ function EditStudent() {
                 name="linkedin"
                 label="Linkedin Username"
                 error={errors?.linkedin}
-                isRequired={false}
+                addlClass="has-addons"
+                addOns={(
+                  <p className="control">
+                    <span className="button is-static">
+                      https://www.linkedin.com/in/
+                    </span>
+                  </p>
+                )}
+                validation={(value: string) => {
+                  if (value.toLowerCase().includes('linkedin')) {
+                    return 'Only include your username, not the full URL';
+                  }
+                  return true;
+                }}
+                isRequired
               />
 
               <Input
@@ -115,6 +143,13 @@ function EditStudent() {
                 label="Resume Link"
                 error={errors?.resume_link}
                 isRequired={false}
+                validation={(value: string) => {
+                  const regex = /^(http|https):\/\/[^ "]+$/;
+                  if (value && !regex.test(value)) {
+                    return 'Please enter a valid URL';
+                  }
+                  return true;
+                }}
               />
 
               <Input
@@ -123,6 +158,13 @@ function EditStudent() {
                 label="Podcast Link"
                 error={errors?.podcast_link}
                 isRequired={false}
+                validation={(value: string) => {
+                  const regex = /^(http|https):\/\/[^ "]+$/;
+                  if (value && !regex.test(value)) {
+                    return 'Please enter a valid URL';
+                  }
+                  return true;
+                }}
               />
 
               <Input
